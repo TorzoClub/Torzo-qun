@@ -1,6 +1,6 @@
 <?php
 
-class SQL{
+class SQLInit{
 	protected $dbConfig = array(
 		'port' => '3306',
 		'user' => 'root', //MYSQL_USERNAME,
@@ -30,7 +30,7 @@ class SQL{
 
 	}
 }
-class SQLPDO extends SQL {
+class SQL extends SQLInit {
 	public static $COMMENTTABLE = 'qun_comment';
 
 	private static $instance;

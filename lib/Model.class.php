@@ -1,7 +1,7 @@
 <?php
 require_once('SQL.class.php');
 
-class Model extends SQLPDO {
+class Model extends SQL {
 	private static $instance;
 	public static function getInstance($params = array()){
 		if (!self::$instance instanceof self) {
