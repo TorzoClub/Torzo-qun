@@ -1,0 +1,542 @@
+
+@font-face {
+	font-family: "Kunstler Script";
+	src: url("../resource/KUNSTLER.TTF");
+	[font-weight: <weight>];
+	[font-style: <style>];
+}
+
+html, body{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+body {
+
+}
+
+.hidden {
+	display: none !important;
+}
+
+.item-hide {
+	overflow: hidden;
+
+	width: 800px;
+	margin: auto;
+	font-family: "courier", "DengXian", "等线", "黑体";
+	font-size: 1.25em;
+	font-weight: 400;
+	max-width: 800px;
+
+	line-height: 2em;
+	color: #344;
+
+
+	transition: height .618s, opacity .618s;
+}
+.item-hide > article {
+	padding-top: 2em;
+	padding-bottom: 2em;
+}
+
+.clicked {
+	background: rgba(48, 103, 133, 0.05) !important;
+	color: rgb(48, 103, 133) !important;
+	/* width: 100%; */
+	/* text-align: center; */
+	border: solid rgba(0, 0, 0, 0.1) 1px !important;
+	border-left: 0 !important;
+	border-right: 0 !important;
+}
+.item-title:hover {
+	background: rgba(48, 103, 133, 0.1);
+}
+.item-title {
+	cursor: pointer;
+	font-size: 2em;
+	font-family: 'Courier', 'Hiragino Sans GB', 'Microsoft JhengHei', 'WenQuanYi Microhei', '黑体';
+	font-weight: 100;
+	padding: 6px 16px;
+	padding-left: 0;
+	padding-right: 0;
+	margin: .25em;
+	margin-left: 0;
+	margin-right: 0;
+
+	color: rgb(48, 103, 133);
+	/* transition: width; */
+	/* width: inherit; */
+	text-align: center;
+	border: solid transparent 1px;
+	transition: color .618s, background .2s, border .618s;
+	transition-timing-function: ease-in-out;
+}
+
+.show {
+
+}
+
+.tipper {
+	display: flex;
+	display: -webkit-flex;
+	justify-content: center;
+	-webkit-justify-content: center;
+	align-items: center;
+	-webkit-align-items: center;
+
+	position: fixed;
+	top: 80%;
+	left: 0%;
+	width: 100%;
+
+	color: rgba(48, 103, 133, .618);
+	font-family: "courier", "Microsoft JhengHei", DengXian, "微软雅黑", "黑体";
+	font-size: 1.25em;
+	font-weight: 100;
+
+	z-index: 9;
+	/* background: linear-gradient(to right, transparent, rgba(48, 103, 133, 0.12), transparent); */
+}
+#cover img {
+	max-height: 256px;
+	max-width: 256px;
+	margin: auto;
+}
+#cover .logo-frame {
+	height: 286px;
+}
+#cover > .label > div {
+	font-size: 3em;
+	color: rgb(48, 103, 133);
+}
+#cover > .label{
+	display: flex;
+	display: -webkit-flex;
+
+	justify-content: center;
+	-webkit-justify-content: center;
+
+	align-items: center;
+	-webkit-align-items: center;
+
+	flex-direction: column;
+	-webkit-flex-direction: column;
+
+	position: relative;
+}
+#cover {
+	display: flex;
+	display: -webkit-flex;
+
+	justify-content: center;
+	-webkit-justify-content: center;
+
+	align-items: center;
+	-webkit-align-items: center;
+
+	flex-direction: column;
+	-webkit-flex-direction: column;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+	height: 100%;
+
+	cursor: pointer;
+
+	overflow: hidden;
+
+	color: rgba(0, 0, 0, 0.618);
+
+	transition: opacity .618s;
+}
+#article-bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+#bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: -9;
+}
+
+#index {
+}
+
+#index ul {
+
+}
+
+#index ul li:hover {
+
+}
+#index ul li {
+
+}
+
+hr {
+	border: 0;
+	/* border-top: 1px dashed grey; */
+	/* border-color: aliceblue; */
+	width: 24em;
+	height: 1px;
+	background: rgba(48, 103, 133, 0.618);
+	background: linear-gradient(to right, transparent, rgba(48, 103, 133, 0.618), transparent);
+	transition: width .618s;
+}
+
+h1 {
+	font-size: 3em;
+}
+
+h2 {
+	font-size: 2.5em;
+}
+
+h3 {
+	font-size: 2.25em;
+}
+
+h4 {
+	font-size: 2em;
+}
+
+h5 {
+	font-size: 1.75em;
+}
+
+h6 {
+	font-size: 1.5em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "courier", "Microsoft JhengHei", DengXian, "微软雅黑", "黑体";
+
+	/* border-bottom: 1px solid #6789AB; */
+	line-height: normal;
+	color: rgb(48, 103, 133);
+}
+del {
+	color: rgba(0, 0, 0, .382);
+}
+del *:hover {
+	opacity: 1;
+}
+del * {
+	opacity: .8;
+	color: #344;
+	transition: opacity .618s;
+}
+
+table {
+	margin: auto;
+}
+tr td:first-child {
+	padding-right: 1em;
+	text-align: right;
+	min-width: 128px;
+}
+td {
+	vertical-align: text-top;
+}
+tr ul {
+	padding: 0;
+	list-style-type: none;
+}
+
+[title="内殿团换届记录"] h2 {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	margin-bottom: 0;
+	border: 0;
+}
+
+.summary {
+	font-size: small;
+	font-family: Courier;
+	font-weight: bold;
+	color: rgba(0, 0, 0, 0.618);
+}
+
+.hide-article {
+	position: relative;
+	left: 100%;
+	top: 100%;
+}
+#comment {
+	opacity: 0;
+}
+#comment-list {
+	border-left: 1px solid rgba(48, 103, 133, 1);
+	padding-left: 0;
+	margin: 2em auto;
+}
+#comment-list * {
+	color: rgba(48, 103, 133, 1);
+}
+#comment-list li {
+	margin-bottom: 2em;
+	list-style-type: none;
+	overflow-wrap: break-word;
+}
+.time-area {
+	position: relative;
+	width: 100%;
+}
+.time-hr {
+	display: inline-block;
+	width: 14px;
+	background: rgba(48, 103, 133, 1);
+}
+.time-area time {
+	font-family: Arial;
+	margin-left: 16px;
+}
+.time-area time * {
+	font-family: Courier;
+}
+.time-area .day {
+	font-size: 1.6em;
+	font-weight: 600;
+}
+.time-area .month {
+	font-size: 1.3em;
+	font-weight: 600;
+}
+.time-area .year {
+	font-size: 1em;
+	font-weight: 300;
+}
+#comment-list li article {
+	margin-left: calc(14px + 16px);
+	margin-bottom: 1em;
+}
+#comment-list .author:before {
+	content: "";
+	width: 256px;
+	height: 256px;
+	background-image: url('img/from-256.png');
+}
+#comment-list .author {
+	height: 100%;
+	text-align: right;
+	font-size: 2em;
+	font-family: "courier", "Microsoft JhengHei", DengXian, "微软雅黑", "黑体";
+	overflow-wrap: break-word;
+}
+.author-frame {
+	display: -webkit-inline-flex;
+	display: inline-flex;
+
+	-webkit-align-content: flex-end;
+	align-content: flex-end;
+
+	-webkit-align-items: baseline;
+	align-items: baseline;
+
+	-webkit-justify-content: flex-end;
+	justify-content: flex-end;
+
+	width: 100%;
+
+	font-family: "Kunstler Script";
+
+	height: 42px;
+}
+
+.author-frame img {
+	display: block;
+	margin-right: 0.5em;
+	height: 100%;
+	width: 101.91px;
+}
+img.eidtor-from {
+	margin-right: 0.25em;
+}
+
+#comment-list textarea {
+	border: 0;
+	width: 100%;
+	height: 300px;
+
+	font-size: 1em;
+	font-family: "courier", "DengXian", "等线", "黑体";
+
+	outline: none;
+	resize: none;
+}
+
+#comment-list input {
+	display: inline-block;
+	border: 0;
+	margin: 0;
+	/* height: 1em; */
+	font-size: 1em;
+	font-family: "courier", "Microsoft JhengHei", DengXian, "微软雅黑", "黑体";
+	outline: none;
+	width: 5em;
+}
+#post:hover {
+	background: rgba(48, 103, 133, 0.1);
+	border-color: rgba(48, 103, 133, 0.382);
+}
+#post {
+	border: 0;
+	background: 0;
+	border: 1px solid rgba(48, 103, 133, 1);
+	border-radius: 3px;
+	font-family: "courier", "DengXian", "等线", "黑体";
+	font-size: 1em;
+	cursor: pointer;
+	outline: none;
+	position: absolute;
+	right: 0;
+	transition: border-color .618s, background .618s;
+}
+#continue-load:hover {
+	background: rgba(48, 103, 133, 0.1);
+}
+#continue-load {
+	width: 100%;
+	height: 48px;
+
+	cursor: pointer;
+	outline: none;
+
+	font-family: "courier", "DengXian", "等线", "黑体";
+	font-size: 1.5em;
+
+	color: rgba(48, 103, 133, 1);
+
+	background: transparent;
+	border: 0;
+
+	transition: background .618s;
+}
+
+@keyframes shine{
+	0% {
+	}
+	100% {
+		opacity: 0.5;
+	}
+}
+.shine-animated:hover{
+	animation-play-state: paused;
+}
+.shine-animated{
+	animation: shine 2s infinite;
+	animation-timing-function: ease-in-out;
+	animation-direction: alternate;
+	animation-play-state: running;
+}
+
+#showtime > div {
+	width: calc(100% - 2px - 1em);
+	position: relative;
+	border: 2px dashed rgba(0, 0, 0, 0.382);
+	border-top: 0;
+	border-bottom: 0;
+	border-right: 0;
+	padding-left: 1em;
+}
+
+#showtime > div:before {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	align-items: center;
+
+	position: absolute;
+	font-size: 128px;
+	font-style: italic;
+	opacity: .2;
+	width: 100%;
+	height: 100%;
+}
+#editor {
+	/* text-align: center; */
+}
+#comment [name="name"] {
+	border: 0;
+	/* border-left: 3px solid rgba(0, 0, 0, 0.382); */
+	/* width: calc(100% - 1px - 1px); */
+	font-size: 16px;
+	/* background: linear-gradient(to right, rgba(48, 103, 133, 0.118), transparent); */
+	outline: none;
+	font-size: 1.2em;
+	font-family: "courier", "Microsoft JhengHei", DengXian, "微软雅黑", "黑体";
+	color: rgb(109, 115, 119);
+	margin-left: .5em;
+}
+
+#comment [name="article"] {
+	resize: none;
+	outline: none;
+	height: 300px;
+	border: 0;
+	/* background: rgba(48, 103, 133, 0.1); */
+	/* min-width: 100%; */
+	font-size: 1.25em;
+	font-family: "courier", "Microsoft JhengHei", DengXian, "微软雅黑", "黑体";
+	/* background: linear-gradient(to bottom, rgba(48, 103, 133, 0.118), transparent); */
+	/* border-left: 2px solid rgba(48, 103, 133, 0.382); */
+	color: rgba(100,103,144,1);
+	padding-right: 5px;
+	min-width: calc(100% - 5px - 4px);
+	box-shadow: inset 0px 0px 8px #bbb;
+}
+
+
+
+#vec:before {
+	content: "Vec";
+}
+
+#nt:before {
+	content: "NT³";
+}
+
+@-webkit-keyframes css_fadein {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+@keyframes css_fadein {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+.css-fadein {
+	-webkit-animation: css_fadein .618s;
+	-webkit-animation-fill-mode: both;
+
+	animation: css_fadein .618s;
+	animation-fill-mode: both;
+}
+
+@-webkit-keyframes css_fadeout {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}
+@keyframes css_fadeout {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}
+
+
+.css-fadeout {
+	-webkit-animation: css_fadein .618s;
+	-webkit-animation-fill-mode: both;
+
+	animation: css_fadeout .618s;
+	animation-fill-mode: both;
+}

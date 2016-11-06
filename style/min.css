@@ -1,0 +1,38 @@
+#article > div {
+	font-size: 1.1em;
+	font-weight: 400;
+	padding: 2em 1em;
+}
+
+.item-hide {
+	width: 100%;
+}
+
+.item-hide > article {
+	padding: 1em;
+	width: calc(100% - 1em - 1em);
+}
+
+hr {
+	width: 100%;
+}
+
+.tipper {
+	font-size: 14px !important;
+	top: 90%;
+}
+.author-frame {
+	/*height: 32px;*/
+}
+
+#comment-list input {
+	margin: 0;
+	width: 5em;
+}
+
+#post {
+	right: .25em;
+}
+#comment-list {
+	margin: 2em 0em 2em .5em;
+}
