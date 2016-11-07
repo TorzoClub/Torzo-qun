@@ -1,0 +1,187 @@
+.tipper [class$="-logo"] {
+	height: 96px;
+	width: 96px;
+	position: relative;
+	overflow: hidden;
+	border-radius: 200px;
+	transition: transform 0.618s;
+
+	display: -webkit-flex;
+	-webkit-justify-content: center;
+	-webkit-align-items: center;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.tipper .error-logo {
+	transform: rotate(-45deg);
+}
+.tipper .error-logo > * {
+	width: 80%;
+	height: 6px;
+	background: darkred;
+	box-shadow: 0px 0px 1px darkred;
+}
+.tipper .error-logo .left {
+	position: absolute;
+	top: calc(50% - 4px / 2);
+	left: calc((100% - 80%)/2);
+}
+.tipper .error-logo .right {
+	top: calc( 46px );
+	transform: rotate(-90deg);
+}
+
+.success-logo {
+	-webkit-align-items: flex-start !important;
+	align-items: flex-start !important;
+}
+
+.success-logo > * {
+	width: 5px;
+	height: 80%;
+	display: -webkit-flex;
+	-webkit-align-items: flex-end;
+
+	display: flex;
+	align-items: flex-end;
+}
+.success-logo .left {
+	transform: rotate(-45deg);
+	transform-origin: 0% 95%;
+	/*-webkit-transform-origin: 0% calc(100% - 2.5px / 2);*/
+	-webkit-transform-origin: 2px calc(100% - 2px);
+}
+.success-logo .right {
+	transform: rotate(35deg);
+	transform-origin: 0% 95%;
+	-webkit-transform-origin:  0% calc(100% - 5px * 2);
+}
+
+.success-logo > * > .bar {
+	background: rgb(48, 103, 133);
+	box-shadow: 0px 0px 1px rgb(48, 103, 133);
+	border-radius: 99px;
+}
+.success-logo .left .bar {
+	height: 38.2%;
+	width: 5px;
+}
+.success-logo .right .bar {
+	width: 100%;
+	height: 80%;
+}
+
+
+.warn-logo {
+	-webkit-flex-direction: column;
+	flex-direction: column;
+
+}
+
+.warn-logo > * {
+	background: #F60;
+	box-shadow: 0px 0px 1px #F60;
+}
+.warn-logo .top {
+	width: 6px;
+	height: 50%;
+}
+
+.warn-logo .bottom {
+	width: calc(50%/8);
+	height: calc(50%/8);
+	margin-top: 11.8%;
+}
+
+.tipper-background:active {
+	background: rgba(255,255,255,0.618);
+}
+.tipper-background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: transparent;
+	transition: background .082s;
+}
+
+.tipper {
+	display: -webkit-flex;
+	-webkit-flex-direction: column;
+	-webkit-align-content: center;
+	-webkit-align-items: center;
+
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	align-items: center;
+
+	border-top: #bbb solid medium;
+	background: white;
+	box-shadow: 0px 0px 2px #807d7d;
+	overflow: hidden;
+	transition: height 0.618s;
+	max-width: 100%;
+	min-width: 480px;
+	padding: 40px 20px;
+	background: rgba(255, 255, 255, 0.90);
+	z-index: 9;
+	transition: border-color .618s;
+}
+
+.tipper-frame {
+	display: -webkit-flex;
+	-webkit-justify-content: center;
+	-webkit-align-items: center;
+	-webkit-align-content: center;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;align-content: center;
+
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+
+}
+
+.tipper > [class^="tipper-"] {
+	width: 256px;
+
+	display: -webkit-flex;
+	-webkit-flex-direction: column;
+	-webkit-align-items: center;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.tipper [class$="label"] {
+	font-size: 32px;
+}
+.tipper-success .label {
+	font-family: "黑体";
+	color: rgba(48, 103, 133, 1);
+}
+.tipper-warn .label {
+	font-family: ISOCTEUR, "黑体";
+	color: #F60;
+}
+.tipper-error .label {
+	font-family: ISOCTEUR, courier;
+	color: darkred;
+}
+
+.summary {
+	font-size: 14px;
+	text-align: left;
+	width: 100%;
+	color: grey;
+	font-family: Courier, 微软雅黑, 黑体;
+	overflow-wrap: break-word;
+}
