@@ -39,10 +39,10 @@ class CommentControllor extends Model{
 			throw new Exception('article nofound', 1);
 		}
 
-		$lastInsertId = $this->insertComment([
+		$lastInsertId = $this->insertComment(array(
 			'author' => $_POST['author'],
 			'article' => $_POST['article']
-		]);
+		));
 		$info = new BackInfo('insert ok', 0);
 		$info->lastInsertId = $lastInsertId;
 		return $info;

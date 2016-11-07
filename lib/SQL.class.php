@@ -36,7 +36,7 @@ class SQL extends SQLInit {
 	private static $instance;
 	/**
 	* 获得单例对象
-	* @param @params array 数据库连接信息
+	* @param array 数据库连接信息
 	* @return object 单例的对象
 	*/
 	protected static function getInstance($params = array()){
