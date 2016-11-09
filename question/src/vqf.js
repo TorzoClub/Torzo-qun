@@ -282,17 +282,22 @@ class VQF {
 						}
 						return defineQuestion;
 					});
-				} else if (!choice.isMulti && choice.type === 'choice') {
-					/* 检查单选项是否存在 */
+				}
+				/* 检查单选项是否存在 */
+				else if (!choice.isMulti && choice.type === 'choice') {
 					const currentChoice = choice.elePool[choice.checkedCursor];
 					if (currentChoice === undefined) {
+						console.warn(choice.elePool, choice.checkedCursor, choice.elePool[choice.checkedCursor]);
 						throw new Error('存在未填项');
 					}
 					if (currentChoice.why) {
 						defineQuestion.why = currentChoice.why.value;
 					}
 
-					if (Number.isInteger(choice.checkedCursor)) {
+					if (typeof choice.checkedCursor === "number" &&
+						isFinite(choice.checkedCursor) &&
+						Math.floor(choice.checkedCursor) === choice.checkedCursor
+					){
 						defineQuestion.choiced = choice.checkedCursor;
 					} else {
 						throw new Error('存在未填项');
@@ -300,7 +305,7 @@ class VQF {
 
 					/* 是否存在Extends */
 					if (currentChoice.extends) {
-						defineQuestion.extends = collectData(choice.extends);
+						defineQuestion.extends = collectData(currentChoice.extends);
 					}
 
 					return defineQuestion;

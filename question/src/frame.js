@@ -201,34 +201,26 @@ const insertAfter = (newEle, targetEle) => {
 		parent.insertBefore(newEle, targetEle.nextSibling);
 	}
 };
-const FFer = (bindEle) => {
-	if (bindEle.sourceHeight === undefined) {
-		bindEle.sourceHeight = bindEle.offsetHeight;
-		bindEle.style.transition = 'height .618s';
-		bindEle.style.height = '0px';
-	}
-	return {
+
+const slide = (bindEle) => {
+	const method = {
 		show(ele = bindEle){
-			disableTransition(ele, resove => {
-				ele.style.height = `${ele.sourceHeight}px`;
-				resove(() => {
-					setTimeout(() => {
-						ele.style.height = '';
-					}, 618);
-				});
-			});
+			ele.style.height = `${ele.scrollHeight}px`;
+			setTimeout(() => {
+				ele.style.height = '';
+			}, 618);
 		},
 		hide(ele = bindEle){
-			// throw new Error();
-			disableTransition(ele, resove => {
-				ele.sourceHeight = ele.offsetHeight;
-				ele.style.height = `${ele.sourceHeight}px`;
-				resove(() => setTimeout(() => {
-					ele.style.height = '0px';
-				}, 32));
-			});
+			ele.style.height = `${ele.clientHeight}px`;
+			setTimeout(() => {
+				ele.style.height = '0px';
+			}, 32);
+		},
+		close(ele = bindEle){
+			ele.style.height = '0px';
 		},
 	};
+	return method;
 };
 
 class InputCheckerInit {
@@ -266,7 +258,7 @@ class InputCheckerDone extends InputCheckerNone {
 */
 class InputChecker extends InputCheckerDone {
 	fetch(vqf=this.vqf){
-		console.debug(vqf);
+		// console.debug(vqf);
 		return vqf.pool.some(choice => {
 			// console.log(choice);
 			if (choice.isMulti && choice.type === 'choice') {
@@ -280,7 +272,7 @@ class InputChecker extends InputCheckerDone {
 			else if (!choice.isMulti && choice.type === 'choice') {
 				if (choice.elePool[choice.checkedCursor]) {
 					if (choice.elePool[choice.checkedCursor].extends) {
-						return this.fetch.call(this, choice.extends);
+						return this.fetch.call(this, choice.elePool[choice.checkedCursor].extends);
 					}
 				} else {
 					return true;
@@ -291,13 +283,16 @@ class InputChecker extends InputCheckerDone {
 	add(inputEle){
 		// this.pool.push(inputEle);
 		inputEle.addEventListener('click', e => {
-			let result = this.fetch(this.vqf);
-			if (result) {
-				this.fetchNone();
-				console.warn('未填项目');
-			} else {
+			// 不使用上面的检查器，使用VQF自带的collect函数（如果未填完整就会抛出错误）
+			// let result = this.fetch(this.vqf);
+
+			try {
+				let result = vqf.collect();
 				this.fetchDone();
 				console.info('全部完成')
+			} catch (e) {
+				this.fetchNone();
+				console.warn('未填项目');
 			}
 		});
 	}
@@ -342,7 +337,10 @@ const textareaAutoHeight = textarea => {
 		textAreaResize(textarea, 4);
 	};
 	['keypress', 'keydown', 'focus', 'click'].forEach(
-		eventName => textarea.addEventListener(eventName, resize, true)
+		eventName => textarea.addEventListener(eventName, () =>{
+			resize();
+			return true;
+		}, true)
 	);
 	resize();
 };
@@ -377,6 +375,7 @@ var initInput = (currentVqf = vqf) => {
 			const whyEleObj = setTorzoTextarea(input.ele);
 			input.ele = whyEleObj.textarea;
 		}
+
 		Array.isArray(input.elePool) && input.elePool.forEach((eleObject, vqfcCursor, eleTotal) => {
 			/* why文本框特技 */
 			if (eleObject.why) {
@@ -385,11 +384,10 @@ var initInput = (currentVqf = vqf) => {
 				eleObject.whyFrame = whyEleObj.whyFrame;
 				eleObject.why = whyEleObj.textarea;
 			}
-
+			inputChecker.add(eleObject.choiceEle);
+			let effEle = document.createElement('div');
 			/* 单选框特技 */
 			if (eleObject.choiceEle.type === 'radio') {
-				inputChecker.add(eleObject.choiceEle);
-				let effEle = document.createElement('div');
 				effEle.className = 'radio-effect';
 
 				let loop = document.createElement('div');
@@ -398,37 +396,42 @@ var initInput = (currentVqf = vqf) => {
 
 				insertAfter(effEle, eleObject.choiceEle);
 
-				if (textareaFrame) {
-					var textFFer = FFer(textareaFrame);
+				if (eleTotal[vqfcCursor].whyFrame) {
+					slide(eleTotal[vqfcCursor].whyFrame).close();
 				}
-				if (eleObject.extends && eleObject.choiceEle) {
-					var extendsFFer = FFer(eleObject.extends.ele);
+				if (eleTotal[vqfcCursor].extends && eleTotal[vqfcCursor].choiceEle) {
+					slide(eleObject.extends.ele).close();
 				}
 
 				eleObject.choiceEle.addEventListener('click', e => {
-					eleTotal.forEach(eleObj => {
-						if (eleObj.choiceEle.checked) {
-							if (eleObj.whyFrame) {
-								FFer(eleObj.whyFrame).show();
+					console.warn(eleTotal[vqfcCursor]);
+					if (eleTotal[vqfcCursor].whyFrame) {
+						console.info(`第${vqfcCursor}: whyFrame打开`);
+						slide(eleTotal[vqfcCursor].whyFrame).show();
+					}
+					if (eleTotal[vqfcCursor].extends) {
+						console.info(`第${vqfcCursor}: extends打开`);
+						slide(eleTotal[vqfcCursor].extends.ele).show();
+					}
+					input.elePool.forEach((choice, choiceCursor) => {
+						// console.debug(choiceCursor, vqfcCursor, choice);
+						if (choice !== eleTotal[vqfcCursor]) {
+							if (choice.whyFrame) {
+								console.info(`第${choiceCursor}: whyFrame关闭`);
+								slide(choice.whyFrame).hide();
 							}
-							if (eleObject.extends) {
-								extendsFFer.show();
-							} else {
-								const extendsFrames = eleTotal.filter(eleObj => eleObj.extends).map(eleObj => eleObj.extends.ele);
-								extendsFrames.forEach(extendsFrame => {
-									extendsFrame.offsetHeight && FFer(extendsFrame).hide();
-								});
+							if (choice.extends) {
+								console.info(`第${choiceCursor}: extends关闭`);
+								slide(choice.extends.ele).hide();
 							}
-						} else if (eleObj.whyFrame) {
-							eleObj.whyFrame.offsetHeight && FFer(eleObj.whyFrame).hide();
 						}
 					});
-				});
+
+					return true;
+				}, true);
 			}
 			/* 多选框特技 */
 			else if (eleObject.choiceEle.type === 'checkbox') {
-				inputChecker.add(eleObject.choiceEle);
-				let effEle = document.createElement('div');
 				effEle.className = 'checkbox-effect';
 
 				const border = {
@@ -446,35 +449,39 @@ var initInput = (currentVqf = vqf) => {
 				insertAfter(effEle, eleObject.choiceEle);
 
 				const choiceEle = eleObject.choiceEle;
-				setTimeout(() => {
-					if (textareaFrame) {
-						var textFFer = FFer(textareaFrame);
-					}
-					if (eleObject.extends) {
-						var extendsFFer = FFer(eleObject.extends.ele);
-					}
-					choiceEle.addEventListener('click', e => {
-						if (choiceEle.checked) {
-							textareaFrame && textFFer.show();
 
-							if (eleObject.extends && eleObject.choiceEle) {
-								extendsFFer.show();
-							}
-						} else {
-							textareaFrame && textFFer.hide();
-							console.warn(eleObject);
-							if (eleObject.extends && eleObject.choiceEle) {
-								extendsFFer.hide();
-							}
+				if (textareaFrame) {
+					slide(textareaFrame).close();
+				}
+				if (eleObject.extends) {
+					slide(eleObject.extends.ele).close();
+				}
+
+				choiceEle.addEventListener('click', e => {
+					if (choiceEle.checked) {
+						textareaFrame && slide(textareaFrame).show();
+
+						if (eleObject.extends && eleObject.choiceEle) {
+							slide(eleObject.extends.ele).show();
 						}
-					});
-				}, 100);
-			}
+					} else {
+						textareaFrame && slide(textareaFrame).hide();
+						console.warn(eleObject);
+						if (eleObject.extends && eleObject.choiceEle) {
+							slide(eleObject.extends.ele).hide();
+						}
+					}
+				});
+			} else {
 
+			}
 			if (eleObject.extends) {
-				initInput(eleObject.extends);
+				setTimeout(() => {
+
+				}, 32 * vqfcCursor);
 			}
 		});
+
 	});
 };
 
@@ -485,9 +492,12 @@ const setQuestion = (loaded) => {
 			vqf.load(res);
 			$('#question').html(vqf.makeHTML());
 
-			/* 初始化各种控件 */
-			setTimeout(initInput, 300);
-			loaded(res);
+			setTimeout(() => {
+				/* 初始化各种控件 */
+				initInput(vqf);
+				loaded(res);
+			}, 100);
+
 		} catch (e) {
 			tipper.error(e);
 			console.error(res);
@@ -502,7 +512,7 @@ const bindSubmit = (callback) => {
 			var vqfCollection = vqf.collect();
 			var data = JSON.stringify(vqfCollection);
 		} catch (e) {
-			tipper.warn(e);
+			tipper.error(e);
 			throw e;
 		} finally {
 			console.info(vqfCollection);
@@ -552,7 +562,7 @@ let start = (dataLoaded) => {
 
 window.onload = function (){
 	window.tipper = new Tipper($$('.tipper-frame'), () => {});
-	tipper.info('读取中……', () => {
+	tipper.info('读取vqf数据并交给vqf渲染器然后再加点特技', () => {
 		start(res => {
 			fadeIn($$('main'));
 			tipper.fadeOut();

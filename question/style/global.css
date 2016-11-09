@@ -28,9 +28,12 @@ body {
 }
 
 .extends {
-	padding-left: 1em;
 	width: calc(100% - 1em);
 	overflow: hidden;
+	position: relative;
+	/*margin: 1em 0 2em 0;*/
+	padding-left: 1em;
+	transition: height .618s;
 }
 
 [id^="vqfs-"] .description {
@@ -136,11 +139,13 @@ input:checked + .radio-effect {
 }
 
 input:checked + .radio-effect > .radio-loop {
+	/*
 	animation: radioloop 1s 1;
 	animation-timing-function: linear;
 	animation-direction: normal;
 	animation-delay: 0s;
 	animation-play-state: running;
+	*/
 }
 .radio-loop {
 	opacity: 0;
@@ -362,7 +367,9 @@ button {
 	width: 640px;
 	margin: auto;
 }
-
+.extends > [id^="vqfs-"] {
+	margin: 2em 0;
+}
 #collect > [id^="vqfs-"] {
 	margin: 48px 0;
 }
@@ -395,7 +402,7 @@ button {
 .why-frame {
 	position: relative;
 	overflow: hidden;
-	/*transition: height .618s;*/
+	transition: height .618s;
 	transform: translate3d(0, 0, 0);
 }
 [class^="side-line"] {

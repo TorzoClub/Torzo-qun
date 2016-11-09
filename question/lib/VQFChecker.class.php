@@ -181,13 +181,10 @@ class VQFCheckerRouter extends VQFCheckerIO {
 }
 class VQFChecker extends VQFCheckerRouter {
 	public function check($struct){
-		foreach (self::$question as $vqfs => $questionDefine) {
-			$this->defineTypeRouter($questionDefine, $vqfs, self::$question, $struct);
+		$question = $this::getQuestion();
+		foreach ($question as $vqfs => $questionDefine) {
+			$this->defineTypeRouter($questionDefine, $vqfs, $question, $struct);
 		}
-	}
-
-	public function __construct(){
-
 	}
 }
 
