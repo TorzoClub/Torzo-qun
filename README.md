@@ -79,7 +79,17 @@ CREATE TABLE `question` (
 
 ```
 
-欲修改表名 `question`，除了修改上面的SQL语句外，还需要修改 `./question/lib/Store.class.php` 中的 `Store::$QUESTIONTABLE` 属性
+欲修改表名 `question`，除了修改上面的 SQL 语句外，还需要修改 `./question/lib/Store.class.php` 中的 `Store::$QUESTIONTABLE` 属性
+
+
+## Gulp
+
+目前 `gulp` 只应用在问卷调查的功能当中。
+
+如果你想利用 `gulp` 来转换 ES5 的代码，需要修改 `./question/index.html` 中 `<script>` 标签的 `src` 属性。
+
+ES5 代码的输出路径在 `./question/script`
+
 
 # License
 
