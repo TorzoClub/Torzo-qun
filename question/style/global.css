@@ -422,22 +422,27 @@ button {
 	bottom: 0;
 	background: linear-gradient(to bottom, rgb(48, 103, 133), transparent);
 }
-
+@-webkit-keyframes loop{
+	0% { opacity: 1; transform: scale(1); }
+	50% { opacity: 0; transform: scale(1.4); }
+	100% { opacity: 0; transform: scale(2); }
+}
+@-moz-keyframes loop{
+	0% { opacity: 1; transform: scale(1); }
+	50% { opacity: 0; transform: scale(1.4); }
+	100% { opacity: 0; transform: scale(2); }
+}
 @keyframes loop{
-	0% {
-		opacity: 1;
-		transform: scale(1);
-	}
-	50% {
-		opacity: 0;
-		transform: scale(1.4);
-	}
-	100% {
-		opacity: 0;
-		transform: scale(2);
-	}
+	0% { opacity: 1; transform: scale(1); }
+	50% { opacity: 0; transform: scale(1.4); }
+	100% { opacity: 0; transform: scale(2); }
 }
 .loop-animated {
+	-webkit-animation: loop 2s infinite;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-direction: normal;
+	-webkit-animation-play-state: running;
+
 	animation: loop 2s infinite;
 	animation-timing-function: ease-in-out;
 	animation-direction: normal;
