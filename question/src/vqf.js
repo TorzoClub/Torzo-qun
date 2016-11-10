@@ -98,7 +98,7 @@ class VQFChoice {
 			if (define.type === 'why') {
 				let why = document.createElement('textarea');
 				element.why = why;
-				$(label).append(why);
+				$(parent).append(why);
 			} else if (define.type === 'choice') {
 
 			} else {
