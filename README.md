@@ -55,7 +55,7 @@ CREATE TABLE `qun_comment` (
 
 ```
 
-如果你想修改表名 `qun_comment`，除了修改上面的 SQL 语句外，还需要修改 `./lib/SQL.class.php` 中的 `SQL::$COMMENTTABLE` 属性
+欲修改表名 `qun_comment`，除了修改上面的 SQL 语句外，还需要修改 `./lib/SQL.class.php` 中的 `SQL::$COMMENTTABLE` 属性
 
 
 ## 配置表 - 问卷调查
@@ -79,7 +79,7 @@ CREATE TABLE `question` (
 
 ```
 
-如果你修改表名 `question`，除了修改上面的SQL语句外，还需要修改 `./question/lib/Store.class.php` 中的 `Store:$QUESTIONTABLE` 属性
+欲修改表名 `question`，除了修改上面的SQL语句外，还需要修改 `./question/lib/Store.class.php` 中的 `Store::$QUESTIONTABLE` 属性
 
 # License
 
