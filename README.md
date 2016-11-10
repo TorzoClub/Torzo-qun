@@ -89,10 +89,12 @@ CREATE TABLE `question` (
 
 目前 `gulp` 只应用在问卷调查的功能当中。
 
+- gulp es6toes5
+- gulp watch
+
 如果你想利用 `gulp` 来转换 ES5 的代码，需要修改 `./question/index.html` 中 `<script>` 标签的 `src` 属性。
 
 ES5 代码的输出路径在 `./question/script`
-
 
 # License
 
