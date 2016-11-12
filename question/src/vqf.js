@@ -155,15 +155,29 @@ class VQFChoice {
 	}
 }
 class WhyDefine {
+	setPlaceholder(){
+		if (this.question.placeholder) {
+			this.ele.setAttribute('placeholder', this.question.placeholder);
+		}
+	}
 	setElementProperty(ele=this.ele){
 		Object.defineProperty(this, 'value', {
 			get(){ return this.ele.value },
 			set(text){ this.ele.value = text},
 		});
 	}
-	constructor(ele=document.createElement('textarea')){
+	constructor(question){
+		if (typeof(question) !== 'object') {
+			throw new Error('也许这个question并不是一个对象');
+		} else {
+			this.question = question;
+		}
+
 		this.type = 'why';
-		this.ele = ele;
+		this.ele = document.createElement('textarea');
+
+		this.setPlaceholder();
+
 		this.setElementProperty();
 	}
 }
@@ -220,8 +234,9 @@ class VQF {
 					vThis.makeQuestion.apply(vThis, [structItem['questions'], structElement, cursor, true]);
 				},
 				why(){
-					let why = new WhyDefine();
+					let why = new WhyDefine(structItem.question);
 					$(question).append(why.ele);
+
 
 					vThis.pool.push(why);
 				},
