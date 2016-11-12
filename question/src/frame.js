@@ -165,17 +165,19 @@ const textAreaResize = (a, row) => {
 	}
 	c = Math.max(c, row);
 	if(c != a.rows){
-		a.rows = c + 1;
+		a.rows = c + 2;
 	} else {
 		a.rows = c + 2;
 	}
 };
 /* 后面[单/多]选框要用到 */
 const setHeightTransition = (ele) => {
-	ele.style['transition'] = 'height .618s';
+	ele.style['webkitTransition'] = 'height 0.618s, opacity .5s';
+	ele.style['transition'] = 'height 0.618s, opacity .5s';
 };
 const removeHeightTransition = (ele) => {
-	ele.style['transition'] = '';
+	ele.style['webkitTransition'] = 'height 0';
+	ele.style['transition'] = 'height 0';
 };
 const disableTransition = (ele, actionFunc) => {
 	setTimeout(() => {
@@ -205,14 +207,27 @@ const insertAfter = (newEle, targetEle) => {
 const slide = (bindEle) => {
 	const method = {
 		show(ele = bindEle){
-			ele.style.height = `${ele.scrollHeight}px`;
+			ele.style.opacity = '0';
+			setHeightTransition(bindEle);
 			setTimeout(() => {
-				ele.style.height = '';
-			}, 618);
+				ele.style.height = `${ele.scrollHeight}px`;
+				ele.style.opacity = '1';
+				setTimeout(() => {
+					disableTransition(ele, (resove) => {
+						ele.style.height = '';
+						resove(() => {});
+					});
+				}, 700);
+			}, 32);
 		},
 		hide(ele = bindEle){
-			ele.style.height = `${ele.clientHeight}px`;
+			if (ele.style.height === '0px') {
+				return ;
+			}
+			ele.style.height = `${ele.scrollHeight}px`;
+			ele.style.opacity = '1';
 			setTimeout(() => {
+				ele.style.opacity = '0';
 				ele.style.height = '0px';
 			}, 32);
 		},
@@ -220,6 +235,7 @@ const slide = (bindEle) => {
 			ele.style.height = '0px';
 		},
 	};
+	// setHeightTransition(bindEle);
 	return method;
 };
 
@@ -321,7 +337,7 @@ class MyInputChecker extends InputChecker {
 			this.setDoneLoop();
 		});
 		this.nonePool.push((context) => {
-			// this.setNoneLoop();
+			this.setNoneLoop();
 		});
 	}
 }
@@ -336,9 +352,9 @@ const textareaAutoHeight = textarea => {
 	let resize = function (e) {
 		textAreaResize(textarea, 4);
 	};
-	['keypress', 'keydown', 'focus', 'click'].forEach(
-		eventName => textarea.addEventListener(eventName, () =>{
-			resize();
+	[/*'keypress',*/ 'keydown', 'focus', 'click'].forEach(
+		eventName => textarea.addEventListener(eventName, (e) => {
+			setTimeout(resize, 32);
 			return true;
 		}, true)
 	);
@@ -350,6 +366,11 @@ const setTorzoTextarea = (sourceEle) => {
 
 	let textarea = document.createElement('textarea');
 	textareaFrame.appendChild(textarea);
+
+	let placeholder = sourceEle.getAttribute('placeholder');
+	if (placeholder) {
+		textarea.setAttribute('placeholder', placeholder);
+	}
 
 	insertAfter(textareaFrame, sourceEle);
 	sourceEle.parentNode.removeChild(sourceEle);
@@ -414,7 +435,6 @@ var initInput = (currentVqf = vqf) => {
 						slide(eleTotal[vqfcCursor].extends.ele).show();
 					}
 					input.elePool.forEach((choice, choiceCursor) => {
-						// console.debug(choiceCursor, vqfcCursor, choice);
 						if (choice !== eleTotal[vqfcCursor]) {
 							if (choice.whyFrame) {
 								console.info(`第${choiceCursor}: whyFrame关闭`);
@@ -476,9 +496,7 @@ var initInput = (currentVqf = vqf) => {
 
 			}
 			if (eleObject.extends) {
-				setTimeout(() => {
-
-				}, 32 * vqfcCursor);
+				initInput(eleObject.extends);
 			}
 		});
 
