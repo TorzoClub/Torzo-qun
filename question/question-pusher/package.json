@@ -1,0 +1,15 @@
+{
+  "name": "question-pusher",
+  "version": "0.0.1",
+  "description": "use mail push Torzo-Question topic",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "vec",
+  "license": "MIT",
+  "dependencies": {
+    "should": "^11.1.1",
+    "superagent": "^2.3.0"
+  }
+}
