@@ -11,7 +11,8 @@ $whyNotGotoTorzoQunExtends = array(
 			'和他们不熟，聊不来',
 			array(
 				'description' => '其他',
-				'type' => 'why'
+				'type' => 'why',
+				'placeholder' => '（选填内容）'
 			)
 		)
 	)
@@ -35,18 +36,20 @@ $questionDefine = array(
 			'满意',
 			array(
 				'description' => '不满意',
-				'type' => 'why'
+				'type' => 'why',
+				'placeholder' => '（选填内容）',
 			),
 			array(
 				'description' => '十分不满意',
-				'type' => 'why'
+				'type' => 'why',
+				'placeholder' => '（选填内容）',
 			),
 		)
 	),
 	array(
 		'description' => '你觉得同装现在的核心凝聚力是什么',
 		'question' => array(
-			'type' => 'why'
+			'type' => 'why',
 		)
 	),
 	array(
@@ -54,7 +57,8 @@ $questionDefine = array(
 		'question' => array(
 			array(
 				'description' => '有',
-				'type' => 'why'
+				'type' => 'why',
+				'placeholder' => '（选填内容）'
 			),
 			'没有'
 		)
@@ -84,7 +88,7 @@ $questionDefine = array(
 		)
 	),
 	array(
-		'description' => '你的兴趣爱好/特长是什么？',
+		'description' => '你所认为的同装精神应该是怎么样的？',
 		'question' => array(
 			'type' => 'why'
 		)
@@ -119,18 +123,20 @@ $questionDefine = array(
 		'questions' => array(
 			array(
 				'description' => '线上',
-				'type' => 'why'
+				'type' => 'why',
+				'placeholder' => '（选填内容)'
 			),
 			array(
 				'description' => '线下',
-				'type' => 'why'
+				'type' => 'why',
+				'placeholder' => '（选填内容)'
 			)
 		)
 	),
 	array(
 		'description' => '你期待什么样的人进同装？',
 		'question' => array(
-			'type' => 'why'
+			'type' => 'why',
 		),
 	),
 	array(
@@ -138,7 +144,8 @@ $questionDefine = array(
 		'question' => array(
 			array(
 				'description' => '有',
-				'type' => 'why'
+				'type' => 'why',
+				'placeholder' => '您或许可以留下那位朋友的联系方式'
 			),
 			'没有'
 		)
@@ -152,8 +159,15 @@ $questionDefine = array(
 	array(
 		'description' => '如果由你来当群主，你会怎么做？',
 		'question' => array(
-			'placeholder' => '例如：（发展方向，管理制度，避免哪类问题等等）',
-			'type' => 'why'
+			'type' => 'why',
+			'placeholder' => '例如：（发展方向，管理制度，避免哪类问题等等）'
+		)
+	),
+	array(
+		'description' => '同装会将准备建设网站，你认为同装网站应该是什么样子的呢？',
+		'question' => array(
+			'type' => 'why',
+			'placeholder' => '例如：发展方向，内容质量等'
 		)
 	),
 	array(
