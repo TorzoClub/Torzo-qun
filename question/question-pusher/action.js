@@ -29,7 +29,32 @@ Object.assign(exports, {
 		};
 		fetch();
 	},
-	
+	broadcast(mailList, email, allDone, retry){
+		if (!Array.isArray(mailList)) {
+			throw new Error('邮件列表不是一个数组');
+		}
+		else if (typeof(email) !== 'object' || Array.isArray(email)) {
+			throw new Error('邮件参数不是一个对象');
+		}
+		else if (typeof(email.from) !== 'string') {
+			throw new Error('参数对象缺少 from 属性或者不合法');
+		}
+		else if (typeof(email.subject) !== 'string') {
+			throw new Error('参数对象缺少 subject 属性或者不合法');
+		}
+		else if (typeof(email.html) !== 'string') {
+			throw new Error('参数对象缺少 html 属性或者不合法');
+		}
+		else {
+			this.asyncEach(mailList, (fetch, status) => {
+				this.sendMessage(
+					email.from, fetch.item, email.subject, email.html,
+					fetch.next,
+					() => retry(fetch.retry)
+				)
+			}, allDone);
+		}
+	},
 	backFrom(name, emailAddress) {
 		return util.format('%s <%s>', name, emailAddress);
 	},
