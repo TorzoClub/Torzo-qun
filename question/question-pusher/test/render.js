@@ -252,7 +252,12 @@ describe('render.js Render Processor', () => {
 		let html = render.renderSingle(vqfStruct, questionStruct);
 
 		html.should.equal(
-			`<li><div>${vqfStruct.description}</div><div>${vqfStruct.question[questionStruct.choiced].description}</div><div>${questionStruct.why}</div></li>`
+			`<li>` +
+			`<div>${vqfStruct.description}</div>` +
+			`<div>${vqfStruct.question[questionStruct.choiced].description}</div>` +
+			`<div>${questionStruct.why}</div>` +
+			`<div></div>` +
+			`</li>`
 		);
 	});
 	it('single 项渲染（非 why 选项）', () => {
@@ -269,7 +274,12 @@ describe('render.js Render Processor', () => {
 		let html = render.renderSingle(vqfStruct, questionStruct);
 
 		html.should.equal(
-			`<li><div>${vqfStruct.description}</div><div>这是问题选项</div><div></div></li>`
+			`<li>` +
+			`<div>${vqfStruct.description}</div>` +
+			`<div>这是问题选项</div>` +
+			`<div></div>` +
+			`<div></div>` +
+			`</li>`
 		);
 	});
 	it('single 项渲染 vqfQuestion 缺乏 why 属性', () => {
@@ -373,5 +383,38 @@ describe('render.js Render Processor', () => {
 		let render = new Render;
 		let result = render.renderWhy({description: '这是问题描述'}, {why: '这是问题回答'}, 0);
 		result.should.equal(`<li><div>这是问题描述</div><div>这是问题回答</div></li>`);
+	});
+
+	it('single 项的继承机制', () => {
+		let render = new Render;
+		let vqfStruct = {
+			description: '这是问题描述',
+			question: [
+				'这是问题回答1',
+				'这是问题回答2',
+				{	description: '这是问题回答3',
+					type: 'why',
+					extends: [
+						{	description: '这是继承的问题描述',
+							question: ['这是继承的问题回答']}
+					]
+				}
+			]
+		};
+		let questionStruct = {
+			choiced: 2,
+			why: '这是问题补充回答',
+			extends: [
+				{	choiced: 0, }
+			]
+		};
+
+		let result = render.renderSingle(vqfStruct, questionStruct, 0);
+		result.should.equal(
+			`<li>` +
+			`<div>这是问题描述</div><div>这是问题回答3</div><div>这是问题补充回答</div>` +
+			`<div><ul><li><div>这是继承的问题描述</div><div>这是继承的问题回答</div><div></div><div></div></li></ul></div>` +
+			`</li>`
+		);
 	});
 });

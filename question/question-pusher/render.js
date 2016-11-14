@@ -9,6 +9,13 @@ const is_object = (value) => value !== null && typeof(value) === 'object' && !Ar
 const trueChoiced = (choiced, choiceList) => Number.isInteger(choiced) && choiced >= 0 && choiced < choiceList.length;
 
 class RenderProcessor {
+	renderFetch(define = this.define, question = this.question){
+		let html = '';
+		define.forEach((defineItem, vqfsCursor) => {
+			html += this.renderRouter(defineItem, question[vqfsCursor], vqfsCursor);
+		});
+		return `<ul>`+ html +`</ul>`;
+	}
 	renderSingle(struct, vqfQuestion, vqfsCursor){
 		let html = '';
 		let description = struct.description;
@@ -29,13 +36,16 @@ class RenderProcessor {
 			}
 		}
 
-		/*
-		if (Array.isArray(choice.extends)) {
-
+		let extendsHtml = '';
+		if (choice.extends) {
+			if (!Array.isArray(vqfQuestion.extends)) {
+				throw new Error(`这个 vqfQuestion[${vqfsCursor}] choice 的 extends 属性不存在或者不合法`);
+			} else {
+				extendsHtml = this.renderFetch(choice.extends, vqfQuestion.extends);
+			}
 		}
-		*/
 
-		html = `<li><div>${description}</div><div>${choiceDescription}</div><div>${why}</div></li>`;
+		html = `<li><div>${description}</div><div>${choiceDescription}</div><div>${why}</div><div>${extendsHtml}</div></li>`;
 		return html;
 	}
 
@@ -68,10 +78,24 @@ class RenderProcessor {
 					why = questionStruct.why;
 				}
 			}
-			block += `<li><div>${description}</div><div>${choiceDescription}</div><div>${why}</div></li>`;
+
+			let extendsHtml = '';
+			if (choice.extends) {
+				if (!Array.isArray(questionStruct.extends)) {
+					throw new Error(`这个 vqfQuestion[${vqfsCursor}] choice 的 extends 属性不存在或者不合法`);
+				} else {
+					extendsHtml = this.renderFetch(choice.extends, questionStruct.extends);
+				}
+			}
+
+			block += `<li>` +
+					`<div>${choiceDescription}</div>` +
+					`<div>${why}</div>` +
+					`<div>${extendsHtml}</div>` +
+					`</li>`;
 		});
 
-		return `<li><ul>${block}</ul></li>`;
+		return `<li><div>${description}</div><ul>${block}</ul></li>`;
 	}
 
 	renderWhy(struct, vqfQuestion, vqfsCursor){
@@ -89,7 +113,7 @@ class RenderRouter extends RenderProcessor {
 			throw new Error('vqfQuestion 不是一个对象或者数组');
 		}
 		const rThis = this;
-		this.typeRouter(vqfStruct, {
+		return this.typeRouter(vqfStruct, {
 			/* 如果是单选的情况，那么 vqfQuestionStruct 必须是一个对象，并且要有 "choiced" 属性 */
 			single(struct){
 				if (!is_object(vqfQuestion)) {
