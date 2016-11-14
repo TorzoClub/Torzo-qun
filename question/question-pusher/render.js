@@ -6,20 +6,76 @@
 
 
 const is_object = (value) => value !== null && typeof(value) === 'object' && !Array.isArray(value);
+const trueChoiced = (choiced, choiceList) => Number.isInteger(choiced) && choiced >= 0 && choiced < choiceList.length;
 
 class RenderProcessor {
-	renderSingle(struct, vqfQuestion){
-		struct.question.forEach((choice, vqfcCursor) => {
+	renderSingle(struct, vqfQuestion, vqfsCursor){
+		let html = '';
+		let description = struct.description;
+		let choice = struct.question[vqfQuestion.choiced];
+		let choiceDescription;
+		if (typeof(choice) === 'string') {
+			choiceDescription = choice;
+		} else {
+			choiceDescription = choice.description;
+		}
 
+		let why = '';
+		if (is_object(choice) && choice.type === 'why') {
+			if (typeof(vqfQuestion.why) !== 'string') {
+				throw new Error(`这个 vqfQuestion[${vqfsCursor}] choice 的 why 属性不存在或者非法`);
+			} else {
+				why = vqfQuestion.why;
+			}
+		}
+
+		/*
+		if (Array.isArray(choice.extends)) {
+
+		}
+		*/
+
+		html = `<li><div>${description}</div><div>${choiceDescription}</div><div>${why}</div></li>`;
+		return html;
+	}
+
+	renderMulti(struct, vqfQuestion, vqfsCursor){
+		let description = struct.description;
+		let choiceList = struct.questions;
+
+		let block = '';
+
+		vqfQuestion.forEach((questionStruct, vqfcCursor) => {
+			if (!is_object(questionStruct)) {
+				throw new Error(`这个 vqfQuestion[${vqfsCursor}] choice 不是一个对象`);
+			} else if (!trueChoiced(questionStruct.choiced, choiceList)) {
+				throw new Error(`这个 vqfQuestion[${vqfsCursor}] choice 不存在或者不合法`);
+			}
+
+			let choice = choiceList[questionStruct.choiced];
+			let choiceDescription = '';
+			if (typeof(choice) === 'string') {
+				choiceDescription = choice;
+			} else {
+				choiceDescription = choice.description;
+			}
+
+			let why = '';
+			if (is_object(choice) && choice.type === 'why') {
+				if (typeof(questionStruct.why) !== 'string') {
+					throw new Error(`这个 vqfQuestion[${vqfsCursor}] choice 的 why 属性不存在或者不合法`);
+				} else {
+					why = questionStruct.why;
+				}
+			}
+			block += `<li><div>${description}</div><div>${choiceDescription}</div><div>${why}</div></li>`;
 		});
+
+		return `<li><ul>${block}</ul></li>`;
 	}
 
-	renderMulti(struct){
-
-	}
-
-	renderWhy(struct){
-
+	renderWhy(struct, vqfQuestion, vqfsCursor){
+		return `<li><div>${struct.description}</div><div>${vqfQuestion.why}</div></li>`;
 	}
 }
 
@@ -38,10 +94,10 @@ class RenderRouter extends RenderProcessor {
 			single(struct){
 				if (!is_object(vqfQuestion)) {
 					throw new Error(`这个 single vqfQuestion[${vqfsCursor}] 不是一个对象`);
-				} else if (!Number.isInteger(vqfQuestion.choiced) || vqfQuestion.choiced < 0 || vqfQuestion.choiced >= struct.question.length) {
+				} else if (!trueChoiced(vqfQuestion.choiced, struct.question)) {
 					throw new Error(`这个 single vqfQuestion[${vqfsCursor}] 的 choiced 属性不合法（不是正整数，或者大于最大选项数目）`);
 				} else {
-					rThis.renderSingle(struct, vqfQuestion);
+					return rThis.renderSingle(struct, vqfQuestion, vqfsCursor);
 				}
 			},
 
@@ -54,7 +110,7 @@ class RenderRouter extends RenderProcessor {
 				} else if (vqfQuestion.length > struct.questions.length) {
 					throw new Error(`这个 multi vqfQuestion[${vqfsCursor}] 项目数大于最大选项数`)
 				} else {
-					rThis.renderMulti(struct, vqfQuestion);
+					return rThis.renderMulti(struct, vqfQuestion, vqfsCursor);
 				}
 			},
 
@@ -65,7 +121,7 @@ class RenderRouter extends RenderProcessor {
 				} else if (typeof(vqfQuestion.why) !== 'string') {
 					throw new Error(`这个 why vqfQuestion[${vqfsCursor}] 的 why 属性不合法（不存在，或者不是字符串）`);
 				} else {
-					rThis.renderWhy(struct, vqfQuestion);
+					return rThis.renderWhy(struct, vqfQuestion, vqfsCursor);
 				}
 			},
 		});
@@ -87,15 +143,15 @@ class RenderRouter extends RenderProcessor {
 
 		if (struct.question !== undefined) {
 			if (Array.isArray(struct.question)) {
-				callbackObj.single(struct);
+				return callbackObj.single(struct);
 			} else if (is_object(struct.question) && struct.question.type === 'why') {
-				callbackObj.why(struct);
+				return callbackObj.why(struct);
 			} else {
 				throw new Error('struct question 不是一个数组或者对象');
 			}
 		} else if (struct.questions !== undefined) {
 			if (Array.isArray(struct.questions)) {
-				callbackObj.multi(struct);
+				return callbackObj.multi(struct);
 			} else {
 				throw new Error('struct questions 不是一个数组')
 			}

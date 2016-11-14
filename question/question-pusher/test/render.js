@@ -236,5 +236,142 @@ describe('render.js RenderRouter', () => {
 });
 
 describe('render.js Render Processor', () => {
+	it('single 项渲染（有 why 选项）', () => {
+		let render = new Render;
+		let vqfStruct = {
+			description: '这是问题描述',
+			question: [ {
+				description: '这是问题选项',
+				type: 'why',
+			} ],
+		};
+		let questionStruct = {
+			choiced: 0,
+			why: '这是问题补充回答'
+		};
+		let html = render.renderSingle(vqfStruct, questionStruct);
 
+		html.should.equal(
+			`<li><div>${vqfStruct.description}</div><div>${vqfStruct.question[questionStruct.choiced].description}</div><div>${questionStruct.why}</div></li>`
+		);
+	});
+	it('single 项渲染（非 why 选项）', () => {
+		let render = new Render;
+		let vqfStruct = {
+			description: '这是问题描述',
+			question: [
+				'这是问题选项',
+			 ],
+		};
+		let questionStruct = {
+			choiced: 0,
+		};
+		let html = render.renderSingle(vqfStruct, questionStruct);
+
+		html.should.equal(
+			`<li><div>${vqfStruct.description}</div><div>这是问题选项</div><div></div></li>`
+		);
+	});
+	it('single 项渲染 vqfQuestion 缺乏 why 属性', () => {
+		let render = new Render;
+		let vqfStruct = {
+			description: '这是问题描述',
+			question: [ {
+				description: '这是问题选项',
+				type: 'why',
+			} ],
+		};
+		let questionStruct = {
+			choiced: 0,
+		};
+
+		let questionWhyArr = [
+			2, undefined, null, {}, [], true, false
+		];
+
+		for (let questionWhyKey in questionWhyArr) {
+			(() => {
+				render.renderSingle(vqfStruct, {
+					choiced: 0,
+					why: questionWhyArr[questionWhyKey],
+				}, questionWhyKey);
+			}).should.throw(`这个 vqfQuestion[${questionWhyKey}] choice 的 why 属性不存在或者非法`)
+		}
+	});
+
+	it('multi 项渲染 不合法的 vqfQuestion choice', () => {
+		let render = new Render;
+		let vqfStruct = {
+			description: '这是个多选项问题描述',
+			questions: [
+				'选项一',
+				{	description: '选项二',
+					type: 'why',
+				}
+			],
+		};
+		let choicedArr = [
+			null, [], undefined, true, false
+		];
+
+		for (let choicedKey in choicedArr) {
+			(() => {
+				render.renderMulti(vqfStruct, [choicedArr[choicedKey]], choicedKey);
+			}).should.throw(`这个 vqfQuestion[${choicedKey}] choice 不是一个对象`);
+		}
+
+		choicedArr = [ 2, -1, 'a', null, undefined, true, false ];
+		for (let choicedKey in choicedArr) {
+			(() => {
+				render.renderMulti(
+					vqfStruct,
+					[{
+						choiced: choicedArr[choicedKey]
+					}],
+					choicedKey
+				);
+			}).should.throw(`这个 vqfQuestion[${choicedKey}] choice 不存在或者不合法`);
+		}
+
+		(() => {
+			render.renderMulti(
+				vqfStruct,
+				[{
+					choiced: 1,
+				}],
+				0
+			)
+		}).should.throw(`这个 vqfQuestion[0] choice 的 why 属性不存在或者不合法`)
+	});
+
+	it('multi 项渲染 （有 why 项，无 why 项目）', () => {
+		let render = new Render;
+		let choiceDescription = '选项二';
+		let vqfStruct = {
+			description: '这是个多选项问题描述',
+			questions: [
+				'选项一',
+				{	description: choiceDescription,
+					type: 'why',
+				}
+			],
+		};
+		let vqfQuestion = [
+			{	choiced: 0,},
+			{	choiced: 1, why: '这是一个说明项'}
+		];
+		let result = render.renderMulti(vqfStruct, vqfQuestion, 0);
+		result.should.equal(
+			`<li><ul>` +
+			`<li><div>${vqfStruct.description}</div><div>选项一</div><div></div></li>` +
+			`<li><div>${vqfStruct.description}</div><div>${choiceDescription}</div><div>${vqfQuestion[1].why}</div></li>` +
+			`</ul></li>`
+		);
+	});
+
+	it('why 项渲染', () => {
+		let render = new Render;
+		let result = render.renderWhy({description: '这是问题描述'}, {why: '这是问题回答'}, 0);
+		result.should.equal(`<li><div>这是问题描述</div><div>这是问题回答</div></li>`);
+	});
 });
