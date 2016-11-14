@@ -372,9 +372,9 @@ describe('render.js Render Processor', () => {
 		];
 		let result = render.renderMulti(vqfStruct, vqfQuestion, 0);
 		result.should.equal(
-			`<li><ul>` +
-			`<li><div>${vqfStruct.description}</div><div>选项一</div><div></div></li>` +
-			`<li><div>${vqfStruct.description}</div><div>${choiceDescription}</div><div>${vqfQuestion[1].why}</div></li>` +
+			`<li><div>${vqfStruct.description}</div><ul>` +
+			`<li><div>选项一</div><div></div><div></div></li>` +
+			`<li><div>${choiceDescription}</div><div>${vqfQuestion[1].why}</div><div></div></li>` +
 			`</ul></li>`
 		);
 	});
