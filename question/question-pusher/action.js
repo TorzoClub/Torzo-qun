@@ -48,7 +48,7 @@ Object.assign(exports, {
 		else {
 			this.asyncEach(mailList, (fetch, status) => {
 				this.sendMessage(
-					email.from, fetch.item, email.subject, email.html,
+					this.backFrom(email.from), fetch.item, email.subject, email.html,
 					fetch.next,
 					() => retry(fetch.retry)
 				)
