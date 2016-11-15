@@ -1,4 +1,3 @@
-const fs = require('fs');
 
 const throwCompareTimeArgumentError = () => {
 	throw new Error('需要两个参数');
