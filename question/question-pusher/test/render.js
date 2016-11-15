@@ -372,10 +372,12 @@ describe('render.js Render Processor', () => {
 		];
 		let result = render.renderMulti(vqfStruct, vqfQuestion, 0);
 		result.should.equal(
-			`<li><div>${vqfStruct.description}</div><ul>` +
+			`<li><div>${vqfStruct.description}</div>` +
+			`<ul>` +
 			`<li><div>选项一</div><div></div><div></div></li>` +
 			`<li><div>${choiceDescription}</div><div>${vqfQuestion[1].why}</div><div></div></li>` +
-			`</ul></li>`
+			`</ul>` +
+			`</li>`
 		);
 	});
 
@@ -396,7 +398,8 @@ describe('render.js Render Processor', () => {
 					type: 'why',
 					extends: [
 						{	description: '这是继承的问题描述',
-							question: ['这是继承的问题回答']}
+							question: ['这是继承的问题回答'],
+						}
 					]
 				}
 			]
@@ -414,6 +417,61 @@ describe('render.js Render Processor', () => {
 			`<li>` +
 			`<div>这是问题描述</div><div>这是问题回答3</div><div>这是问题补充回答</div>` +
 			`<div><ul><li><div>这是继承的问题描述</div><div>这是继承的问题回答</div><div></div><div></div></li></ul></div>` +
+			`</li>`
+		);
+	});
+
+	it('multi 项的继承机制', () => {
+		let render = new Render;
+
+		let vqfStruct = {
+			description: '这是问题项的描述',
+			questions: [
+				'多选项1',
+				{	description: '多选项2',
+					type: 'why',
+					extends: [
+						{	description: '这是继承项的描述',
+							questions: [
+								'继承的选项1',
+								'继承的选项2'
+							]
+						}
+					]
+				}
+			]
+		};
+		let questionStruct = [
+			{	choiced: 1,
+				why: '多选项2的补充描述',
+				extends: [
+					[{choiced: 1}]
+				],
+			}
+		];
+
+		let result = render.renderMulti(vqfStruct, questionStruct, 0);
+
+		result.should.equal(
+			`<li><div>这是问题项的描述</div>` +
+			`<ul><li>` +
+				`<div>多选项2</div>` +
+				`<div>多选项2的补充描述</div>` +
+
+				`<div>` +
+				`<ul><li>` +
+
+					`<div>这是继承项的描述</div>` +
+					`<ul><li>` +
+						`<div>继承的选项2</div>` +
+						`<div></div>` +
+						`<div></div>` +
+					`</li></ul>` +
+
+				`</li></ul>` +
+				`</div>` +
+
+			`</li></ul>`+
 			`</li>`
 		);
 	});
