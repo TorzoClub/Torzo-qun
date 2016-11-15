@@ -32,48 +32,52 @@ describe('model.js', () => {
 	});
 
 	it('getQuestionDefine 获取 Define 对象', (done) => {
-		model.getQuestionDefine(`${config['test_api_url']}/getquestion.php`,
+		model.getQuestionDefine(
 			() => {
 				done();
 			},
 			(e) => {
 				console.warn('getDefine fail');
 				throw e;
-			}
+			},
+			`${config['test_api_url']}/getquestion.php`
 		);
 	});
 	it('getQuestionDefine 错误的 URL', (done) => {
-		model.getQuestionDefine(`${config['test_api_url']}/fffgetquestion.php`,
+		model.getQuestionDefine(
 			() => {
 				console.warn('竟然能通过');
 				throw e;
 			},
 			(e) => {
 				done();
-			}
+			},
+			`${config['test_api_url']}/fffgetquestion.php`
 		);
 	});
 
 	it('getTodayQuestion 获取今天的 question', (done) => {
-		model.getTodayQuestion(`${config['test_api_url']}/today.php`,
+		model.getTodayQuestion(
 			() => {
 				done();
 			},
 			(e) => {
 				console.warn('getDefine fail');
 				throw e;
-			}
+			},
+			`${config['test_api_url']}/today.php`
 		);
 	});
 	it('getTodayQuestion 获取错误的 URL', (done) => {
-		model.getTodayQuestion(`${config['test_api_url']}/ffftoday.php`,
+		model.getTodayQuestion(
 			() => {
 				console.warn('竟然能通过');
 				throw e;
 			},
 			(e) => {
 				done();
-			}
+			},
+			`${config['test_api_url']}/ffftoday.php`
 		);
 	});
 });

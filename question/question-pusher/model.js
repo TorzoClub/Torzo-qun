@@ -12,7 +12,7 @@ Object.assign(exports, {
 		}
 		obj && success(obj);
 	},
-	getQuestionDefine(apiUrl, ok, fail){
+	getQuestionDefine(ok, fail, apiUrl = `${config['api_url']}/getquestion.php`){
 		superagent.get(apiUrl).end((err, sres) => {
 			if (err) {
 				return fail(err);
@@ -21,13 +21,18 @@ Object.assign(exports, {
 			this.jsonParseRouter(sres.text, ok, fail);
 		});
 	},
-	getTodayQuestion(apiUrl, ok, fail){
+	getTodayQuestion(ok, fail, apiUrl = `${config['api_url']}/today.php`){
 		superagent.get(apiUrl).end((err, sres) => {
 			if (err) {
 				return fail(err);
 			}
 
-			this.jsonParseRouter(sres.text, ok, fail);
+			this.jsonParseRouter(sres.text, (questions) => {
+				questions.forEach(questionStruct => {
+					questionStruct.struct = JSON.parse(questionStruct.json);
+				});
+				ok(questions);
+			}, fail);
 		});
 	},
 });
