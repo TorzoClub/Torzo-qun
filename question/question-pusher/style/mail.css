@@ -1,0 +1,47 @@
+* {
+	font-family: Airal, '微软雅黑';
+}
+hr {
+	border: 0;
+	width: 50%;
+	height: 1px;
+	background: rgba(48, 103, 133, 0.618);
+	background: linear-gradient(to right, rgba(48, 103, 133, 0.618), transparent);
+	transition: width .618s;
+	margin: 48px 0;
+}
+.date {
+	font-size: small;
+}
+
+.description {
+	position: relative;
+	margin: 16px 0;
+	/* color: rgba(148, 103, 133, 1); */
+	color: slategrey;
+	font-size: 1.5em;
+}
+.choice-description {
+	display: inline-block;
+	background: rgb(59, 59, 70);
+	color: azure;
+	padding: 2px 6px;
+	border-radius: 4px;
+}
+.why {
+	display: inline-block;
+	color: #666;
+}
+
+li {
+	margin: 10px 0px;
+}
+.vqfs > li {
+	margin: 0px 0px 32px;
+}
+
+.vqfs {
+	list-style: none;
+	margin: 0px 0px 32px;
+	padding: 0 0.5em;
+}
