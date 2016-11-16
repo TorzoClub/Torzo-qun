@@ -4,6 +4,8 @@ const vqfStruct = require('./define');
 
 const should = require('should');
 
+const htmlentities = (c) => c.replace(/[\u00A0-\u9999<>\&]/gim, c => '&#' + c.charCodeAt(0) + ';');
+
 const OUTPUT_DIR = `${__dirname}/render_output`;
 
 if (!fs.existsSync(OUTPUT_DIR)) {
@@ -255,13 +257,14 @@ describe('render.js Render Processor', () => {
 		let testHtml = html.replace(/\n|\t/g, '');
 		testHtml.should.equal(
 			`<li>` +
-			`<div class="${style.description}">${vqfStruct.description}</div>` +
-			`<div class="${style.choiceDescription}">${vqfStruct.question[questionStruct.choiced].description}</div>` +
-			`<div class="${style.why}">${questionStruct.why}</div>` +
+			`<div class="${style.description}">${htmlentities(vqfStruct.description)}</div>` +
+			`<div class="${style.choiceDescription}">${htmlentities(vqfStruct.question[questionStruct.choiced].description)}</div>` +
+			`<div class="${style.why}">${htmlentities(questionStruct.why)}</div>` +
 			`<div class="${style.extends}"></div>` +
 			`</li>`
 		);
 	});
+
 	it('single 项渲染（非 why 选项）', () => {
 		let render = new Render;
 		let vqfStruct = {
@@ -279,8 +282,8 @@ describe('render.js Render Processor', () => {
 		testHtml = html.replace(/\n|\t/g, '');
 		testHtml.should.equal(
 			`<li>` +
-			`<div class="${style.description}">${vqfStruct.description}</div>` +
-			`<div class="${style.choiceDescription}">这是问题选项</div>` +
+			`<div class="${style.description}">${htmlentities(vqfStruct.description)}</div>` +
+			`<div class="${style.choiceDescription}">${htmlentities('这是问题选项')}</div>` +
 			`<div class="${style.why}"></div>` +
 			`<div class="${style.extends}"></div>` +
 			`</li>`
@@ -382,16 +385,16 @@ describe('render.js Render Processor', () => {
 		testHtml.should.equal(
 			(`
 			<li>
-				<div class="${style.description}">${vqfStruct.description}</div>
+				<div class="${style.description}">${htmlentities(vqfStruct.description)}</div>
 				<ul>
 					<li>
-						<div class="${style.choiceDescription}">选项一</div>
+						<div class="${style.choiceDescription}">${htmlentities('选项一')}</div>
 						<div class="${style.why}"></div>
 						<div class="${style.extends}"></div>
 					</li>
 					<li>
-						<div class="${style.choiceDescription}">${choiceDescription}</div>
-						<div class="${style.why}">${vqfQuestion[1].why}</div>
+						<div class="${style.choiceDescription}">${htmlentities(choiceDescription)}</div>
+						<div class="${style.why}">${htmlentities(vqfQuestion[1].why)}</div>
 						<div class="${style.extends}"></div>
 					</li>
 				</ul>
@@ -409,8 +412,8 @@ describe('render.js Render Processor', () => {
 		testHtml.should.equal(
 			(`
 			<li>
-				<div class="${style.description}">这是问题描述</div>
-				<div class="${style.why}">这是问题回答</div>
+				<div class="${style.description}">${htmlentities('这是问题描述')}</div>
+				<div class="${style.why}">${htmlentities('这是问题回答')}</div>
 			</li>
 			`).replace(/\n|\t/g, '')
 		);
@@ -447,14 +450,14 @@ describe('render.js Render Processor', () => {
 		testHtml.should.equal(
 			(`
 				<li>
-					<div class="${style.description}">这是问题描述</div>
-					<div class="${style.choiceDescription}">这是问题回答3</div>
-					<div class="${style.why}">这是问题补充回答</div>
+					<div class="${style.description}">${htmlentities('这是问题描述')}</div>
+					<div class="${style.choiceDescription}">${htmlentities('这是问题回答3')}</div>
+					<div class="${style.why}">${htmlentities('这是问题补充回答')}</div>
 					<div class="${style.extends}">
-						<ul>
+						<ul class="${style.vqfs}">
 							<li>
-								<div class="${style.description}">这是继承的问题描述</div>
-								<div class="${style.choiceDescription}">这是继承的问题回答</div>
+								<div class="${style.description}">${htmlentities('这是继承的问题描述')}</div>
+								<div class="${style.choiceDescription}">${htmlentities('这是继承的问题回答')}</div>
 								<div class="${style.why}"></div>
 								<div class="${style.extends}"></div>
 							</li>
@@ -496,21 +499,24 @@ describe('render.js Render Processor', () => {
 		let style = render.backStyle();
 		let result = render.renderMulti(vqfStruct, questionStruct, 0);
 		let testHtml = result.replace(/\n|\t/g, '');
+
+		let questionDescription = '这是问题项的描述';
+
 		testHtml.should.equal(
 			(`
 				<li>
-					<div class="${style.description}">这是问题项的描述</div>
+					<div class="${style.description}">${htmlentities(questionDescription)}</div>
 					<ul>
 						<li>
-							<div class="${style.choiceDescription}">多选项2</div>
-							<div class="${style.why}">多选项2的补充描述</div>
+							<div class="${style.choiceDescription}">${htmlentities('多选项2')}</div>
+							<div class="${style.why}">${htmlentities('多选项2的补充描述')}</div>
 							<div class="${style.extends}">
-								<ul>
+								<ul class="${style.vqfs}">
 									<li>
-										<div class="${style.description}">这是继承项的描述</div>
+										<div class="${style.description}">${htmlentities('这是继承项的描述')}</div>
 										<ul>
 											<li>
-												<div class="${style.choiceDescription}">继承的选项2</div>
+												<div class="${style.choiceDescription}">${htmlentities('继承的选项2')}</div>
 												<div class="${style.why}"></div>
 												<div class="${style.extends}"></div>
 											</li>
@@ -527,7 +533,7 @@ describe('render.js Render Processor', () => {
 		fs.writeFileSync(`${OUTPUT_DIR}/multi.html`, result);
 
 	});
-
+	return;
 	it('renderFetch 缺少 question', () => {
 		let render = new Render;
 		let vqfStruct = {

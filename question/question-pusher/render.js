@@ -8,6 +8,8 @@
 const is_object = (value) => value !== null && typeof(value) === 'object' && !Array.isArray(value);
 const trueChoiced = (choiced, choiceList) => Number.isInteger(choiced) && choiced >= 0 && choiced < choiceList.length;
 
+const htmlentities = (c) => c.replace(/[\u00A0-\u9999<>\&]/gim, c => '&#' + c.charCodeAt(0) + ';');
+
 class RenderStyle {
 	backStyle(){
 		return this.style;
@@ -32,7 +34,7 @@ class RenderProcessor extends RenderStyle {
 		define.forEach((defineItem, vqfsCursor) => {
 			html += this.renderRouter(defineItem, question[vqfsCursor], vqfsCursor);
 		});
-		return `<ul class="vqfs">`+ html +`</ul>`;
+		return `<ul class="${style.vqfs}">`+ html +`</ul>`;
 	}
 	renderSingle(struct, vqfQuestion, vqfsCursor){
 		let html = '';
@@ -67,9 +69,9 @@ class RenderProcessor extends RenderStyle {
 
 		html = `
 		<li>
-			<div class="${style.description}">${description}</div>
-			<div class="${style.choiceDescription}">${choiceDescription}</div>
-			<div class="${style.why}">${why}</div>
+			<div class="${style.description}">${htmlentities(description)}</div>
+			<div class="${style.choiceDescription}">${htmlentities(choiceDescription)}</div>
+			<div class="${style.why}">${htmlentities(why)}</div>
 			<div class="${style.extends}">${extendsHtml}</div>
 		</li>
 		`;
@@ -118,8 +120,8 @@ class RenderProcessor extends RenderStyle {
 
 			block += `
 			<li>
-				<div class="${style.choiceDescription}">${choiceDescription}</div>
-				<div class="${style.why}">${why}</div>
+				<div class="${style.choiceDescription}">${htmlentities(choiceDescription)}</div>
+				<div class="${style.why}">${htmlentities(why)}</div>
 				<div class="${style.extends}">${extendsHtml}</div>
 			</li>
 			`;
@@ -127,7 +129,7 @@ class RenderProcessor extends RenderStyle {
 
 		return `
 		<li>
-			<div class="${style.description}">${description}</div>
+			<div class="${style.description}">${htmlentities(description)}</div>
 			<ul>
 				${block}
 			</ul>
@@ -139,8 +141,8 @@ class RenderProcessor extends RenderStyle {
 		let style = this.backStyle();
 		return `
 		<li>
-			<div class="${style.description}">${struct.description}</div>
-			<div class="${style.why}">${vqfQuestion.why}</div>
+			<div class="${style.description}">${htmlentities(struct.description)}</div>
+			<div class="${style.why}">${htmlentities(vqfQuestion.why)}</div>
 		</li>`;
 	}
 }
@@ -255,9 +257,9 @@ class Render extends RenderRouter {
 			try {
 				var structDate = new Date(questionItem.time);
 			} catch (e) {
-				var structDate = '错误的日期'
+				var structDate = '错误的日期';
 			}
-			html += `<hr><div class="${style.date}"><span>日期：</span><time>${structDate}</time></div>`;
+			html += `<hr><div class="${style.date}"><span>日期：</span><time>${htmlentities(structDate)}</time></div>`;
 			html += this.renderFetch(vqfDefine, questionItem.struct);
 		});
 		return html;
