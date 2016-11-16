@@ -8,8 +8,23 @@
 const is_object = (value) => value !== null && typeof(value) === 'object' && !Array.isArray(value);
 const trueChoiced = (choiced, choiceList) => Number.isInteger(choiced) && choiced >= 0 && choiced < choiceList.length;
 
-class RenderProcessor {
-	renderFetch(define = this.define, question = this.question){
+class RenderStyle {
+	backStyle(){
+		return this.style;
+	}
+}
+RenderStyle.prototype.style = {
+	description: 'description',
+	choiceDescription: 'choice-description',
+	why: 'why',
+	extends: 'extends',
+};
+
+class RenderProcessor extends RenderStyle {
+	throwRenderFetchNoQuestion(){
+		throw new Error('缺少 question 参数');
+	}
+	renderFetch(define = this.define, question = this.throwRenderFetchNoQuestion()){
 		let html = '';
 		define.forEach((defineItem, vqfsCursor) => {
 			html += this.renderRouter(defineItem, question[vqfsCursor], vqfsCursor);
@@ -45,13 +60,23 @@ class RenderProcessor {
 			}
 		}
 
-		html = `<li><div>${description}</div><div>${choiceDescription}</div><div>${why}</div><div>${extendsHtml}</div></li>`;
+		let style = this.backStyle();
+
+		html = `
+		<li>
+			<div style="${style.description}">${description}</div>
+			<div style="${style.choiceDescription}">${choiceDescription}</div>
+			<div style="${style.why}">${why}</div>
+			<div style="${style.extends}">${extendsHtml}</div>
+		</li>
+		`;
 		return html;
 	}
 
 	renderMulti(struct, vqfQuestion, vqfsCursor){
 		let description = struct.description;
 		let choiceList = struct.questions;
+		let style = this.backStyle();
 
 		let block = '';
 
@@ -88,18 +113,32 @@ class RenderProcessor {
 				}
 			}
 
-			block += `<li>` +
-					`<div>${choiceDescription}</div>` +
-					`<div>${why}</div>` +
-					`<div>${extendsHtml}</div>` +
-					`</li>`;
+			block += `
+			<li>
+				<div style="${style.choiceDescription}">${choiceDescription}</div>
+				<div style="${style.why}">${why}</div>
+				<div style="${style.extends}">${extendsHtml}</div>
+			</li>
+			`;
 		});
 
-		return `<li><div>${description}</div><ul>${block}</ul></li>`;
+		return `
+		<li>
+			<div style="${style.description}">${description}</div>
+			<ul>
+				${block}
+			</ul>
+		</li>
+		`;
 	}
 
 	renderWhy(struct, vqfQuestion, vqfsCursor){
-		return `<li><div>${struct.description}</div><div>${vqfQuestion.why}</div></li>`;
+		let style = this.backStyle();
+		return `
+		<li>
+			<div style="${style.description}">${struct.description}</div>
+			<div style="${style.why}">${vqfQuestion.why}</div>
+		</li>`;
 	}
 }
 
@@ -205,8 +244,12 @@ class Render extends RenderRouter {
 	}
 
 	/* 渲染答案 */
-	renderQuestion(vqfStruct, questionStruct){
-
+	renderQuestion(vqfQuestion = this.question, vqfDefine = this.define){
+		let html = '';
+		vqfQuestion.forEach((questionItem) => {
+			html += this.renderFetch(vqfDefine, questionItem.struct);
+		});
+		return html;
 	}
 }
 
