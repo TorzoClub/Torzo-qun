@@ -255,10 +255,10 @@ describe('render.js Render Processor', () => {
 		let testHtml = html.replace(/\n|\t/g, '');
 		testHtml.should.equal(
 			`<li>` +
-			`<div style="${style.description}">${vqfStruct.description}</div>` +
-			`<div style="${style.choiceDescription}">${vqfStruct.question[questionStruct.choiced].description}</div>` +
-			`<div style="${style.why}">${questionStruct.why}</div>` +
-			`<div style="${style.extends}"></div>` +
+			`<div class="${style.description}">${vqfStruct.description}</div>` +
+			`<div class="${style.choiceDescription}">${vqfStruct.question[questionStruct.choiced].description}</div>` +
+			`<div class="${style.why}">${questionStruct.why}</div>` +
+			`<div class="${style.extends}"></div>` +
 			`</li>`
 		);
 	});
@@ -279,10 +279,10 @@ describe('render.js Render Processor', () => {
 		testHtml = html.replace(/\n|\t/g, '');
 		testHtml.should.equal(
 			`<li>` +
-			`<div style="${style.description}">${vqfStruct.description}</div>` +
-			`<div style="${style.choiceDescription}">这是问题选项</div>` +
-			`<div style="${style.why}"></div>` +
-			`<div style="${style.extends}"></div>` +
+			`<div class="${style.description}">${vqfStruct.description}</div>` +
+			`<div class="${style.choiceDescription}">这是问题选项</div>` +
+			`<div class="${style.why}"></div>` +
+			`<div class="${style.extends}"></div>` +
 			`</li>`
 		);
 	});
@@ -382,17 +382,17 @@ describe('render.js Render Processor', () => {
 		testHtml.should.equal(
 			(`
 			<li>
-				<div style="${style.description}">${vqfStruct.description}</div>
+				<div class="${style.description}">${vqfStruct.description}</div>
 				<ul>
 					<li>
-						<div style="${style.choiceDescription}">选项一</div>
-						<div style="${style.why}"></div>
-						<div style="${style.extends}"></div>
+						<div class="${style.choiceDescription}">选项一</div>
+						<div class="${style.why}"></div>
+						<div class="${style.extends}"></div>
 					</li>
 					<li>
-						<div style="${style.choiceDescription}">${choiceDescription}</div>
-						<div style="${style.why}">${vqfQuestion[1].why}</div>
-						<div style="${style.extends}"></div>
+						<div class="${style.choiceDescription}">${choiceDescription}</div>
+						<div class="${style.why}">${vqfQuestion[1].why}</div>
+						<div class="${style.extends}"></div>
 					</li>
 				</ul>
 			</li>
@@ -409,8 +409,8 @@ describe('render.js Render Processor', () => {
 		testHtml.should.equal(
 			(`
 			<li>
-				<div style="${style.description}">这是问题描述</div>
-				<div style="${style.why}">这是问题回答</div>
+				<div class="${style.description}">这是问题描述</div>
+				<div class="${style.why}">这是问题回答</div>
 			</li>
 			`).replace(/\n|\t/g, '')
 		);
@@ -447,16 +447,16 @@ describe('render.js Render Processor', () => {
 		testHtml.should.equal(
 			(`
 				<li>
-					<div style="${style.description}">这是问题描述</div>
-					<div style="${style.choiceDescription}">这是问题回答3</div>
-					<div style="${style.why}">这是问题补充回答</div>
-					<div style="${style.extends}">
+					<div class="${style.description}">这是问题描述</div>
+					<div class="${style.choiceDescription}">这是问题回答3</div>
+					<div class="${style.why}">这是问题补充回答</div>
+					<div class="${style.extends}">
 						<ul>
 							<li>
-								<div style="${style.description}">这是继承的问题描述</div>
-								<div style="${style.choiceDescription}">这是继承的问题回答</div>
-								<div style="${style.why}"></div>
-								<div style="${style.extends}"></div>
+								<div class="${style.description}">这是继承的问题描述</div>
+								<div class="${style.choiceDescription}">这是继承的问题回答</div>
+								<div class="${style.why}"></div>
+								<div class="${style.extends}"></div>
 							</li>
 						</ul>
 					</div>
@@ -499,20 +499,20 @@ describe('render.js Render Processor', () => {
 		testHtml.should.equal(
 			(`
 				<li>
-					<div style="${style.description}">这是问题项的描述</div>
+					<div class="${style.description}">这是问题项的描述</div>
 					<ul>
 						<li>
-							<div style="${style.choiceDescription}">多选项2</div>
-							<div style="${style.why}">多选项2的补充描述</div>
-							<div style="${style.extends}">
+							<div class="${style.choiceDescription}">多选项2</div>
+							<div class="${style.why}">多选项2的补充描述</div>
+							<div class="${style.extends}">
 								<ul>
 									<li>
-										<div style="${style.description}">这是继承项的描述</div>
+										<div class="${style.description}">这是继承项的描述</div>
 										<ul>
 											<li>
-												<div style="${style.choiceDescription}">继承的选项2</div>
-												<div style="${style.why}"></div>
-												<div style="${style.extends}"></div>
+												<div class="${style.choiceDescription}">继承的选项2</div>
+												<div class="${style.why}"></div>
+												<div class="${style.extends}"></div>
 											</li>
 										</ul>
 									</li>
