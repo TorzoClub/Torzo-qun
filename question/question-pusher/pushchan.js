@@ -62,16 +62,17 @@ Object.assign(exports, {
 		let render = new Render;
 		this.getStruct((render) => {
 			let mailContent = pusherChan.constructMail(render);
-			// fs.writeFileSync(`${OUTPUT_DIR}/mail.html`, mailContent);
 
 			action.broadcast(config.to, {
 				from: config.mail_opts.auth.user,
 				subject: '噗什酱晚十点',
 				html: mailContent,
-			}, () => {}, (err, retry) => {
+			}, () => {
+				console.info('全部邮件发送完成');
+			}, (err, retry) => {
 				console.warn(err);
 				console.warn('邮件发送失败，30秒后重试');
-				setTimeout(retry, 30000);
+				setTimeout(retry, config.retry_interval);
 			});
 		});
 	},
