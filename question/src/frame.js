@@ -176,18 +176,10 @@ const setHeightTransition = (ele) => {
 	ele.style['transition'] = 'height 0.618s, opacity .5s';
 };
 const removeHeightTransition = (ele) => {
-	ele.style['webkitTransition'] = 'height 0';
-	ele.style['transition'] = 'height 0';
+	ele.style['webkitTransition'] = '';
+	ele.style['transition'] = '';
 };
-const disableTransition = (ele, actionFunc) => {
-	setTimeout(() => {
-		removeHeightTransition(ele);
-		setTimeout(() => actionFunc((callback) => {
-			setHeightTransition(ele);
-			setTimeout(callback, 32);
-		}), 32);
-	}, 32);
-};
+
 const notChecked = (textareaFrame) => {
 	return !$$('[type="radio"]', textareaFrame.parentNode).checked;
 };
@@ -208,15 +200,19 @@ const slide = (bindEle) => {
 	const method = {
 		show(ele = bindEle){
 			ele.style.opacity = '0';
-			setHeightTransition(bindEle);
+			setHeightTransition(ele);
 			setTimeout(() => {
 				ele.style.height = `${ele.scrollHeight}px`;
 				ele.style.opacity = '1';
+
 				setTimeout(() => {
-					disableTransition(ele, (resove) => {
+					removeHeightTransition(ele);
+					setTimeout(() => {
 						ele.style.height = '';
-						resove(() => {});
-					});
+						setTimeout(() => {
+							setHeightTransition(ele);
+						}, 32);
+					}, 32)
 				}, 700);
 			}, 32);
 		},
