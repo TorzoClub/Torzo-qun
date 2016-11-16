@@ -3,7 +3,7 @@
 	 - 可递归
 	 - 100% 测试覆盖率
 */
-
+const striptags = require('striptags');
 
 const is_object = (value) => value !== null && typeof(value) === 'object' && !Array.isArray(value);
 const trueChoiced = (choiced, choiceList) => Number.isInteger(choiced) && choiced >= 0 && choiced < choiceList.length;
@@ -55,6 +55,8 @@ class RenderProcessor extends RenderStyle {
 				why = vqfQuestion.why;
 			}
 		}
+		why = striptags(why);
+		why = why.replace(/\n/g, '<br>');
 
 		let extendsHtml = '';
 		if (choice.extends) {
@@ -69,9 +71,9 @@ class RenderProcessor extends RenderStyle {
 
 		html = `
 		<li>
-			<div class="${style.description}">${htmlentities(description)}</div>
-			<div class="${style.choiceDescription}">${htmlentities(choiceDescription)}</div>
-			<div class="${style.why}">${htmlentities(why)}</div>
+			<div class="${style.description}">${description}</div>
+			<div class="${style.choiceDescription}">${choiceDescription}</div>
+			<div class="${style.why}">${why}</div>
 			<div class="${style.extends}">${extendsHtml}</div>
 		</li>
 		`;
@@ -108,6 +110,8 @@ class RenderProcessor extends RenderStyle {
 					why = questionStruct.why;
 				}
 			}
+			why = striptags(why);
+			why = why.replace(/\n/g, '<br>');
 
 			let extendsHtml = '';
 			if (choice.extends) {
@@ -120,8 +124,8 @@ class RenderProcessor extends RenderStyle {
 
 			block += `
 			<li>
-				<div class="${style.choiceDescription}">${htmlentities(choiceDescription)}</div>
-				<div class="${style.why}">${htmlentities(why)}</div>
+				<div class="${style.choiceDescription}">${choiceDescription}</div>
+				<div class="${style.why}">${why}</div>
 				<div class="${style.extends}">${extendsHtml}</div>
 			</li>
 			`;
@@ -129,7 +133,7 @@ class RenderProcessor extends RenderStyle {
 
 		return `
 		<li>
-			<div class="${style.description}">${htmlentities(description)}</div>
+			<div class="${style.description}">${description}</div>
 			<ul>
 				${block}
 			</ul>
@@ -139,10 +143,12 @@ class RenderProcessor extends RenderStyle {
 
 	renderWhy(struct, vqfQuestion, vqfsCursor){
 		let style = this.backStyle();
+		let why = striptags(vqfQuestion.why);
+		why = why.replace(/\n/g, '<br>');
 		return `
 		<li>
-			<div class="${style.description}">${htmlentities(struct.description)}</div>
-			<div class="${style.why}">${htmlentities(vqfQuestion.why)}</div>
+			<div class="${style.description}">${struct.description}</div>
+			<div class="${style.why}">${why}</div>
 		</li>`;
 	}
 }
@@ -259,7 +265,7 @@ class Render extends RenderRouter {
 			} catch (e) {
 				var structDate = '错误的日期';
 			}
-			html += `<hr><div class="${style.date}"><span>日期：</span><time>${htmlentities(structDate)}</time></div>`;
+			html += `<hr><div class="${style.date}"><span>日期：</span><time>${htmlentities(structDate.toString())}</time></div>`;
 			html += this.renderFetch(vqfDefine, questionItem.struct);
 		});
 		return html;
