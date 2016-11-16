@@ -77,7 +77,7 @@ Object.assign(exports, {
 		});
 	},
 	/* 默认下午十点 */
-	start(date = new Date(2016, 11, 16, 11, 00)){
+	start(date = new Date(2016, 11, 16, 22, 00)){
 		const pThis = this;
 		timer.addTask({
 			time: date,
