@@ -4,11 +4,11 @@
 	 - 100% 测试覆盖率
 */
 const striptags = require('striptags');
+const Entities = require('html-entities').AllHtmlEntities;
+const entities = new Entities;
 
 const is_object = (value) => value !== null && typeof(value) === 'object' && !Array.isArray(value);
 const trueChoiced = (choiced, choiceList) => Number.isInteger(choiced) && choiced >= 0 && choiced < choiceList.length;
-
-const htmlentities = (c) => c.replace(/[\u00A0-\u9999<>\&]/gim, c => '&#' + c.charCodeAt(0) + ';');
 
 class RenderStyle {
 	backStyle(){
@@ -55,7 +55,7 @@ class RenderProcessor extends RenderStyle {
 				why = vqfQuestion.why;
 			}
 		}
-		why = striptags(why);
+		why = entities.encode(why);
 		why = why.replace(/\n/g, '<br>');
 
 		let extendsHtml = '';
@@ -110,7 +110,7 @@ class RenderProcessor extends RenderStyle {
 					why = questionStruct.why;
 				}
 			}
-			why = striptags(why);
+			why = entities.encode(why);
 			why = why.replace(/\n/g, '<br>');
 
 			let extendsHtml = '';
@@ -143,8 +143,9 @@ class RenderProcessor extends RenderStyle {
 
 	renderWhy(struct, vqfQuestion, vqfsCursor){
 		let style = this.backStyle();
-		let why = striptags(vqfQuestion.why);
-		why = why.replace(/\n/g, '<br>');
+		let why = entities.encode(vqfQuestion.why);
+
+		why = why.replace(/\n/g, '<br>\n');
 		return `
 		<li>
 			<div class="${style.description}">${struct.description}</div>
@@ -265,7 +266,7 @@ class Render extends RenderRouter {
 			} catch (e) {
 				var structDate = '错误的日期';
 			}
-			html += `<hr><div class="${style.date}"><span>日期：</span><time>${htmlentities(structDate.toString())}</time></div>`;
+			html += `<hr><div class="${style.date}"><span>日期：</span><time>${entities.encode(structDate.toString())}</time></div>`;
 			html += this.renderFetch(vqfDefine, questionItem.struct);
 		});
 		return html;

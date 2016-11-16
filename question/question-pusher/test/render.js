@@ -2,9 +2,13 @@ const fs = require('fs');
 const Render = require('../render');
 const vqfStruct = require('./define');
 
-const should = require('should');
+const Entities = require('html-entities').AllHtmlEntities;
+const entities = new Entities;
 
 const striptags = require('striptags');
+
+const should = require('should');
+
 
 const OUTPUT_DIR = `${__dirname}/render_output`;
 
@@ -254,11 +258,12 @@ describe('render.js Render Processor', () => {
 		let style = render.backStyle();
 		let html = render.renderSingle(vqfStruct, questionStruct);
 		let testHtml = html.replace(/\n|\t/g, '');
+		let why = entities.encode(questionStruct.why).replace(/\n/g, '<br>');
 		testHtml.should.equal(
 			`<li>` +
 			`<div class="${style.description}">${vqfStruct.description}</div>` +
 			`<div class="${style.choiceDescription}">${vqfStruct.question[questionStruct.choiced].description}</div>` +
-			`<div class="${style.why}">${striptags(questionStruct.why).replace(/\n/g, '<br>')}</div>` +
+			`<div class="${style.why}">${why}</div>` +
 			`<div class="${style.extends}"></div>` +
 			`</li>`
 		);
@@ -283,7 +288,7 @@ describe('render.js Render Processor', () => {
 			`<li>` +
 			`<div class="${style.description}">${vqfStruct.description}</div>` +
 			`<div class="${style.choiceDescription}">这是问题选项</div>` +
-			`<div class="${striptags(style.why).replace(/\n/g, '<br>')}"></div>` +
+			`<div class="${style.why}"></div>` +
 			`<div class="${style.extends}"></div>` +
 			`</li>`
 		);
@@ -394,7 +399,7 @@ describe('render.js Render Processor', () => {
 					</li>
 					<li>
 						<div class="${style.choiceDescription}">${choiceDescription}</div>
-						<div class="${style.why}">${striptags(vqfQuestion[1].why).replace(/\n/g, '<br>')}</div>
+						<div class="${style.why}">${entities.encode(vqfQuestion[1].why).replace(/\n/g, '<br>')}</div>
 						<div class="${style.extends}"></div>
 					</li>
 				</ul>
@@ -413,7 +418,7 @@ describe('render.js Render Processor', () => {
 			(`
 			<li>
 				<div class="${style.description}">这是问题描述</div>
-				<div class="${style.why}">${striptags('这是问题回答').replace(/\n/g, '<br>')}</div>
+				<div class="${style.why}">${entities.encode('这是问题回答').replace(/\n/g, '<br>')}</div>
 			</li>
 			`).replace(/\n|\t/g, '')
 		);
@@ -452,7 +457,7 @@ describe('render.js Render Processor', () => {
 				<li>
 					<div class="${style.description}">这是问题描述</div>
 					<div class="${style.choiceDescription}">这是问题回答3</div>
-					<div class="${style.why}">${striptags('这是问题补充回答').replace(/\n/g, '<br>')}</div>
+					<div class="${style.why}">${entities.encode('这是问题补充回答').replace(/\n/g, '<br>')}</div>
 					<div class="${style.extends}">
 						<ul class="${style.vqfs}">
 							<li>
@@ -507,7 +512,7 @@ describe('render.js Render Processor', () => {
 					<ul>
 						<li>
 							<div class="${style.choiceDescription}">多选项2</div>
-							<div class="${style.why}">${striptags('多选项2的补充描述').replace(/\n/g, '<br>')}</div>
+							<div class="${style.why}">${entities.encode('多选项2的补充描述').replace(/\n/g, '<br>')}</div>
 							<div class="${style.extends}">
 								<ul class="${style.vqfs}">
 									<li>
