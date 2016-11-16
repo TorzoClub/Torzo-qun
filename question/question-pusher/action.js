@@ -49,7 +49,7 @@ Object.assign(exports, {
 			this.asyncEach(mailList, (fetch, status) => {
 				this.sendMessage(
 					this.backFrom('pushChan', email.from), fetch.item, email.subject, email.html,
-					() => setTimeout(fetch.next, 2000),
+					() => setTimeout(fetch.next, config.send_interval),
 					(err) => retry(err, fetch.retry)
 				)
 			}, allDone);
