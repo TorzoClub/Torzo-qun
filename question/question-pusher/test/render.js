@@ -142,12 +142,6 @@ describe('render.js TypeRouter', () => {
 });
 
 describe('render.js RenderRouter', () => {
-	const vqfStruct = {
-
-	};
-	const vqfQuestion = {
-
-	};
 	it('vqfQuestion 不是一个对象或者数组', () => {
 		let render = new Render;
 		let questionArr = [
@@ -532,5 +526,30 @@ describe('render.js Render Processor', () => {
 
 		fs.writeFileSync(`${OUTPUT_DIR}/multi.html`, result);
 
+	});
+
+	it('renderFetch 缺少 question', () => {
+		let render = new Render;
+		let vqfStruct = {
+			description: '这是问题项的描述',
+			questions: [
+				'多选项1',
+				{	description: '多选项2',
+					type: 'why',
+					extends: [
+						{	description: '这是继承项的描述',
+							questions: [
+								'继承的选项1',
+								'继承的选项2'
+							]
+						}
+					]
+				}
+			]
+		};
+
+		(() => {
+			render.renderFetch(vqfStruct);
+		}).should.throw('缺少 question 参数');
 	});
 });
