@@ -26,6 +26,17 @@ class Store extends SQL {
 		$sql = "INSERT INTO `{$table}` (json, time) VALUES (?, now())";
 		return $this->preInsert($sql, array($json));
 	}
+
+	static function backTodayString(){
+		return (int)$y . '-' . (int)$m . '-' . (int)$d;
+	}
+
+	public function getToday(){
+		$table = self::$QUESTIONTABLE;
+		$sql = "SELECT * FROM `{$table}` WHERE TO_DAYS(now()) - TO_DAYS(`time`) <= 1";
+
+		return $this->preFetchAll($sql);
+	}
 }
 
 ?>
