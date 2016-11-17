@@ -33,7 +33,7 @@ class Store extends SQL {
 
 	public function getToday(){
 		$table = self::$QUESTIONTABLE;
-		$sql = "SELECT * FROM `{$table}` WHERE TO_DAYS(now()) - TO_DAYS(`time`) <= 1";
+		$sql = "SELECT * FROM `question` WHERE `time` >=(DATE_SUB(now(), INTERVAL 24 HOUR))";
 
 		return $this->preFetchAll($sql);
 	}
