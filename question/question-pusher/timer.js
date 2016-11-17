@@ -7,11 +7,10 @@ Object.assign(exports, {
 	/** 比较是否同时同分
 	* @param Date first 比较的日期 如果不存在则抛出一个错误
 	* @param Date second 比较的日期 如果不存在则抛出一个错误
-	* @return boolean 是否同日同时同分
+	* @return boolean 是否同时同分
 	*/
 	compareTime(first = throwCompareTimeArgumentError(), second = throwCompareTimeArgumentError()){
 		return (
-			(first.getDate() === second.getDate()) &&
 			(first.getHours() === second.getHours()) &&
 			(first.getMinutes() === second.getMinutes())
 		);
