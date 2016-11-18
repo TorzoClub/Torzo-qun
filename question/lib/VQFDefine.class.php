@@ -64,12 +64,12 @@ $questionDefine = array(
 		)
 	),
 	array(
-		'description' => '你多久来一次同装？',
+		'description' => '你一般多久时间去同装会发言一次？',
 		'question' => array(
-			'每天都来',
-			GetWhyNotGotoTorzoQunExtends('隔几天来一次'),
-			GetWhyNotGotoTorzoQunExtends('隔几周来一次'),
-			GetWhyNotGotoTorzoQunExtends('至少一个月来一次'),
+			'每天都去',
+			GetWhyNotGotoTorzoQunExtends('隔几天去一次'),
+			GetWhyNotGotoTorzoQunExtends('隔几周去一次'),
+			GetWhyNotGotoTorzoQunExtends('至少一个月去一次'),
 			array(
 				'description' => '一直在偷窥，但不发言',
 				'type' => 'choice',
