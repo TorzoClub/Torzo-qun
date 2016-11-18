@@ -36,3 +36,11 @@ hr {
 #comment-list {
 	margin: 2em 0em 2em .5em;
 }
+
+.item-hide > article .contact:after {
+    margin-left: 0.5em;
+}
+.item-hide > article > .contact > img {
+  height: 96px;
+  width: 96px;
+}
