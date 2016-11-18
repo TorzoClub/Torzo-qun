@@ -208,24 +208,25 @@ const slide = (bindEle) => {
 				setTimeout(() => {
 					removeHeightTransition(ele);
 					setTimeout(() => {
-						ele.style.height = '';
-						setTimeout(() => {
-							setHeightTransition(ele);
-						}, 32);
-					}, 32)
-				}, 700);
-			}, 32);
+						if (!ele.hided) {
+							ele.style.height = '';
+						}
+						setHeightTransition(ele);
+					}, 17)
+				}, 618);
+			}, 17);
 		},
 		hide(ele = bindEle){
 			if (ele.style.height === '0px') {
 				return ;
 			}
+			ele.hided = true;
 			ele.style.height = `${ele.scrollHeight}px`;
 			ele.style.opacity = '1';
 			setTimeout(() => {
 				ele.style.opacity = '0';
 				ele.style.height = '0px';
-			}, 32);
+			}, 17);
 		},
 		close(ele = bindEle){
 			ele.style.height = '0px';
