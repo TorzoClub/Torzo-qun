@@ -527,8 +527,13 @@ const bindSubmit = (callback) => {
 			var vqfCollection = vqf.collect();
 			var data = JSON.stringify(vqfCollection);
 		} catch (e) {
-			tipper.error(e);
-			throw e;
+			if (e.message === '存在未填项') {
+				tipper.warn(e);
+				return false;
+			} else {
+				tipper.error(e);
+				throw e;
+			}
 		} finally {
 			console.info(vqfCollection);
 		}
