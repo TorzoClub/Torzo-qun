@@ -521,6 +521,7 @@ const setQuestion = (loaded) => {
 	}});
 };
 /* 提交按钮的初始化 */
+let inPostProgress = false;
 const bindSubmit = (callback) => {
 	$$('button').onclick = function (e){
 		try {
@@ -537,8 +538,11 @@ const bindSubmit = (callback) => {
 		} finally {
 			console.info(vqfCollection);
 		}
-
+		if (inPostProgress) {
+			alert('正在发送中……请不要重复提交（如果多点几次还这样的话……等多一会儿再试试...）');
+		}
 		try {
+			inPostProgress = true;
 			$.rjax('vqfprocessor.php', {
 				method: 'POST',
 				data: { json: data, },
