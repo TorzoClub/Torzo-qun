@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "description": "use mail push Torzo-Question topic",
   "main": "index.js",
+  "bin": {
+    "push-chan": "./bin/push-chan.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test"
   },
   "author": "vec",
   "license": "MIT",
@@ -16,6 +19,6 @@
     "should": "^11.1.1",
     "striptags": "^2.1.1",
     "superagent": "^2.3.0",
-    "util": "^0.10.3"
+    "yargs": "^6.4.0"
   }
 }
