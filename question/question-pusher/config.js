@@ -1,4 +1,4 @@
-module.exports = {
+let config = {
 	mail_opts: {
 		host: 'smtp.example.com',
 		port: 465,
@@ -12,7 +12,10 @@ module.exports = {
 	api_url: 'http://vec.moe/qun/question/',
 	test_api_url: 'http://localhost/qun/question/',
 
-	/* 广播邮件的发送间隔（毫秒） */
+	/* 每日广播时间 */
+	broadcast_time: '22:00',
+
+	/* 邮件广播发送间隔（毫秒） */
 	send_interval: 10000,
 
 	/* 重试间隔（毫秒） */
@@ -26,3 +29,5 @@ module.exports = {
 	/* 测试用的邮箱地址 */
 	testReceive: 'testreceive@torzo.com',
 };
+
+Object.assign(exports, config);
