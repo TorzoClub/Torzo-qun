@@ -8,7 +8,7 @@
   npm install push-chan
 ```
 
-## 运行程序
+# 运行程序
 
 ```
   push-chan
