@@ -57,23 +57,25 @@ Object.assign(exports, {
 			callback(e);
 		});
 	},
-	sendMail(){
-		console.info('开始准备广播邮件');
+	sendMail(allDone){
+		console.info(`${(new Date).toLocaleString()} 开始准备广播邮件...`);
 
 		let render = new Render;
 		this.getStruct((render) => {
 			if (render instanceof Render) {
+				console.info(`${(new Date).toLocaleString()} 已收集问卷信息，开始广播...`);
 				let mailContent = pusherChan.constructMail(render);
 
 				action.broadcast(config.to, {
 					from: config.mail_opts.auth.user,
-					subject: '噗什酱晚十点',
+					subject: '噗什报告',
 					html: mailContent,
 				}, () => {
-					console.info('全部邮件发送完成');
+					console.info(`${(new Date).toLocaleString()} 全部广播邮件发送完成`);
+					allDone && allDone();
 				}, (err, retry) => {
 					console.warn(err);
-					console.warn('邮件发送失败，30秒后重试');
+					console.info(`${(new Date).toLocaleString()} 广播邮件发送失败，30秒后重试`);
 					setTimeout(retry, config.retry_interval);
 				});
 			} else {
@@ -84,9 +86,11 @@ Object.assign(exports, {
 			}
 		});
 	},
+	throwNoDate(){
+		throw new Error('未指派日期');
+	},
 	/* 默认下午十点 */
-	start(date = new Date(2016, 11, 16, 22, 00)){
-		console.log('噗什广播时间是：', date);
+	start(date = this.throwNoDate()){
 		const pThis = this;
 		timer.addTask({
 			time: date,
