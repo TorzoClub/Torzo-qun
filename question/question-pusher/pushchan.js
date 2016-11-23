@@ -55,29 +55,38 @@ Object.assign(exports, {
 			});
 		}, (e) => {
 			callback(e);
-			throw e;
 		});
 	},
 	sendMail(){
+		console.info('开始准备广播邮件');
+
 		let render = new Render;
 		this.getStruct((render) => {
-			let mailContent = pusherChan.constructMail(render);
+			if (render instanceof Render) {
+				let mailContent = pusherChan.constructMail(render);
 
-			action.broadcast(config.to, {
-				from: config.mail_opts.auth.user,
-				subject: '噗什酱晚十点',
-				html: mailContent,
-			}, () => {
-				console.info('全部邮件发送完成');
-			}, (err, retry) => {
-				console.warn(err);
-				console.warn('邮件发送失败，30秒后重试');
-				setTimeout(retry, config.retry_interval);
-			});
+				action.broadcast(config.to, {
+					from: config.mail_opts.auth.user,
+					subject: '噗什酱晚十点',
+					html: mailContent,
+				}, () => {
+					console.info('全部邮件发送完成');
+				}, (err, retry) => {
+					console.warn(err);
+					console.warn('邮件发送失败，30秒后重试');
+					setTimeout(retry, config.retry_interval);
+				});
+			} else {
+				let args = arguments;
+					setTimeout(() => {
+						this.getStruct(...args);
+					}, 3 * 60 * 1000);	//三分钟后重试
+			}
 		});
 	},
 	/* 默认下午十点 */
 	start(date = new Date(2016, 11, 16, 22, 00)){
+		console.log('噗什广播时间是：', date);
 		const pThis = this;
 		timer.addTask({
 			time: date,
