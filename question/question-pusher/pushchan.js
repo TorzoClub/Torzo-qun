@@ -1,6 +1,6 @@
 const package = require('./package');
 	config = require('./config'),
-	PusherOutput = require('./output'),
+	PushChanOutput = require('./output'),
 	Render = require('./render'),
 	timer = require('./timer'),
 	model = require('./model'),
@@ -8,7 +8,7 @@ const package = require('./package');
 	fs = require('fs'),
 	EventProxy = require('eventproxy');
 
-Object.assign(exports, {
+const pushChan = {
 	constructMail(render){
 		if (render instanceof Error) {
 			let html = `
@@ -20,7 +20,7 @@ Object.assign(exports, {
 			</pre><code>`;
 			return html;
 		} else if (Array.isArray(render.question) && render.question.length) {
-			let po = new PusherOutput;
+			let po = new PushChanOutput;
 
 			let html = render.renderQuestion();
 			let css = fs.readFileSync(`${__dirname}/style/mail.css`).toString();
@@ -64,7 +64,7 @@ Object.assign(exports, {
 		this.getStruct((render) => {
 			if (render instanceof Render) {
 				console.info(`${(new Date).toLocaleString()} 已收集问卷信息，开始广播...`);
-				let mailContent = pusherChan.constructMail(render);
+				let mailContent = pushChan.constructMail(render);
 
 				action.broadcast(config.to, {
 					from: config.mail_opts.auth.user,
@@ -99,6 +99,7 @@ Object.assign(exports, {
 			},
 		});
 	},
-});
+};
 
+module.exports = pushChan;
 timer.start(500);
