@@ -1,0 +1,5 @@
+node_modules/*
+coverage/*
+
+test/render_output
+test/test_output
