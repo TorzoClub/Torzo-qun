@@ -37,32 +37,55 @@ const pushChan = {
 			return html;
 		}
 	},
-	getStruct(callback){
-		let render = new Render;
-		model.getQuestionDefine(questionDefine => {
-			model.getTodayQuestion(todayQuestion => {
-				try {
-					render.loadStruct(questionDefine, todayQuestion);
-				} catch (e) {
-					if (e.message !== 'vqfQuestion 不能是空数组') {
-						throw e;
-					}
-				}
-				callback(render);
-			}, (e) => {
-				callback(e);
+	getStruct(funcAction){
+		let args = arguments,
+			pThis = this,
+			render = new Render;
+
+		const fail = e => {
+			if (typeof(funcAction.fail) === 'function') {
+				funcAction.fail(function (){
+					pThis.getStruct(...args);
+				}, e);
+			} else {
+				setTimeout(progress.exit, 382);
 				throw e;
+			}
+		};
+		const progress = () => {
+			model.getQuestionDefine(questionDefine => {
+				model.getTodayQuestion(todayQuestion => {
+					try {
+						render.loadStruct(questionDefine, todayQuestion);
+					} catch (e) {
+						if (e.message !== 'vqfQuestion 不能是空数组') {
+							setTimeout(progress.exit, 382);
+							throw e;
+						}
+					}
+					funcAction.ok(render);
+				}, (e) => {
+					fail(e);
+				});
+			}, (e) => {
+				fail(e);
 			});
-		}, (e) => {
-			callback(e);
-		});
+		};
+		if (typeof(funcAction.pre) === 'function') {
+			funcAction.pre(progress);
+		} else {
+			progress();
+		}
 	},
 	sendMail(allDone){
-		console.info(`${(new Date).toLocaleString()} 开始准备广播邮件...`);
-
 		let render = new Render;
-		this.getStruct((render) => {
-			if (render instanceof Render) {
+
+		this.getStruct({
+			pre(next){
+				console.info(`${(new Date).toLocaleString()} 开始准备广播邮件...`);
+				next();
+			},
+			ok(render){
 				console.info(`${(new Date).toLocaleString()} 已收集问卷信息，开始广播...`);
 				let mailContent = pushChan.constructMail(render);
 
@@ -78,12 +101,12 @@ const pushChan = {
 					console.info(`${(new Date).toLocaleString()} 广播邮件发送失败，30秒后重试`);
 					setTimeout(retry, config.retry_interval);
 				});
-			} else {
-				let args = arguments;
-					setTimeout(() => {
-						this.getStruct(...args);
-					}, 3 * 60 * 1000);	//三分钟后重试
-			}
+			},
+			fail(next, err){
+				let retryInterval = config.retry_get_struct_interval;
+				console.info(`${(new Date).toLocaleString()} 准备广播邮件失败，${retryInterval / 1000} 秒后重试`);
+				setTimeout(next, retryInterval);
+			},
 		});
 	},
 	throwNoDate(){
