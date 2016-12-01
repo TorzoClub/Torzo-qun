@@ -62,7 +62,7 @@ describe('action.js sendMessage相关', () => {
 			console.error(...errArgs);
 		};
 		let from = action.backFrom(config.name, config.mail_opts.auth.user);
-		action.sendMessage(from, config.testReceive, 'testTitle', 'testContent', () => {
+		action.sendMessage(from, config.test_receive, 'testTitle', 'testContent', () => {
 			done();
 		}, error);
 	});
@@ -116,7 +116,7 @@ describe('action.js sendMessage相关', () => {
 		let from = action.backFrom(config.name, config['mail_opts'].auth.user),
 			subject = 'test: broadcast 广播邮件',
 			html = 'content: broadcast 广播邮件';
-		action.broadcast([config['testReceive']], {from, subject, html}, () => {
+		action.broadcast([config['test_receive']], {from, subject, html}, () => {
 			done();
 		}, () => {});
 	});
@@ -136,7 +136,7 @@ describe('action.js sendMessage相关', () => {
 			},
 			(retry) => {
 				++retryCount;
-				mailList[0] = config['testReceive'];
+				mailList[0] = config['test_receive'];
 				retry();
 			}
 		);
