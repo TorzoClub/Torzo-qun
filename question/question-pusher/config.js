@@ -22,7 +22,7 @@ let config = {
 	retry_interval: 60000,
 
 	/* 获取 vqfQuestion 数据重试间隔（毫秒） */
-	retry_get_struct: 60000,
+	retry_get_struct_interval: 60000,
 
 	/* 接收邮件的列表 */
 	to: [
