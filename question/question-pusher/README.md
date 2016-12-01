@@ -5,7 +5,7 @@
 # 安装
 
 ```
-  npm install push-chan
+  npm install -g push-chan
 ```
 
 # 运行程序

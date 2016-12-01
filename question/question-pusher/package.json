@@ -1,8 +1,8 @@
 {
   "name": "push-chan",
-  "version": "0.2.2",
+  "version": "0.2.6",
   "description": "use mail push Torzo-Question topic",
-  "main": "index.js",
+  "main": "./index.js",
   "bin": {
     "push-chan": "./bin/push-chan.js"
   },
