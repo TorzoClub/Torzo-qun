@@ -1,6 +1,7 @@
 const should = require('should');
 const config = require('../config');
 const model = require('../model');
+const fs = require('fs');
 
 describe('model.js', () => {
 	it('jsonParserRouter 返回一个对象', () => {
@@ -29,6 +30,15 @@ describe('model.js', () => {
 		} else {
 			done();
 		}
+	});
+
+	it('parseQuestions 处理获取来的 vqfQuestion', (done) => {
+		let vqfQuestionJson = fs.readFileSync(`${__dirname}/test_vqfQuestions.json`).toString();
+		model.parseQuestions(vqfQuestionJson, function (){
+			done();
+		}, function (e) {
+			throw e;
+		});
 	});
 
 	it('getQuestionDefine 获取 Define 对象', (done) => {
