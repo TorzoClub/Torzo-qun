@@ -9,7 +9,7 @@ const yargs = require('yargs')
 		describe: '参数配置',
 	})
 	.option('time', {
-		describe: '指派广播时间，格式是 hh:mm:ss'
+		describe: '指派广播时间，格式为 hh:mm 或者 hh:mm:ss （ss 会被忽略）'
 	})
 	.example('push-chan --time 23:59')
 
