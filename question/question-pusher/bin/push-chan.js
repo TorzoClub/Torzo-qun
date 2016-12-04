@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 const {package, config, action, pushChan} = require('../index');
 
 const editor = require('editor');
