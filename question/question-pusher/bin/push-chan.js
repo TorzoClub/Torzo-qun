@@ -88,7 +88,10 @@ else if (argv.config) {
 					<p>有 bug 可以到 <a href="https://github.com/TorzoClub/Torzo-qun/issues" target="_blank"> 项目主页 </a> 与作者谈笑风生</p>
 					<footer>version ${package.version}</footer>`,
 			},
-			pushInit,
+			function (){
+				console.info('启动消息已全部发送');
+				pushInit();
+			},
 			(err, retry) => {
 				console.warn(err);
 				console.warn('初始化邮件未成功发送');
