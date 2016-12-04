@@ -26,11 +26,11 @@ let config = {
 
 	/* 接收邮件的列表 */
 	to: [
-		'receive@torzo.club',
+		'receive@torzo.club'
 	],
 
 	/* 测试用的邮箱地址 */
-	test_receive: 'testReceive@torzo.club',
+	test_receive: 'test_receive@torzo.club',
 };
 
 Object.assign(exports, config);
