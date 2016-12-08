@@ -99,7 +99,7 @@ else if (argv.config) {
 	if (argv.notification) {
 		console.prelog('开始发送启动消息……');
 		let html = `
-			<p>${config.name} 已经启动了，推送时间应该是 ${startDate.toLocaleTimeString()}</p>
+			<p>${config.name} 已经启动了，推送时间应该是 ${startDate.toTimeString()}</p>
 			<p>
 				噗什配置：
 				<ul>
