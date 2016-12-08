@@ -23,6 +23,14 @@ const yargs = require('yargs')
 		describe: '启动后广播问卷信息',
 	})
 
+	.option('empty-not-push', {
+		describe: '如果问卷信息为空则不广播'
+	})
+
+	.option('url', {
+		describe: '指定回调地址，默认为 config.js 中的 api_url'
+	})
+
 	.option('v', {
 		describe: '程序版本',
 	})
@@ -36,13 +44,25 @@ const yargs = require('yargs')
 
 const argv = yargs.argv;
 
+if (argv['empty-not-push']) {
+	config.EMPTY_NOT_PUSH = true;
+}
+if (argv.url) {
+	if (typeof(argv.url) !== 'string') {
+		console.warn('url 参数错误');
+		process.exit(-1);
+	} else {
+		config.api_url = argv.url;
+	}
+}
+
 if (argv.version) {
 	console.log(`${package.version}`);
 	process.exit(0);
 }
 else if (argv.config) {
 	editor(`${__dirname}/../config.js`, function (code, sig) {
-		console.info('config is saved.');
+		console.info('重新启动程序以应用设置');
 		process.exit(0);
 	});
 } else {
@@ -77,7 +97,7 @@ else if (argv.config) {
 
 	/* 如果有 notification 参数 */
 	if (argv.notification) {
-		console.info('开始发送启动消息……');
+		console.prelog('开始发送启动消息……');
 		action.broadcast(config.to,
 			{
 				from: config.mail_opts.auth.user,
@@ -89,12 +109,12 @@ else if (argv.config) {
 					<footer>version ${package.version}</footer>`,
 			},
 			function (){
-				console.info('启动消息已全部发送');
+				console.prelog('启动消息已全部发送');
 				pushInit();
 			},
 			(err, retry) => {
+				console.prelog('初始化邮件未成功发送');
 				console.warn(err);
-				console.warn('初始化邮件未成功发送');
 				process.exit(-1);
 			}
 		);

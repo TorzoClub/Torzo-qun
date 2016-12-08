@@ -8,16 +8,18 @@ const package = require('./package');
 	fs = require('fs'),
 	EventProxy = require('eventproxy');
 
+const envir = {	};
+
 const pushChan = {
 	constructMail(render){
 		if (render instanceof Error) {
 			let html = `
 			噗什酱内部错误：
-			<code><pre>
-			${render.name} <br>
-			${render.message} <br>
+			<pre><code>
+			${render.name}
+			${render.message}
 			${render.stack}
-			</pre><code>`;
+			</code></pre>`;
 			return html;
 		} else if (Array.isArray(render.question) && render.question.length) {
 			let po = new PushChanOutput;
@@ -48,33 +50,31 @@ const pushChan = {
 					pThis.getStruct(...args);
 				}, e);
 			} else {
-				setTimeout(progress.exit, 382);
+				setTimeout(process.exit, 382);
 				throw e;
 			}
 		};
-		const progress = () => {
+		const processor = () => {
 			model.getQuestionDefine(questionDefine => {
 				model.getTodayQuestion(todayQuestion => {
 					try {
 						render.loadStruct(questionDefine, todayQuestion);
 					} catch (e) {
 						if (e.message !== 'vqfQuestion 不能是空数组') {
-							setTimeout(progress.exit, 382);
+							setTimeout(process.exit, 382);
 							throw e;
+						} else if (funcAction.empty) {
+							return funcAction.empty(() => funcAction.ok(render));
 						}
 					}
 					funcAction.ok(render);
-				}, (e) => {
-					fail(e);
-				});
-			}, (e) => {
-				fail(e);
-			});
+				}, fail);
+			}, fail);
 		};
 		if (typeof(funcAction.pre) === 'function') {
-			funcAction.pre(progress);
+			funcAction.pre(processor);
 		} else {
-			progress();
+			processor();
 		}
 	},
 	sendMail(allDone){
@@ -82,11 +82,18 @@ const pushChan = {
 
 		this.getStruct({
 			pre(next){
-				console.info(`${(new Date).toLocaleString()} 开始准备广播邮件...`);
+				console.prelog('开始准备广播邮件...');
 				next();
 			},
+			empty(next){
+				if (config.EMPTY_NOT_PUSH) {
+					console.prelog('问卷信息为空，并且噗什设置为不推送空问卷，故中止广播');
+				} else {
+					next();
+				}
+			},
 			ok(render){
-				console.info(`${(new Date).toLocaleString()} 已收集问卷信息，开始广播...`);
+				console.prelog(`已收集问卷信息，开始广播...`);
 				let mailContent = pushChan.constructMail(render);
 
 				action.broadcast(config.to, {
@@ -94,17 +101,18 @@ const pushChan = {
 					subject: '噗什报告',
 					html: mailContent,
 				}, () => {
-					console.info(`${(new Date).toLocaleString()} 全部广播邮件发送完成`);
+					console.prelog('全部广播邮件发送完成');
 					allDone && allDone();
 				}, (err, retry) => {
+					let retryInterval = config.retry_interval;
 					console.warn(err);
-					console.info(`${(new Date).toLocaleString()} 广播邮件发送失败，30秒后重试`);
-					setTimeout(retry, config.retry_interval);
+					console.prelog(`广播邮件发送失败，${retryInterval / 1000} 秒后重试`);
+					setTimeout(retry, retryInterval);
 				});
 			},
 			fail(next, err){
 				let retryInterval = config.retry_get_struct_interval;
-				console.info(`${(new Date).toLocaleString()} 准备广播邮件失败，${retryInterval / 1000} 秒后重试`);
+				console.prelog(`准备广播邮件失败，${retryInterval / 1000} 秒后重试`);
 				setTimeout(next, retryInterval);
 			},
 		});

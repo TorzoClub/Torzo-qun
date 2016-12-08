@@ -24,6 +24,9 @@ let config = {
 	/* 获取 vqfQuestion 数据重试间隔（毫秒） */
 	retry_get_struct_interval: 60000,
 
+	/* 如果问卷信息为空则不广播 */
+	EMPTY_NOT_PUSH: false,
+
 	/* 接收邮件的列表 */
 	to: [
 		'receive@torzo.club'
