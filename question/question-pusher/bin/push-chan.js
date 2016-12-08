@@ -66,8 +66,8 @@ else if (argv.config) {
 		process.exit(0);
 	});
 } else {
-	/* 如果有指配日期 */
 	const INVALID_DATE = (new Date('badDateTime')).toString();
+	/* 如果有指配 time 参数 */
 	if (argv.time) {
 		var startDate = new Date(`1984-09-09 ${argv.time}`);
 		if (startDate.toString() === INVALID_DATE ) {
@@ -98,15 +98,28 @@ else if (argv.config) {
 	/* 如果有 notification 参数 */
 	if (argv.notification) {
 		console.prelog('开始发送启动消息……');
+		let html = `
+			<p>${config.name} 已经启动了，推送时间应该是 ${startDate.toLocaleTimeString()}</p>
+			<p>
+				噗什配置：
+				<ul>
+					<li>邮件广播发送间隔：${config.send_interval / 1000} 秒</li>
+					<li>邮件发送重试间隔：${config.retry_interval / 1000} 秒</li>
+					<li>vqf 回调地址：<a href="${config.api_url}">${config.api_url}</a></li>
+					<li>获取 vqfQuestion 数据重试间隔：${config.retry_get_struct_interval / 1000} 秒</li>
+					<li>空问卷不推送：${config.EMPTY_NOT_PUSH}</li>
+					<li>订阅人数：${config.to.length}</li>
+				</ul>
+			</p>
+			<p>还有，请不要回复邮件，你的真诚是打动不了程序的</p>
+			<p>有 bug 可以到 <a href="https://github.com/TorzoClub/Torzo-qun/issues" target="_blank"> 项目主页 </a> 与作者谈笑风生</p>
+			<footer>version ${package.version}</footer>`;
+
 		action.broadcast(config.to,
 			{
 				from: config.mail_opts.auth.user,
 				subject: '噗什酱已经启动',
-				html: `
-					<p>${config.name} 已经启动了，你现在只需守在时钟前等着晚上十点就行了</p>
-					<p>还有，请不要回复邮件，你的真诚是打动不了程序的</p>
-					<p>有 bug 可以到 <a href="https://github.com/TorzoClub/Torzo-qun/issues" target="_blank"> 项目主页 </a> 与作者谈笑风生</p>
-					<footer>version ${package.version}</footer>`,
+				html,
 			},
 			function (){
 				console.prelog('启动消息已全部发送');
