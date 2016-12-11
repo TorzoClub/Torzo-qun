@@ -2,4 +2,12 @@ node_modules/*
 coverage/*
 
 test/render_output
+test/render_output_1
 test/test_output
+
+test/define.json
+test/pushchan.js
+
+data.json
+mail.html
+npm-debug.log
