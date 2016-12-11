@@ -83,7 +83,7 @@ else if (argv.config) {
 	}
 
 	console.info(`当前系统时间是：\t${(new Date).toLocaleTimeString()}`);
-	console.info(`广播邮件的发送时间是：\t${startDate.toLocaleTimeString()}`);
+	console.info(`广播邮件的发送时间是：\t${startDate.toTimeString()}`);
 
 	var pushInit = function () {
 		if (argv.fetch) {
