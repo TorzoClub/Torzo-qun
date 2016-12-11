@@ -54,6 +54,9 @@ const pushChan = {
 				throw e;
 			}
 		};
+		const end = () => {
+			funcAction.end();
+		};
 		const processor = () => {
 			model.getQuestionDefine(questionDefine => {
 				model.getTodayQuestion(todayQuestion => {
@@ -65,10 +68,10 @@ const pushChan = {
 							throw e;
 						}
 						if (funcAction.empty) {
-							return funcAction.empty(() => funcAction.ok(render), () => funcAction.end());
+							return funcAction.empty(() => funcAction.ok(render, end), end);
 						}
 					}
-					funcAction.ok(render, () => funcAction.end());
+					funcAction.ok(render, end);
 				}, fail);
 			}, fail);
 		};
