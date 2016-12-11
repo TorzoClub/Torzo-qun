@@ -63,11 +63,12 @@ const pushChan = {
 						if (e.message !== 'vqfQuestion 不能是空数组') {
 							setTimeout(process.exit, 382);
 							throw e;
-						} else if (funcAction.empty) {
-							return funcAction.empty(() => funcAction.ok(render));
+						}
+						if (funcAction.empty) {
+							return funcAction.empty(() => funcAction.ok(render), () => funcAction.end());
 						}
 					}
-					funcAction.ok(render);
+					funcAction.ok(render, () => funcAction.end());
 				}, fail);
 			}, fail);
 		};
@@ -85,14 +86,15 @@ const pushChan = {
 				console.prelog('开始准备广播邮件...');
 				next();
 			},
-			empty(next){
+			empty(next, end){
 				if (config.EMPTY_NOT_PUSH) {
 					console.prelog('问卷信息为空，并且噗什设置为不推送空问卷，故中止广播');
+					end();
 				} else {
 					next();
 				}
 			},
-			ok(render){
+			ok(render, end){
 				console.prelog(`已收集问卷信息，开始广播...`);
 				let mailContent = pushChan.constructMail(render);
 
@@ -102,7 +104,7 @@ const pushChan = {
 					html: mailContent,
 				}, () => {
 					console.prelog('全部广播邮件发送完成');
-					allDone && allDone();
+					end();
 				}, (err, retry) => {
 					let retryInterval = config.retry_interval;
 					console.warn(err);
@@ -110,10 +112,13 @@ const pushChan = {
 					setTimeout(retry, retryInterval);
 				});
 			},
-			fail(next, err){
+			end(){
+				allDone && allDone();
+			},
+			fail(retryHandle, err){
 				let retryInterval = config.retry_get_struct_interval;
 				console.prelog(`准备广播邮件失败，${retryInterval / 1000} 秒后重试`);
-				setTimeout(next, retryInterval);
+				setTimeout(retryHandle, retryInterval);
 			},
 		});
 	},
