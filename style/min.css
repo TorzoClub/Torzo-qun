@@ -9,7 +9,7 @@
 }
 
 .item-hide > article {
-	padding: 1em;
+	padding: 2em 1em;
 	width: calc(100% - 1em - 1em);
 }
 

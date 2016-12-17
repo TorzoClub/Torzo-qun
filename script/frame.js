@@ -39,7 +39,8 @@ function initIndex(){
 			} else {
 				slaveEle.style.transition = 'height 1s, opacity .618s';
 				slaveEle.style.webkitTransition = 'height 1s, opacity .618s';
-				$$('.item-hide')[i].style.height = storeHeight + 'px';
+
+				$$('.item-hide')[i].style.height = $$('.item-hide')[i].scrollHeight + 'px';
 				$$('.item-hide')[i].style.opacity = 1;
 
 				ele.classList.add('clicked');
