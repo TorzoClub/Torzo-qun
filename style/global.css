@@ -26,8 +26,8 @@ body {
 
 	width: 800px;
 	margin: auto;
-	font-family: "courier", "DengXian", "等线", "黑体";
-	font-size: 1.25em;
+	font-family: "courier", "DengXian", "微软雅黑", "等线", "华文细黑", "黑体";
+	font-size: 16px;
 	font-weight: 400;
 	max-width: 800px;
 
@@ -97,7 +97,7 @@ body {
 .item-title {
 	cursor: pointer;
 	font-size: 2em;
-	font-family: 'Courier', 'Hiragino Sans GB', 'Microsoft JhengHei', 'WenQuanYi Microhei', '黑体';
+	font-family: "Noto Sans CJK SC", "Source Han Sans CN", "courier", "Microsoft JhengHei", DengXian, "微软雅黑", "黑体";
 	font-weight: 100;
 	padding: 6px 16px;
 	padding-left: 0;
@@ -258,10 +258,10 @@ h6 {
 
 h1, h2, h3, h4, h5, h6 {
 	font-family: "courier", "Microsoft JhengHei", DengXian, "微软雅黑", "黑体";
-
 	/* border-bottom: 1px solid #6789AB; */
 	line-height: normal;
 	color: rgb(48, 103, 133);
+	font-weight: normal;
 }
 del {
 	color: rgba(0, 0, 0, .382);
@@ -580,4 +580,19 @@ img.eidtor-from {
 
 	animation: css_fadeout .618s;
 	animation-fill-mode: both;
+}
+
+#torzo-qa h2 {
+	font-size: 2em;
+	margin: 2.5em 0 0;
+}
+#torzo-qa blockquote {
+	font-style: italic;
+	padding: 0;
+	margin: 2em 0;
+	text-align: center;
+}
+#torzo-qa li h3 {
+	font-size: 1.5em;
+	margin: 1em 0 0;
 }
