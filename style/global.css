@@ -281,7 +281,6 @@ table {
 tr td:first-child {
 	padding-right: 1em;
 	text-align: right;
-	min-width: 128px;
 }
 td {
 	vertical-align: text-top;
