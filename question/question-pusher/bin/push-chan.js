@@ -39,7 +39,7 @@ const yargs = require('yargs')
 	.example('push-chan --fetch')
 	.help('h')
 	.alias('h', 'help')
-	.epilog('童装工坊 2016')
+	.epilog('童装工坊 2017')
 ;
 
 const argv = yargs.argv;
