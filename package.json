@@ -1,20 +1,84 @@
 {
-  "name": "torzo-manual",
-  "version": "0.3.0",
-  "description": "",
-  "main": "index.js",
+  "name": "guide-comment",
+  "version": "1.8.0",
+  "description": "API REST using NodeJS and KOA framework, typescript. TypeORM for SQL with class-validators. Middlewares JWT, CORS, Winston Logger. Swagger API docs",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch-server": "nodemon --ignore tests/ --watch src -e ts,tsx --exec ts-node src/server.ts",
+    "build-ts": "tsc",
+    "copy-static-assets": "ts-node copyStaticAssets.ts",
+    "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
+    "serve": "node dist/server.js",
+    "build": "npm run lint && npm run build-ts && npm run copy-static-assets",
+    "start": "npm run serve",
+    "test:integration:heroku": "newman run integrationtests/node-koa-typescript.postman_collection.json -e integrationtests/env/heroku-dev.postman_environment.json",
+    "test:integration:local": "newman run integrationtests/node-koa-typescript.postman_collection.json -e integrationtests/env/local-dev.postman_environment.json",
+    "test:load": "locust --headless -u 50 -r 10 -t 60s -f loadtests/locustfile.py --host=https://node-typescript-koa-rest.herokuapp.com",
+    "test": "jest",
+    "test:coverage": "jest --collect-coverage",
+    "test:watch": "jest --watch"
   },
-  "author": "vec",
+  "engines": {
+    "node": "16.x.x",
+    "npm": "6.x.x"
+  },
+  "author": "Javier Aviles",
   "license": "MIT",
+  "homepage": "https://github.com/javieraviles/node-typescript-koa-rest#readme",
+  "keywords": [
+    "torzo"
+  ],
+  "repository": "github:javieraviles/node-typescript-koa-rest",
   "devDependencies": {
-    "babel-preset-es2015": "^6.18.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-concat": "^2.6.0",
-    "gulp-less": "^3.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^2.2.0"
+    "@types/cron": "^1.7.2",
+    "@types/jest": "^26.0.22",
+    "@types/koa": "2.13.1",
+    "@types/koa__cors": "^3.0.2",
+    "@types/koa__router": "^8.0.4",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-helmet": "^6.0.2",
+    "@types/koa-mount": "^4.0.1",
+    "@types/koa-static": "^4.0.2",
+    "@types/node": "^14.14.37",
+    "@types/shelljs": "^0.8.8",
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "eslint": "^7.23.0",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7",
+    "shelljs": "^0.8.4",
+    "ts-jest": "^26.5.4",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "@koa/router": "^10.0.0",
+    "class-validator": "^0.13.1",
+    "cron": "^1.8.2",
+    "dotenv": "^8.2.0",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-helmet": "^6.1.0",
+    "koa-jwt": "^4.0.0",
+    "koa-mount": "^4.0.0",
+    "koa-static": "^5.0.0",
+    "koa-swagger-decorator": "^1.6.4",
+    "mysql2": "^3.15.3",
+    "pg": "^8.5.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.32",
+    "winston": "^3.3.3"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>"
+    ],
+    "testMatch": [
+      "**/tests/**/*.+(ts|tsx|js)"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    }
   }
 }
