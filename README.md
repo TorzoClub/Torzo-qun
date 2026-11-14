@@ -175,6 +175,8 @@ Access：给 `guide.torzo.club/admin*` 和 `guide.torzo.club/api/admin*` 建自�
 
 ## 构建与部署
 
+完整的首次部署、Access/Turnstile 配置、切流、回滚和新站 D1 备份/恢复流程见 [docs/deploy.md](docs/deploy.md)。
+
 ```bash
 pnpm build          # tsc + vite build + prerender
 pnpm preview:worker # 用 Wrangler 在 8787 预览完整产物
@@ -187,13 +189,13 @@ pnpm deploy         # build + wrangler deploy
 - `assets/`（带 hash 的 JS/CSS）
 - `images/`、`torzo-manual.pdf`
 
-`wrangler.jsonc` 里先保留 `workers_dev: true` 方便预览；确认后加：
+`wrangler.jsonc` 里先保留 `workers_dev: true` 方便预览；确认后加 route（不改 DNS，删 route 即可回滚）：
 
 ```jsonc
-"routes": [{ "pattern": "guide.torzo.club", "custom_domain": true }]
+"routes": [{ "pattern": "guide.torzo.club/*", "zone_name": "torzo.club" }]
 ```
 
-并把 `workers_dev` 设为 `false`。`qun.torzo.club` 继续用 Cloudflare Redirect Rule 指向 guide（301）。
+并把 `workers_dev` 设为 `false`。`qun.torzo.club` 继续用 Cloudflare Redirect Rule 指向 guide（301）。更完整的切流步骤见 [docs/deploy.md](docs/deploy.md#7-切换线上域名)。
 
 ## 旧留言迁移
 
@@ -214,10 +216,15 @@ pnpm exec wrangler d1 execute torzo-qun-db --remote --file=./data/import.sql
 
 本地已验证：**67 条，id 1–79，缺 3–11、25、54、55，checksum `df848b2ea168c916aaefe2b240fc0421f57e138d8d02b7577162f8768442b073`**。缺的 12 个 id 是旧库已删除的数据，HTTP 接口取不回来。
 
-上线上再跑一次 delta（脚本可重复执行），确认总数后再切 DNS。D1 免费版 Time Travel 7 天；切之前和切之后各做一次：
+上线上再跑一次 delta（脚本可重复执行），确认总数后再切 DNS。D1 免费版 Time Travel 7 天；切之前和切之后各做一次。新站 D1 的完整备份、校验和恢复流程见 [docs/deploy.md](docs/deploy.md#8-新站数据备份重点)：
 
 ```bash
-pnpm exec wrangler d1 export torzo-qun-db --remote --output=./data/backup-$(date +%Y%m%d).sql
+mkdir -p data/backups
+STAMP=$(date +%Y%m%d-%H%M%S)
+pnpm exec wrangler d1 export torzo-qun-db \
+  --remote \
+  --output="./data/backups/torzo-qun-${STAMP}.sql" \
+  --skip-confirmation
 ```
 
 ## 内容维护
