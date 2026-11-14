@@ -27,7 +27,7 @@
 | 本地前端 | `http://127.0.0.1:5180` |
 | 本地 Worker | `http://127.0.0.1:8787` |
 
-> **当前状态（2026-11-15）**：`guide.torzo.club` 仍是旧静态站，`qun.torzo.club` 仍是 302；新 Worker 已部署到 `workers.dev` 预览，远程 D1 已有 67 条留言，Turnstile secrets 和 Access 已配置。剩余步骤见第 11 节。
+> **当前状态（2026-11-15 更新）**：`guide.torzo.club` 已切到新 Worker，Access 正常；远程 D1 有 67 条留言。当前正在排查“Turnstile 组件显示成功、但 POST /api/comments 返回 503”的问题，见第 10 节“留言 POST 返回 503”。`qun.torzo.club` 的 DNS/301 请在 Cloudflare Dashboard 再确认。
 
 `wrangler.jsonc` 是**部署配置**，应该提交到 Git。  
 D1 的 `database_id` 不是访问凭证，也不是密码；没有 Cloudflare 账户权限的人拿到它也无法访问数据库。真正不能提交的是：
@@ -645,6 +645,54 @@ pnpm exec wrangler rollback
 - 看浏览器 console 是否有 CSP 错误
 - Turnstile 是否加载；CSP 是否允许 `challenges.cloudflare.com`
 
+### 留言 POST 返回 503 `SERVICE_UNAVAILABLE`
+
+现象：Turnstile 小组件显示绿色“成功”，但提交留言时：
+
+```json
+{"error":{"code":"SERVICE_UNAVAILABLE","message":"验证服务暂时不可用，请稍后再试"}}
+```
+
+这不是浏览器 token 的问题；是 Worker 调 Turnstile `siteverify` 失败。最常见的原因是 **`TURNSTILE_SECRET_KEY` 和前端 site key 不是同一个 widget**：
+
+- 用了 `.dev.vars` 里的测试 secret，但前端用的是生产 site key
+- 用了另一个 Turnstile widget 的 secret
+- 复制 secret 时带了引号、空格或换行
+- 在 Dashboard 轮换过 secret，但 Worker 没更新
+
+503 和 403 的区别：
+
+- `403 TURNSTILE_FAILED`：token 无效/过期/已用过，或 hostname 不匹配
+- `503 SERVICE_UNAVAILABLE`：`siteverify` 请求本身失败；通常是 secret 无效（HTTP 400）或网络/响应异常
+
+修复：
+
+1. Dashboard → Turnstile → 找到 site key 与 `.env.production` 中 `VITE_TURNSTILE_SITE_KEY` 一致的 widget
+2. 打开 → Settings → Secret Key，复制 **Secret Key**；如果看不到，直接 Rotate Secret
+3. 重新写入，不要带引号：
+
+```bash
+pnpm exec wrangler secret put TURNSTILE_SECRET_KEY
+```
+
+4. 重新部署：
+
+```bash
+pnpm exec wrangler deploy
+```
+
+5. 刷新页面，重新完成 Turnstile，再提交
+
+如果仍然 503，在提交的同时运行：
+
+```bash
+pnpm exec wrangler tail --format pretty
+```
+
+把 Worker 日志发出来。当前 `qunTurnstileVerify` 只返回 503，不打印底层原因；必要时可以在 [`worker/routes/comments.ts`](../worker/routes/comments.ts) 的 `assertTurnstile` 里临时加一行 `console.error(verification.error.code, verification.error.message)`，再部署观察。
+
+> `.dev.vars` 里的 `TURNSTILE_SECRET_KEY` 只用于本地测试；不要复制到生产 Worker secret。
+
 ### D1 绑定错
 
 ```bash
@@ -682,13 +730,12 @@ env.DB (torzo-qun-db)
 - [x] `TURNSTILE_SECRET_KEY` / `IP_HASH_SALT`
 - [x] Access 两个应用验证通过
 - [x] Worker 预览部署（`workers.dev`）
-- [ ] 切流前最后一次旧站 delta
-- [ ] 给 `wrangler.jsonc` 加 `guide.torzo.club/*` route
-- [ ] `wrangler deploy` 切 `guide`
-- [ ] 验证首页、留言 API、后台、404
-- [ ] `qun.torzo.club` 改 301
+- [x] `guide.torzo.club` 已切到新 Worker（如果通过 Dashboard 加 route/custom domain，记得回写到 `wrangler.jsonc`）
+- [x] 切流前后各做一份新站 D1 备份
+- [ ] 修复 Turnstile 503，提交一条测试留言
+- [ ] 验证后台删除、404、移动端
+- [ ] `qun.torzo.club` 的 DNS/301
 - [ ] `workers_dev: false` 并重新部署
-- [ ] 切流前后各做一份新站 D1 备份
 
 切流前最后一遍：
 

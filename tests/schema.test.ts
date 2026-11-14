@@ -13,9 +13,34 @@ describe('留言 schema', () => {
     expect(parsed.article).toBe(valid_article)
   })
 
-  it('拒绝过短的正文', () => {
+  it('拒绝过短的正文并给出中文提示', () => {
     const result = zQunCommentDraft.safeParse({ author: 'vec', article: '太短了' })
     expect(result.success).toBe(false)
+    if (!result.success) {
+      const article_issues = result.error.issues.filter((issue) => issue.path[0] === 'article')
+      expect(article_issues[article_issues.length - 1]?.message).toBe('不到20字就像装逼？呵呵')
+    }
+  })
+
+  it('缺少名字时给出中文提示', () => {
+    const result = zQunCommentDraft.safeParse({ author: '   ', article: valid_article })
+    expect(result.success).toBe(false)
+    if (!result.success) {
+      const author_issues = result.error.issues.filter((issue) => issue.path[0] === 'author')
+      expect(author_issues[author_issues.length - 1]?.message).toBe('你要输入名字才能提交。')
+    }
+  })
+
+  it('拒绝过长的正文并给出上限提示', () => {
+    const result = zQunCommentDraft.safeParse({
+      author: 'vec',
+      article: '一'.repeat(2001),
+    })
+    expect(result.success).toBe(false)
+    if (!result.success) {
+      const article_issues = result.error.issues.filter((issue) => issue.path[0] === 'article')
+      expect(article_issues[article_issues.length - 1]?.message).toBe('正文最多 2000 个字')
+    }
   })
 
   it('拒绝过长的作者', () => {
