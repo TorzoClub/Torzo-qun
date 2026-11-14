@@ -14,7 +14,7 @@ type QunAquaBubblesProps = {
 }
 
 function bubbleStyle(index: number, from_bottom: boolean): BubbleStyle {
-  const duration = 12 + ((index * 11) % 16)
+  const duration = 96 + ((index * 11) % 16)
   const delay = from_bottom ? (index * 7) % 7 : -((index * 13) % duration)
   return {
     '--x': `${(index * 37 + 13) % 100}%`,

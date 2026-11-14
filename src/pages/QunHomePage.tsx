@@ -34,7 +34,7 @@ export function QunHomePage(): ReactElement {
   }
 
   return (
-    <div>
+    <div className="aqua-home">
       <QunPageTitle title="同装导册 · 同装会 Torzo Club" />
       <main id="page">
         <QunAquaMasthead

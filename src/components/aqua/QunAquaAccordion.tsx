@@ -72,7 +72,7 @@ export function QunAquaAccordion({
           {title}
           {badge}
           <div className="expand-button">
-            <div className='inner'></div>
+            <div className="inner"></div>
           </div>
         </button>
       </h2>

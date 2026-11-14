@@ -114,13 +114,13 @@ export function QunAquaSplash({ on_enter }: QunAquaSplashProps): ReactElement {
           })}
         </h2>
         <div className="sub">TORZO · 同装会</div>
-        <div style={{
-          opacity: is_ready ? 1 : 0,
-          transition: 'opacity 1618ms'
-        }}>
-          <p id="enter-tip">
-            点击任意区域进入
-          </p>
+        <div
+          style={{
+            opacity: is_ready ? 1 : 0,
+            transition: 'opacity 1618ms',
+          }}
+        >
+          <p id="enter-tip">点击任意区域进入</p>
         </div>
       </div>
     </div>

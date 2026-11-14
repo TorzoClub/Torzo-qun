@@ -25,7 +25,6 @@ a { color: #0a78b8; } a:visited { color: #6a55a8; } a:hover { color: #e06a00; }
 /* ---------- 页面与横幅 ---------- */
 #page { width: min(820px, calc(100% - 24px)); margin: 0 auto; padding: 36px 0 24px; }
 #masthead { text-align: center; margin-bottom: 26px; }
-body.entered #masthead { animation: rise .8s .1s both; }
 .mark { position: relative; width: 112px; height: 112px; margin: 0 auto; display: grid; place-items: center; border-radius: 50%; cursor: pointer; -webkit-box-reflect: below 6px linear-gradient(transparent 62%, rgba(255,255,255,.32));
 	background: radial-gradient(circle at 50% 35%, #fff, #eaf9ff 55%, #bfeaf8); box-shadow: 0 0 0 5px rgba(255,255,255,.3), 0 0 0 6px rgba(255,255,255,.55), 0 10px 26px rgba(0,50,90,.45), inset 0 -8px 18px rgba(60,170,220,.45); }
 .mark::after { content: ""; position: absolute; z-index: 0; left: 12%; right: 12%; top: 3%; height: 46%; border-radius: 50%; background: linear-gradient(rgba(255,255,255,.95), rgba(255,255,255,.05)); }
@@ -39,7 +38,6 @@ body.entered #masthead { animation: rise .8s .1s both; }
 
 /* ---------- 折叠栏目：果冻胶囊 + 条纹面板 ---------- */
 .article-item { margin: 16px 0; counter-increment: sec; }
-body.entered .article-item { animation: rise .6s calc(var(--i, 0) * 70ms + 450ms) both; }
 .item-title { display: flex; align-items: center; gap: 14px; height: 54px; margin: 0; padding: 0 10px 0 11px; box-sizing: border-box; cursor: pointer; user-select: none; border-radius: 999px;
 	font: 700 19px var(--sans); color: var(--deep); text-shadow: 0 1px 0 rgba(255,255,255,.85); background: var(--gel); border: 1px solid rgba(255,255,255,.95);
 	box-shadow: 0 0 0 1px rgba(10,90,130,.5), 0 5px 12px rgba(0,50,90,.32), inset 0 -3px 8px rgba(80,190,230,.55); transition: filter .2s, box-shadow .2s; }
@@ -178,7 +176,7 @@ del { color: rgba(0,0,0,.42); } del * { opacity: .8; color: #344; }
 @keyframes aquapulse { to { filter: brightness(1.13); box-shadow: 0 0 0 1px rgba(0,70,110,.7), 0 0 14px rgba(110,220,255,.95); } }
 @keyframes pop { 50% { transform: rotate(-6deg) scale(1.12); } }
 @keyframes pulse { 50% { opacity: .35; } }
-@keyframes fade { to { opacity: 1; } } @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes fade { to { opacity: 1; } }
 @keyframes tick { to { transform: translateX(-100%); } }
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after { animation: none !important; transition: none !important; }
@@ -513,3 +511,7 @@ h1.site { margin: 26px 0 0; }
 	padding-right: 3em;
 	animation: tick 32s linear infinite;
 }
+
+/* 整个首页统一渐入，复用原先 QunAquaAccordion 的 rise 效果 */
+body.entered .aqua-home { animation: rise .6s ease both; }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
