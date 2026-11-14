@@ -6,7 +6,6 @@ import {
   useRef,
   useState,
 } from 'react'
-import { QunAquaBubbles } from './QunAquaBackground'
 
 type SplashLetterStyle = CSSProperties & {
   '--k': number
@@ -94,7 +93,6 @@ export function QunAquaSplash({ on_enter }: QunAquaSplashProps): ReactElement {
       }}
     >
       <div className="depth" />
-      <QunAquaBubbles count={28} from_bottom />
       <div className="stage">
         <div className="orb-wrap">
           {RIPPLE_INDEXES.map((index) => {
