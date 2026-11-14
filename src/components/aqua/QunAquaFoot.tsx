@@ -6,7 +6,12 @@ export function QunAquaFoot(): ReactElement {
       © 2015-2026 Torzo Club. All Rights Reserved.
       <br />
       Best viewed at 1024×768
-      <a className='foot-admin' href="/admin/" rel="noopener noreferrer" title="管理员入口">管理员入口</a>
+      {/* 这里刻意用原生 <a> 而不是 react-router 的 Link：Link 走 HTML5 History，
+          不会发出真正的页面请求，Cloudflare Access 就拦不到 /admin；用 <a> 触发整页导航，
+          刷新或直达 /admin 时也会命中 prerender 出来的 admin.html。 */}
+      <a className="foot-admin" href="/admin" title="管理员入口">
+        管理员入口
+      </a>
       <span className="foot-sep" aria-hidden="true">
         {' · '}
       </span>
