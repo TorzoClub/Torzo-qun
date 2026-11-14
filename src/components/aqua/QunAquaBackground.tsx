@@ -36,10 +36,39 @@ export function QunAquaBubbles({ count, from_bottom }: QunAquaBubblesProps): Rea
   )
 }
 
+const RAY_INDEXES = [1, 2, 3, 4, 5, 6] as const
+
 export function QunAquaBackground(): ReactElement {
   return (
     <div id="sea">
-      <div className="rays" />
+      <div className="sun-glow" />
+      <svg className="water-filter" aria-hidden="true" focusable="false" width="0" height="0">
+        <defs>
+          <filter id="qun-water-warp" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.006 0.018"
+              numOctaves="2"
+              seed="8"
+              result="noise"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="noise"
+              scale="26"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </svg>
+      <div className="rays">
+        {RAY_INDEXES.map((index) => (
+          <span key={index} className={`ray ray-${index}`} />
+        ))}
+      </div>
+      <div className="caustics" />
+      <div className="depth-haze" />
       <QunAquaBubbles count={18} from_bottom={false} />
     </div>
   )

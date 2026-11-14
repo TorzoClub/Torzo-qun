@@ -14,10 +14,42 @@ a { color: #0a78b8; } a:visited { color: #6a55a8; } a:hover { color: #e06a00; }
 [hidden], .hidden { display: none !important; }
 
 /* ---------- 水底背景：渐变 + 光线 + 气泡 ---------- */
-#sea { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: linear-gradient(#0a6aa6 0, #12a0cc 30%, #46c8d8 62%, #9fe8e0 86%, #d6f8ec 100%); }
-.rays { position: absolute; top: -10%; left: -15%; right: -15%; height: 85%; transform-origin: 50% 0; filter: blur(5px); animation: sway 14s ease-in-out infinite alternate;
-	background: repeating-linear-gradient(100deg, transparent 0 70px, rgba(255,255,255,.16) 100px, transparent 150px, transparent 260px);
-	-webkit-mask-image: linear-gradient(#000, transparent 85%); mask-image: linear-gradient(#000, transparent 85%); }
+#sea { position: fixed; inset: 0; z-index: -1; overflow: hidden; isolation: isolate; background: linear-gradient(#0a6aa6 0, #12a0cc 30%, #46c8d8 62%, #9fe8e0 86%, #d6f8ec 100%); }
+.water-filter { position: absolute; width: 0; height: 0; overflow: hidden; }
+.sun-glow { position: absolute; top: -30%; left: 2%; width: 76vmax; height: 62vmax; border-radius: 50%; pointer-events: none; mix-blend-mode: screen;
+	background: radial-gradient(ellipse at 50% 50%, rgba(255,255,255,.3) 0, rgba(180,245,255,.13) 38%, transparent 70%);
+	filter: blur(22px); animation: sun-pulse 20s ease-in-out infinite alternate; }
+.rays { position: absolute; inset: -12% -8% 0; overflow: hidden; pointer-events: none; mix-blend-mode: screen;
+	filter: blur(5px); animation: rays-drift 30s ease-in-out infinite alternate;
+	-webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.8) 56%, transparent 92%);
+	mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.8) 56%, transparent 92%); }
+.ray { position: absolute; top: -18%; left: var(--x); width: var(--w); height: 128%; opacity: var(--o); transform: rotate(var(--r)); transform-origin: 50% 0;
+	clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
+	background:
+		linear-gradient(to right, transparent 0 24%, rgba(255,255,255,.13) 46%, rgba(255,255,255,.02) 53%, transparent 74%),
+		linear-gradient(to bottom, rgba(255,255,255,.62) 0, rgba(198,248,255,.25) 24%, rgba(110,225,242,.08) 58%, transparent 88%);
+	-webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.85) 48%, transparent 90%);
+	mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.85) 48%, transparent 90%);
+	animation: ray-breathe var(--d) ease-in-out var(--delay) infinite alternate; will-change: transform, opacity; }
+.ray-1 { --x: -1%; --w: 15vw; --r: 8deg; --o: .68; --d: 21s; --delay: -4s; }
+.ray-2 { --x: 14%; --w: 7vw; --r: 14deg; --o: .32; --d: 27s; --delay: -13s; }
+.ray-3 { --x: 31%; --w: 19vw; --r: 5deg; --o: .44; --d: 24s; --delay: -7s; }
+.ray-4 { --x: 54%; --w: 10vw; --r: 11deg; --o: .58; --d: 19s; --delay: -2s; }
+.ray-5 { --x: 72%; --w: 16vw; --r: 17deg; --o: .28; --d: 29s; --delay: -16s; }
+.ray-6 { --x: 88%; --w: 8vw; --r: 6deg; --o: .48; --d: 23s; --delay: -9s; }
+.caustics { position: absolute; top: -10%; left: -10%; right: -10%; height: 58%; pointer-events: none; opacity: .85; mix-blend-mode: screen;
+	background:
+		radial-gradient(ellipse 20% 3.5% at 16% 18%, rgba(255,255,255,.3) 0, rgba(255,255,255,.08) 45%, transparent 72%),
+		radial-gradient(ellipse 30% 5% at 44% 8%, rgba(215,255,255,.24) 0, rgba(190,250,255,.06) 48%, transparent 74%),
+		radial-gradient(ellipse 16% 3% at 73% 20%, rgba(255,255,255,.26) 0, rgba(255,255,255,.06) 48%, transparent 74%),
+		radial-gradient(ellipse 34% 6% at 60% 36%, rgba(180,245,255,.16) 0, transparent 72%),
+		radial-gradient(ellipse 22% 4% at 88% 30%, rgba(255,255,255,.18) 0, transparent 72%);
+	filter: url(#qun-water-warp) blur(7px);
+	-webkit-mask-image: linear-gradient(#000 0%, rgba(0,0,0,.7) 42%, transparent 76%);
+	mask-image: linear-gradient(#000 0%, rgba(0,0,0,.7) 42%, transparent 76%);
+	animation: caustic-drift 24s ease-in-out infinite alternate; }
+.depth-haze { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply;
+	background: radial-gradient(ellipse at 50% 8%, transparent 28%, rgba(3,48,82,.18) 100%); }
 .bubbles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .bubbles i { position: absolute; bottom: -12vmin; left: var(--x); width: var(--s); height: var(--s); border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.55), 0 0 8px rgba(255,255,255,.25); animation: bub var(--d) linear var(--dl) infinite;
 	background: radial-gradient(circle at 30% 28%, rgba(255,255,255,.95) 0, rgba(255,255,255,.55) 12%, rgba(255,255,255,.08) 40%, rgba(255,255,255,.04) 70%, rgba(255,255,255,.38) 100%); }
@@ -169,7 +201,13 @@ del { color: rgba(0,0,0,.42); } del * { opacity: .8; color: #344; }
 #totop.show { opacity: 1; pointer-events: auto; transform: none; } #totop:hover { filter: brightness(1.1); }
 
 @keyframes bub { 0% { transform: translate(0, 0); } 50% { transform: translate(var(--sw), -62vh); } 100% { transform: translate(0, -135vh); } }
-@keyframes sway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+@keyframes sun-pulse { from { opacity: .5; transform: scale(.92); } to { opacity: .88; transform: scale(1.06); } }
+@keyframes rays-drift { from { transform: translateX(-.6%) skewX(-.5deg); } to { transform: translateX(.6%) skewX(.5deg); } }
+@keyframes ray-breathe {
+	from { transform: rotate(calc(var(--r) - 1deg)) translateX(-1vw) scaleX(.9); opacity: calc(var(--o) * .55); }
+	to { transform: rotate(calc(var(--r) + 1.6deg)) translateX(1vw) scaleX(1.05); opacity: var(--o); }
+}
+@keyframes caustic-drift { from { transform: translate3d(-2%, 0, 0) scale(1.01); } to { transform: translate3d(2%, -1%, 0) scale(1.04); } }
 @keyframes orbin { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 @keyframes ripple { 0% { transform: scale(1); opacity: 0; } 8% { opacity: .85; } 100% { transform: scale(3.6); opacity: 0; } }
 @keyframes ripple2 { to { transform: scale(30); opacity: 0; } }
@@ -185,7 +223,7 @@ del { color: rgba(0,0,0,.42); } del * { opacity: .8; color: #344; }
 @keyframes tick { to { transform: translateX(-100%); } }
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after { animation: none !important; transition: none !important; }
-	.bubbles, .rays, .ripple { display: none; }
+	.bubbles, .rays, .ripple, .sun-glow, .caustics { display: none; }
 	.stage .orb-wrap, .name span, .sub, #load-status { opacity: 1; }
 	.ticker { white-space: normal; } .ticker span { padding-left: 0; }
 }
@@ -537,4 +575,11 @@ body.entered .aqua-home { animation: rise .6s ease both; }
 /* ≥640px：正文面板加大留白 */
 @media (min-width: 640px) {
 	.item-hide > article { padding: 24px 50px; }
+}
+
+@media (max-width: 800px) {
+	.ray-2, .ray-5, .ray-6 { display: none; }
+	.rays { filter: blur(7px); }
+	.caustics { opacity: .55; filter: blur(6px); }
+	.sun-glow { width: 110vmax; height: 76vmax; }
 }

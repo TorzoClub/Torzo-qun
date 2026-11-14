@@ -37,11 +37,7 @@ export function QunHomePage(): ReactElement {
     <div className="aqua-home">
       <QunPageTitle title="同装导册 · 同装会 Torzo Club" />
       <main id="page">
-        <QunAquaMasthead
-          title="同装导册"
-          subtitle="TORZO · 20151005"
-          on_replay={replay}
-        />
+        <QunAquaMasthead title="同装导册" subtitle="TORZO · 20151005" on_replay={replay} />
         <div id="index">
           {QUN_GUIDE_CHAPTERS.map((chapter) => {
             const ChapterBody = chapter.component
