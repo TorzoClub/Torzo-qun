@@ -18,7 +18,7 @@ describe('留言 schema', () => {
     expect(result.success).toBe(false)
     if (!result.success) {
       const article_issues = result.error.issues.filter((issue) => issue.path[0] === 'article')
-      expect(article_issues[article_issues.length - 1]?.message).toBe('不到20字就像装逼？呵呵')
+      expect(article_issues[article_issues.length - 1]?.message).toBe('不到20字就想装逼？呵呵')
     }
   })
 

@@ -44,14 +44,14 @@ export const zQunArticle = z
     z
       .string()
       .min(QUN_COMMENT_ARTICLE_MIN, {
-        message: `不到${QUN_COMMENT_ARTICLE_MIN}字就像装逼？呵呵`,
+        message: `不到${QUN_COMMENT_ARTICLE_MIN}字就想装逼？呵呵`,
       })
       .max(QUN_COMMENT_ARTICLE_MAX * 4, {
         message: `正文最多 ${QUN_COMMENT_ARTICLE_MAX} 个字`,
       }),
   )
   .refine((value) => countCodePoints(value) >= QUN_COMMENT_ARTICLE_MIN, {
-    message: `不到${QUN_COMMENT_ARTICLE_MIN}字就像装逼？呵呵`,
+    message: `不到${QUN_COMMENT_ARTICLE_MIN}字就想装逼？呵呵`,
   })
   .refine((value) => countCodePoints(value) <= QUN_COMMENT_ARTICLE_MAX, {
     message: `正文最多 ${QUN_COMMENT_ARTICLE_MAX} 个字`,

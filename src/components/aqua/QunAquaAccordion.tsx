@@ -39,10 +39,17 @@ export function QunAquaAccordion({
         $timer_ref.current = null
       }
       if (is_open) {
-        box.style.height = `${box.scrollHeight}px`
-        $timer_ref.current = window.setTimeout(() => {
+        const scroll_height = box.scrollHeight
+        if (scroll_height === 0) {
+          // 页面在开场期间被 display:none 隐藏时量不到高度；
+          // 直接设为 auto，等页面可见后内容自然撑开，避免默认展开的留言板被裁成 0。
           box.style.height = 'auto'
-        }, 400)
+        } else {
+          box.style.height = `${scroll_height}px`
+          $timer_ref.current = window.setTimeout(() => {
+            box.style.height = 'auto'
+          }, 400)
+        }
       } else {
         box.style.height = `${box.scrollHeight}px`
         void box.offsetHeight

@@ -345,17 +345,21 @@ article > p > .qun-term-summary { margin-top: .3em; }
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+	justify-content: flex-end;
 	gap: 10px;
-	margin: 8px 0 14px;
-	padding: 8px 12px;
+	width: fit-content;
+	max-width: 100%;
+	margin: 8px 0 14px auto;
+	padding: 8px 0 8px 12px;
 	border-radius: 12px;
 	background: rgba(214,243,252,.65);
 	box-shadow: inset 0 0 0 1px rgba(10,100,140,.18);
+	text-align: right;
 }
 .turnstile-wrap .qun-turnstile { min-height: 0; }
-.turnstile-note { margin: 0; color: #5b7382; font-size: 12px; line-height: 1.7; }
+.turnstile-note { margin: 0; color: #5b7382; font-size: 12px; line-height: 1.7; text-align: right; }
 .aqua-field-error { margin: 2px 0 0; color: #b1271b; font: 700 12px var(--sans); }
-.aqua-editor-errors { margin: 4px 0 0; padding-left: 1.2em; color: #b1271b; font-size: 12px; }
+.aqua-editor-errors { margin: 4px 0 0; padding-left: 0; color: #b1271b; font-size: 12px; text-align: right; }
 .editor article { min-height: 3em; }
 .editor .post-button-row { display: flex; align-items: center; gap: 10px; }
 #comment-list:empty { display: none; }
@@ -486,7 +490,7 @@ h1.site { margin: 26px 0 0; }
 @media (max-width: 800px) {
 	h1.site { margin-top: 20px; }
 	.ticker { margin-top: 14px; }
-	.turnstile-wrap { padding: 6px 8px; }
+	.turnstile-wrap { padding: 6px 0 6px 8px; }
 }
 
 /* 折叠标题是 button，且包在 h2 里；补上 open 状态（Aqua 原选择器是 .open > .item-title） */
@@ -525,3 +529,4 @@ body.entered .aqua-home { animation: rise .6s ease both; }
 	white-space: nowrap;
 }
 #foot .foot-classic:hover { color: #e06a00; text-decoration: underline; }
+
