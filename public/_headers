@@ -13,5 +13,8 @@
 /images/*
   Cache-Control: public, max-age=604800
 
+/legacy/*
+  X-Robots-Tag: noindex
+
 /torzo-manual.pdf
   Cache-Control: public, max-age=86400

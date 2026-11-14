@@ -39,7 +39,7 @@ export function QunHomePage(): ReactElement {
       <main id="page">
         <QunAquaMasthead
           title="同装导册"
-          subtitle="TORZO · 同装会"
+          subtitle="TORZO · 20151005"
           show_ticker
           on_replay={replay}
         />

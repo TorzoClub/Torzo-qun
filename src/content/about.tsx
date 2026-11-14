@@ -39,6 +39,7 @@ export function GuideAboutChapter(): ReactElement {
         className="contact-weibo"
         aria-label="微博"
       >
+        <span className="sr-only">微博</span>
       </a>
     </>
   )

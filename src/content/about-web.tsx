@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import {version} from '../../package.json'
 
 export function GuideAboutWebChapter(): ReactElement {
   return (
@@ -7,8 +8,11 @@ export function GuideAboutWebChapter(): ReactElement {
         此版本为<a href="/torzo-manual.pdf">PDF</a>的内容拷贝版,如存在偏误,以
         <a href="/torzo-manual.pdf">PDF</a>版本为准.
       </p>
+      <p>
+        站点版本: {version}
+      </p>
       <p>导册的内容禁止任何非官方形式的转载；代码禁止用于任何商业上的目的；</p>
-      <p>如有错误,请通知咱.</p>
+      <p>如有错误,敬请鄙视.</p>
       <div className="qun-prose-block">
         <h3>为之做过贡献的人</h3>
         <ul>
