@@ -16,10 +16,10 @@ type QunAquaSplashProps = {
   readonly on_enter: () => void
 }
 
-const SPLASH_MIN_MS = 2800
-const SPLASH_LEAVE_MS = 1150
+const SPLASH_MIN_MS = 4000
+const SPLASH_LEAVE_MS = 2000
 const SPLASH_CHARS = ['同', '装', '导', '册'] as const
-const RIPPLE_INDEXES = [0, 1, 2] as const
+const RIPPLE_INDEXES = [0] as const
 
 export function QunAquaSplash({ on_enter }: QunAquaSplashProps): ReactElement {
   const [is_ready, setIsReady] = useState(false)
@@ -116,15 +116,17 @@ export function QunAquaSplash({ on_enter }: QunAquaSplashProps): ReactElement {
           })}
         </h2>
         <div className="sub">TORZO · 同装会</div>
-        <div className="progress big">
+        {/* <div className="progress big">
           <i />
+        </div> */}
+        <div style={{
+          opacity: is_ready ? 1 : 0,
+          transition: 'opacity 1618ms'
+        }}>
+          <p id="enter-tip">
+            点击任意区域进入
+          </p>
         </div>
-        <p id="load-status" hidden={is_ready}>
-          正在启动同装导册…
-        </p>
-        <p id="enter-tip" hidden={!is_ready}>
-          点击任意区域进入
-        </p>
       </div>
     </div>
   )
