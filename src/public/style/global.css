@@ -1,12 +1,3 @@
-/*
-@font-face {
-	font-family: "Kunstler Script";
-	src: url("../resource/KUNSTLER.TTF");
-	[font-weight: <weight>];
-	[font-style: <style>];
-}
-*/
-
 html, body{
 	width: 100%;
 	height: 100%;
@@ -386,8 +377,6 @@ tr ul {
 	justify-content: flex-end;
 
 	width: 100%;
-
-	font-family: "Kunstler Script";
 
 	height: 42px;
 }
