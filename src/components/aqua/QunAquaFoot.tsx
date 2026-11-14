@@ -1,5 +1,4 @@
 import type { ReactElement } from 'react'
-import { Link } from 'react-router'
 
 export function QunAquaFoot(): ReactElement {
   return (
@@ -7,9 +6,7 @@ export function QunAquaFoot(): ReactElement {
       © 2015-2026 Torzo Club. All Rights Reserved.
       <br />
       Best viewed at 1024×768
-      <Link to="/admin" className="foot-admin">
-        管理员入口
-      </Link>
+      <a className='foot-admin' href="/admin/" rel="noopener noreferrer" title="管理员入口">管理员入口</a>
       <span className="foot-sep" aria-hidden="true">
         {' · '}
       </span>
