@@ -1,5 +1,6 @@
 import { type ReactElement, useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router'
+import { QunAquaBackground } from './components/aqua/QunAquaBackground'
 import { QunAdminPage } from './pages/QunAdminPage'
 import { QunGuestbookPage } from './pages/QunGuestbookPage'
 import { QunHomePage } from './pages/QunHomePage'
@@ -26,6 +27,7 @@ function ScrollToTop(): null {
 export function QunApp(): ReactElement {
   return (
     <>
+      <QunAquaBackground />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<QunHomePage />} />

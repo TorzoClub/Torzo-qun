@@ -1,73 +1,68 @@
-import { type ReactElement, useEffect, useState } from 'react'
-import { QunGuestbookCta } from '../components/QunGuestbookCta'
-import { QunGuideChapter } from '../components/QunGuideChapter'
-import { QunGuideToc } from '../components/QunGuideToc'
-import { QunHero } from '../components/QunHero'
-import { QunSiteFooter } from '../components/QunSiteFooter'
-import { QunSiteHeader } from '../components/QunSiteHeader'
-import { QunTocRail } from '../components/QunTocRail'
+import { Fragment, type ReactElement, useEffect, useState } from 'react'
+import { QunAquaAccordion } from '../components/aqua/QunAquaAccordion'
+import { QunAquaCommentBoard } from '../components/aqua/QunAquaCommentBoard'
+import { QunAquaFoot } from '../components/aqua/QunAquaFoot'
+import { QunAquaMasthead } from '../components/aqua/QunAquaMasthead'
+import { QunAquaSplash } from '../components/aqua/QunAquaSplash'
+import { QunAquaTotop } from '../components/aqua/QunAquaTotop'
+import { QunPageTitle } from '../components/QunPageTitle'
 import { QUN_GUIDE_CHAPTERS } from '../content/chapters'
 
 export function QunHomePage(): ReactElement {
-  const [active_id, setActiveId] = useState<string | null>(null)
-  const [reading_progress, setReadingProgress] = useState(0)
+  const [splash_run, setSplashRun] = useState(0)
+  const [is_splash_visible, setIsSplashVisible] = useState(true)
 
   useEffect(() => {
-    const elements = QUN_GUIDE_CHAPTERS.map((chapter) =>
-      document.getElementById(chapter.id),
-    ).filter((element): element is HTMLElement => element !== null)
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries.find((current) => current.isIntersecting)
-        if (entry !== undefined) {
-          setActiveId(entry.target.id)
-        }
-      },
-      { rootMargin: '-12% 0px -72% 0px' },
-    )
-    elements.forEach((element) => {
-      observer.observe(element)
-    })
+    document.body.classList.add('splash')
     return () => {
-      observer.disconnect()
+      document.body.classList.remove('splash', 'entered')
     }
   }, [])
 
-  useEffect(() => {
-    const updateProgress = (): void => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight
-      const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0
-      setReadingProgress(progress)
-    }
-    updateProgress()
-    window.addEventListener('scroll', updateProgress, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', updateProgress)
-    }
-  }, [])
+  function enter(): void {
+    document.body.classList.remove('splash')
+    document.body.classList.add('entered')
+    setIsSplashVisible(false)
+  }
+
+  function replay(): void {
+    document.body.classList.remove('entered')
+    document.body.classList.add('splash')
+    setIsSplashVisible(true)
+    setSplashRun((current) => current + 1)
+    window.scrollTo(0, 0)
+  }
 
   return (
-    <div className="qun-page">
-      <div
-        className="qun-progress"
-        style={{ transform: `scaleX(${reading_progress})` }}
-        aria-hidden="true"
-      />
-      <QunSiteHeader variant="guide" />
-      <main id="qun-main">
-        <QunHero />
-        <QunGuideToc />
-        <div className="qun-guide-layout">
-          <QunTocRail active_id={active_id} />
-          <div className="qun-guide-chapters">
-            {QUN_GUIDE_CHAPTERS.map((chapter) => (
-              <QunGuideChapter key={chapter.id} chapter={chapter} />
-            ))}
-            <QunGuestbookCta />
-          </div>
+    <div>
+      <QunPageTitle title="同装导册 · 同装会 Torzo Club" />
+      <main id="page">
+        <QunAquaMasthead
+          title="同装导册"
+          subtitle="TORZO · 同装会"
+          show_ticker
+          on_replay={replay}
+        />
+        <div id="index">
+          {QUN_GUIDE_CHAPTERS.map((chapter) => {
+            const ChapterBody = chapter.component
+            return (
+              <Fragment key={chapter.id}>
+                {chapter.id === 'about-web' ? <hr /> : null}
+                <QunAquaAccordion id={chapter.id} title={chapter.title}>
+                  <ChapterBody />
+                </QunAquaAccordion>
+              </Fragment>
+            )
+          })}
         </div>
+        <QunAquaAccordion id="comment" title="留言板" badge={<span className="new">NEW!</span>}>
+          <QunAquaCommentBoard />
+        </QunAquaAccordion>
       </main>
-      <QunSiteFooter />
+      <QunAquaFoot />
+      <QunAquaTotop />
+      {is_splash_visible ? <QunAquaSplash key={splash_run} on_enter={enter} /> : null}
     </div>
   )
 }

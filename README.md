@@ -60,6 +60,16 @@ which pnpm   # 应该指向 /Users/vec/Library/pnpm/pnpm
 
 `pnpm dev` 内部已经改成直接调用 `vite` / `wrangler`，不再嵌套调用 `pnpm`，所以用独立 pnpm 启动时不会再次命中坏掉的 shim。
 
+## 界面
+
+前端视觉从 `torzo-aqua` 移植：
+
+- `/`：海面、气泡、开场水晶球、玻璃折叠条、白纸内容面板；八章导册 + 第 09 折「留言板」，留言板直接嵌入首页。
+- `/guestbook`：独立留言板页，复用同一套 Aqua 留言组件。
+- `/admin`：留言管理，显示总数、删除留言，Cloudflare Access 保护。
+- `#foot`：页脚里保留 `管理员入口` 链接。
+- 桌面和手机都使用 Aqua 主题；无 JS 时通过 `noscript` 展开全部正文并隐藏开场。
+
 ## 本地开发
 
 要求 Node 24（CI 使用）或 Node 26，pnpm 12。

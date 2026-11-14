@@ -3,6 +3,8 @@ import type { QunComment } from '../../shared/schema'
 
 export type QunCommentDateLabels = {
   readonly year: string
+  readonly month: string
+  readonly day: string
   readonly month_day: string
   readonly time: string
 }
@@ -34,6 +36,8 @@ export function qunFormatCommentDate(iso: string): QunCommentDateLabels {
   if (Number.isNaN(date.getTime())) {
     return {
       year: '—',
+      month: '—',
+      day: '—',
       month_day: '—.—',
       time: '—:—',
     }
@@ -44,6 +48,8 @@ export function qunFormatCommentDate(iso: string): QunCommentDateLabels {
     }
     return {
       year: findPart('year'),
+      month: findPart('month'),
+      day: findPart('day'),
       month_day: `${findPart('month')}.${findPart('day')}`,
       time: `${findPart('hour')}:${findPart('minute')}`,
     }

@@ -1,9 +1,10 @@
 import { type ReactElement, useCallback, useEffect, useState } from 'react'
+import { Link } from 'react-router'
 import type { QunComment, QunCommentPage } from '../../shared/schema'
-import { QunErrorNotice } from '../components/QunErrorNotice'
+import { QunAquaFoot } from '../components/aqua/QunAquaFoot'
+import { QunAquaMasthead } from '../components/aqua/QunAquaMasthead'
+import { QunAquaTotop } from '../components/aqua/QunAquaTotop'
 import { QunPageTitle } from '../components/QunPageTitle'
-import { QunSiteFooter } from '../components/QunSiteFooter'
-import { QunSiteHeader } from '../components/QunSiteHeader'
 import { qunAdminCommentDelete, qunAdminCommentsFetchPage } from '../lib/api'
 import { qunFormatCommentDate } from '../lib/format'
 
@@ -54,106 +55,109 @@ export function QunAdminPage(): ReactElement {
   }
 
   return (
-    <div className="qun-page">
+    <div>
       <QunPageTitle title="留言管理 · 同装导册" />
-      <QunSiteHeader variant="admin" />
-      <main id="qun-main" className="qun-admin">
-        <header className="qun-admin-head">
-          <p className="qun-eyebrow">ADMIN / 留言管理</p>
-          <h1 className="qun-admin-title">留言管理</h1>
-          <p className="qun-admin-dek">只做两件事：看总数，删留言。</p>
-          <p className="qun-admin-note">这个页面由 Cloudflare Access 保护。</p>
-        </header>
-
-        {is_loading ? (
-          <p className="qun-admin-loading">读取中…</p>
-        ) : error_message !== null && page_data === null ? (
-          <QunErrorNotice
-            message={error_message}
-            on_retry={() => {
-              void loadPage(page)
-            }}
-          />
-        ) : page_data === null ? (
-          <p className="qun-admin-loading">没有读到留言。</p>
-        ) : (
-          <>
-            <div className="qun-admin-summary">
-              <p>
-                共 <strong>{page_data.total}</strong> 条留言
-              </p>
+      <main id="page">
+        <QunAquaMasthead title="留言管理" subtitle="ADMIN · 同装会" />
+        <p className="aqua-back">
+          <Link to="/">← 返回导册</Link>
+        </p>
+        <div className="aqua-panel">
+          <h2 className="aqua-panel-title">留言管理</h2>
+          {is_loading ? (
+            <p className="aqua-admin-loading">读取中…</p>
+          ) : page_data === null ? (
+            <>
+              <p className="aqua-error">{error_message ?? '没有读到留言。'}</p>
               <button
                 type="button"
-                className="qun-button qun-button-ghost qun-button-small"
+                className="aqua-button"
                 onClick={() => {
                   void loadPage(page)
                 }}
               >
-                刷新
+                重新连接
               </button>
-            </div>
-
-            {error_message === null ? null : <QunErrorNotice message={error_message} />}
-
-            {page_data.items.length === 0 ? (
-              <p className="qun-admin-loading">这一页没有留言。</p>
-            ) : (
-              <ol className="qun-admin-list">
-                {page_data.items.map((comment) => {
-                  const date = qunFormatCommentDate(comment.created_at)
-                  return (
-                    <li key={comment.id} className="qun-admin-item">
-                      <div className="qun-admin-item-meta">
-                        <span className="qun-admin-id">#{comment.id}</span>
-                        <span className="qun-admin-date">
-                          {date.year}.{date.month_day} {date.time}
-                        </span>
-                        <span className="qun-admin-author">{comment.author}</span>
-                      </div>
-                      <p className="qun-admin-article">{comment.article}</p>
-                      <button
-                        type="button"
-                        className="qun-button qun-button-danger qun-button-small"
-                        onClick={() => {
-                          void deleteComment(comment)
-                        }}
-                        disabled={deleting_id === comment.id}
-                      >
-                        {deleting_id === comment.id ? '删除中…' : '删除'}
-                      </button>
-                    </li>
-                  )
-                })}
-              </ol>
-            )}
-
-            <div className="qun-admin-pagination">
-              <button
-                type="button"
-                className="qun-button qun-button-ghost qun-button-small"
-                onClick={() => {
-                  void loadPage(page - 1)
-                }}
-                disabled={page <= 1}
-              >
-                上一页
-              </button>
-              <span>第 {page} 页</span>
-              <button
-                type="button"
-                className="qun-button qun-button-ghost qun-button-small"
-                onClick={() => {
-                  void loadPage(page + 1)
-                }}
-                disabled={!page_data.has_more}
-              >
-                下一页
-              </button>
-            </div>
-          </>
-        )}
+            </>
+          ) : (
+            <>
+              <div className="aqua-admin-summary">
+                <p>
+                  共 <strong>{page_data.total}</strong> 条留言
+                </p>
+                <button
+                  type="button"
+                  className="aqua-button"
+                  onClick={() => {
+                    void loadPage(page)
+                  }}
+                >
+                  刷新
+                </button>
+              </div>
+              {error_message === null ? null : <p className="aqua-error">{error_message}</p>}
+              {page_data.items.length === 0 ? (
+                <p className="aqua-admin-loading">这一页没有留言。</p>
+              ) : (
+                <ul className="aqua-admin-list">
+                  {page_data.items.map((comment) => {
+                    const date = qunFormatCommentDate(comment.created_at)
+                    return (
+                      <li key={comment.id} className="aqua-admin-item">
+                        <div className="aqua-admin-meta">
+                          <span className="aqua-admin-id">#{comment.id}</span>
+                          <span>
+                            {date.year}.{date.month_day} {date.time}
+                          </span>
+                          <span className="aqua-admin-author">{comment.author}</span>
+                        </div>
+                        <p className="aqua-admin-article">{comment.article}</p>
+                        <div className="aqua-admin-actions">
+                          <button
+                            type="button"
+                            className="aqua-button aqua-button-danger"
+                            onClick={() => {
+                              void deleteComment(comment)
+                            }}
+                            disabled={deleting_id === comment.id}
+                          >
+                            {deleting_id === comment.id ? '删除中…' : '删除'}
+                          </button>
+                        </div>
+                      </li>
+                    )
+                  })}
+                </ul>
+              )}
+              <div className="aqua-admin-pagination">
+                <button
+                  type="button"
+                  className="aqua-button"
+                  onClick={() => {
+                    void loadPage(page - 1)
+                  }}
+                  disabled={page <= 1}
+                >
+                  上一页
+                </button>
+                <span>第 {page} 页</span>
+                <button
+                  type="button"
+                  className="aqua-button"
+                  onClick={() => {
+                    void loadPage(page + 1)
+                  }}
+                  disabled={!page_data.has_more}
+                >
+                  下一页
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </main>
-      <QunSiteFooter />
+      <QunAquaFoot />
+      <QunAquaTotop />
     </div>
   )
 }

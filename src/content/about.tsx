@@ -36,7 +36,7 @@ export function GuideAboutChapter(): ReactElement {
         href="https://weibo.com/torzo"
         target="_blank"
         rel="noopener noreferrer"
-        className="qun-weibo-link"
+        className="contact-weibo"
         aria-label="微博"
       >
         <img

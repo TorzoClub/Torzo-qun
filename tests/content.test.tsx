@@ -55,7 +55,9 @@ describe('导册内容', () => {
   it('关于 WEB 版保留 PDF 链接与两位当事人', () => {
     const markup = chapterMarkup('about-web')
     expect(markup).toContain('/torzo-manual.pdf')
-    expect(markup).toContain('qun-showtime-name')
+    expect(markup).toContain('id="showtime"')
+    expect(markup).toContain('id="vec"')
+    expect(markup).toContain('id="nt"')
     expect(markup).toContain('Vec')
     expect(markup).toContain('NT³')
   })

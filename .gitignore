@@ -11,3 +11,4 @@ coverage
 *.tsbuildinfo
 .DS_Store
 error.log
+torzo-aqua/
