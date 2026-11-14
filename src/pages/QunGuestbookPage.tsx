@@ -11,7 +11,7 @@ export function QunGuestbookPage(): ReactElement {
     <div>
       <QunPageTitle title="留言板 · 同装导册" />
       <main id="page">
-        <QunAquaMasthead title="留言板" subtitle="GUESTBOOK · 同装会" show_ticker />
+        <QunAquaMasthead title="留言板" subtitle="GUESTBOOK · 同装会" />
         <p className="aqua-back">
           <Link to="/">← 返回导册</Link>
         </p>
