@@ -530,3 +530,8 @@ body.entered .aqua-home { animation: rise .6s ease both; }
 }
 #foot .foot-classic:hover { color: #e06a00; text-decoration: underline; }
 
+/* ≥800px：正文面板加大留白 */
+@media (min-width: 800px) {
+	.item-hide > article { padding: 24px 50px; }
+}
+
