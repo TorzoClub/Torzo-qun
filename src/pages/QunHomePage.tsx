@@ -56,7 +56,12 @@ export function QunHomePage(): ReactElement {
             )
           })}
         </div>
-        <QunAquaAccordion id="comment" title="留言板" badge={<span className="new">NEW!</span>}>
+        <QunAquaAccordion
+          id="comment"
+          title="留言板"
+          default_open
+          badge={<span className="new">NEW!</span>}
+        >
           <QunAquaCommentBoard />
         </QunAquaAccordion>
       </main>

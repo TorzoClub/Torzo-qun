@@ -71,6 +71,9 @@ export function QunAquaAccordion({
         >
           {title}
           {badge}
+          <div className="expand-button">
+            <div className='inner'></div>
+          </div>
         </button>
       </h2>
       <div id={`${id}-body`} className="item-hide" ref={$box_ref} aria-hidden={!is_open}>

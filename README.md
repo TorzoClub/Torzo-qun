@@ -1,6 +1,6 @@
 # 同装导册 v2
 
-同装会（共同装逼协会）的导册与留言板。Vite + React + TypeScript 前端，Cloudflare Workers + D1 后端，全部在免费套餐内运行。
+同装会的导册与留言板。Vite + React + TypeScript 前端，Cloudflare Workers + D1 后端，全部在免费套餐内运行。
 
 - 线上域名：`https://guide.torzo.club/`（`qun.torzo.club` 301 过来）
 - 留言管理：`/admin`（由 Cloudflare Access 保护）

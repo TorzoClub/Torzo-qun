@@ -39,14 +39,6 @@ export function GuideAboutChapter(): ReactElement {
         className="contact-weibo"
         aria-label="微博"
       >
-        <img
-          src="/images/torzo-manual-weibo.png"
-          alt="微博"
-          loading="lazy"
-          decoding="async"
-          width="128"
-          height="128"
-        />
       </a>
     </>
   )
