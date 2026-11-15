@@ -140,7 +140,7 @@ del { color: rgba(0,0,0,.42); } del * { opacity: .8; color: #344; }
 /* ---------- 按钮 ---------- */
 /* ---------- 留言板：气泡 + 日历徽章 ---------- */
 #comment-list { margin: 0; margin-top: 64px; padding: 0; list-style: none; }
-.post { display: grid; grid-template-columns: 60px 1fr; grid-template-areas: "time body" "time author"; gap: 14px 18px; margin: 0 0 14px; }
+.post { display: grid; grid-template-columns: 60px 1fr; grid-template-areas: "time body" "time author"; gap: 0px 18px; margin: 0 0 16px; }
 .post .time-area { grid-area: time; }
 .time-area time { display: flex; flex-direction: column; width: 58px; overflow: hidden; font-size: 0; text-align: center; color: #333; background: #fff; border-radius: 10px; box-shadow: 0 0 0 1px rgba(10,100,140,.5), 0 3px 6px rgba(0,60,90,.3); }
 .time-area .month { order: 1; font: 700 12px/20px var(--sans); color: #fff; text-shadow: 0 1px 0 rgba(0,0,0,.4); background: linear-gradient(#ff8a7a, #e0301c 50%, #c21f0e 51%, #e04030); }
@@ -148,6 +148,9 @@ del { color: rgba(0,0,0,.42); } del * { opacity: .8; color: #344; }
 .time-area .day { order: 2; font: 700 26px/34px var(--sans); }
 .time-area .year { order: 3; font: 11px/17px var(--sans); color: #6b7c88; background: #eef5f9; }
 .post article { grid-area: body; position: relative; padding: 12px 18px; min-height: 3em; white-space: pre-wrap; overflow-wrap: anywhere; background: #fff; border-radius: 14px; box-shadow: 0 0 0 1px rgba(10,100,140,.3), 0 3px 8px rgba(0,60,90,.12); }
+#editor-slot .author-frame {
+	margin-top: 16px;
+}
 .author-frame { grid-area: author; display: flex; justify-content: flex-end; align-items: center; gap: 8px; font-family: var(--sans); }
 .author-frame .from { font: italic 14px Georgia, serif; color: #7c93a3; }
 .author { font-size: 16px; font-weight: 700; color: var(--aqua); }
@@ -231,7 +234,7 @@ body { font-size: 14px; line-height: 1.85; }
 .item-hide > article { padding: 14px 14px; border-radius: 14px; }
 article table { display: block; overflow-x: auto; }
 article td:first-child { min-width: 64px; white-space: normal; }
-.post { grid-template-columns: 48px 1fr; gap: 14px 12px; }
+.post { grid-template-columns: 48px 1fr; gap: 0px 12px; }
 .time-area time { width: 46px; } .time-area .day { font-size: 21px; line-height: 28px; }
 .post article { padding: 10px 12px; }
 .author-frame { flex-wrap: wrap; }
