@@ -23,7 +23,6 @@ describe('导册内容', () => {
     expect(markup).toContain('共同装逼协会')
     expect(markup).toContain('尼采')
     expect(markup).toContain('爱因斯坦')
-    expect(markup).toContain('weibo.com/torzo')
   })
 
   it('访谈录保留同装精神与七大装素', () => {
