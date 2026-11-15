@@ -1,20 +1,52 @@
 {
-  "name": "torzo-manual",
-  "version": "0.3.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "vec",
+  "name": "torzo-qun",
+  "version": "2.0.1",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.18.0",
+  "description": "同装导册 · 同装会 QQ 群宣传页与留言板",
   "license": "MIT",
+  "scripts": {
+    "dev": "concurrently -k -n web,worker -c cyan,magenta \"vite\" \"CLOUDFLARE_DEV_REGISTRY_PATH=.wrangler/dev-registry wrangler dev --port 8787\"",
+    "build": "tsc -b && vite build && vite-node --config vite.config.prerender.ts scripts/prerender.ts",
+    "preview": "vite preview",
+    "deploy": "tsc -b && vite build && vite-node --config vite.config.prerender.ts scripts/prerender.ts && wrangler deploy",
+    "typecheck": "tsc -b --pretty false",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:migrate:local": "wrangler d1 migrations apply torzo-qun-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply torzo-qun-db --remote",
+    "db:seed:local": "wrangler d1 execute torzo-qun-db --local --file=./scripts/seed-dev.sql",
+    "db:export": "wrangler d1 export torzo-qun-db --remote --output=./data/backup.sql",
+    "migrate:comments": "vite-node --config vite.config.prerender.ts scripts/migrate-comments.ts",
+    "cf-typegen": "wrangler types",
+    "dev:web": "vite",
+    "dev:worker": "CLOUDFLARE_DEV_REGISTRY_PATH=.wrangler/dev-registry wrangler dev --port 8787",
+    "preview:worker": "CLOUDFLARE_DEV_REGISTRY_PATH=.wrangler/dev-registry wrangler dev --port 8787"
+  },
+  "dependencies": {
+    "hono": "4.13.18",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-router": "7.18.5",
+    "zod": "4.6.7"
+  },
   "devDependencies": {
-    "babel-preset-es2015": "^6.18.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-concat": "^2.6.0",
-    "gulp-less": "^3.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^2.2.0"
+    "@biomejs/biome": "2.6.7",
+    "@cloudflare/workers-types": "5.20261114.1",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "24.10.1",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.2.0",
+    "concurrently": "10.0.7",
+    "happy-dom": "21.0.4",
+    "typescript": "5.9.3",
+    "vite": "7.3.8",
+    "vite-node": "5.3.0",
+    "vitest": "4.1.12",
+    "wrangler": "4.162.0"
   }
 }

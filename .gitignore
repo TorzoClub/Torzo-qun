@@ -1,1 +1,14 @@
-node_modules/*
+node_modules
+dist
+dist-ssr
+.wrangler
+.dev.vars
+.env
+.env.*
+!.env.example
+data
+coverage
+*.tsbuildinfo
+.DS_Store
+error.log
+torzo-aqua/
