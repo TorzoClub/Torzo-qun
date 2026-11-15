@@ -282,7 +282,10 @@ PY
 
 ### 5.3 部署预览
 
+> **重要**：`wrangler deploy` 只上传当前 `dist/`，不会重新构建。改完代码后只跑 `wrangler deploy`，线上仍然是旧构建。请先 `pnpm build`，或者直接 `pnpm deploy`。
+
 ```bash
+pnpm build
 pnpm exec wrangler deploy
 ```
 
@@ -692,6 +695,23 @@ pnpm exec wrangler tail --format pretty
 把 Worker 日志发出来。当前 `qunTurnstileVerify` 只返回 503，不打印底层原因；必要时可以在 [`worker/routes/comments.ts`](../worker/routes/comments.ts) 的 `assertTurnstile` 里临时加一行 `console.error(verification.error.code, verification.error.message)`，再部署观察。
 
 > `.dev.vars` 里的 `TURNSTILE_SECRET_KEY` 只用于本地测试；不要复制到生产 Worker secret。
+
+### 部署后页面没变化
+
+先确认你打开的是不是这个项目对应的域名：
+
+- 这个仓库部署的是 `torzo-qun`，对应 **`guide.torzo.club`**。
+- `gallery.torzo.club` / `gallerystatic.torzo.club` 是另外的 Worker/静态站点，不会因为 `torzo-qun` 的 deploy 而更新。
+- `wrangler deploy` 不会执行 `pnpm build`；只会在现有 `dist/` 上上传。改完源码后先 `pnpm build`，或者用 `pnpm deploy`。
+
+判断构建是否更新：
+
+```bash
+grep -o 'TORZO · 2015100[0-9]' src/pages/QunHomePage.tsx
+grep -o 'TORZO · 2015100[0-9]' dist/index.html
+```
+
+两者应该一致。HTML 可能被边缘缓存；确认部署成功后用无痕窗口或带 Cache-Control: no-cache 的 curl 再试。
 
 ### D1 绑定错
 

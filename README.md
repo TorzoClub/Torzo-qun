@@ -183,6 +183,8 @@ pnpm preview:worker # 用 Wrangler 在 8787 预览完整产物
 pnpm deploy         # build + wrangler deploy
 ```
 
+> `wrangler deploy` 只上传现有的 `dist/`，**不会自动重新构建**。改完代码后只跑 `pnpm exec wrangler deploy` 会继续发布旧页面；请先 `pnpm build`，或直接使用 `pnpm deploy`。
+
 构建产物在 `dist/`：
 
 - `index.html`、`guestbook.html`、`admin.html`、`404.html`
