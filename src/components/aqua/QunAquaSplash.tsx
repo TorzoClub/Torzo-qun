@@ -113,7 +113,7 @@ export function QunAquaSplash({ on_enter }: QunAquaSplashProps): ReactElement {
             )
           })}
         </h2>
-        <div className="sub">TORZO · 20151005</div>
+        <div className="sub">TORZO · 20151004</div>
         <div
           style={{
             opacity: is_ready ? 1 : 0,

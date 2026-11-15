@@ -234,7 +234,7 @@ pnpm exec wrangler d1 export torzo-qun-db \
 - 新增章节：写一个返回 `ReactElement` 的组件，加进 `QUN_GUIDE_CHAPTERS`。
 - 改文案：直接改 TSX 文本；改完跑 `pnpm test`。
 - 失效链接用 `<del className="qun-dead-link">[失效链接]</del>`。
-- 换届记录数据在 `src/content/history.tsx` 的 `HISTORY_TERMS`。
+- 群历史数据在 `src/content/history.tsx` 的 `HISTORY_TERMS`。
 
 ## 检查
 

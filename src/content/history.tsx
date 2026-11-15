@@ -14,7 +14,7 @@ type GuideHistoryTerm = {
 const HISTORY_TERMS: readonly GuideHistoryTerm[] = [
   {
     title: '第壹届',
-    date: '2015.10.4',
+    date: '2015/10/04',
     rows: [
       { role: '群主', names: ['NT³'] },
       { role: '管理员', names: ['Vec', '李清羽', 'K.B³', '执', '尘生'] },
@@ -22,7 +22,7 @@ const HISTORY_TERMS: readonly GuideHistoryTerm[] = [
   },
   {
     title: '第贰届',
-    date: '2016.4.21',
+    date: '2016/04/21',
     rows: [
       { role: '群主', names: ['Vec'] },
       { role: '群众管理员', names: ['凌雪', 'D 爷', '红莲卿'] },
@@ -31,7 +31,7 @@ const HISTORY_TERMS: readonly GuideHistoryTerm[] = [
   },
   {
     title: '第叁届',
-    date: '2016.8.23',
+    date: '2016/08/23',
     rows: [
       { role: '群主', names: ['Vec'] },
       { role: '群众管理员', names: ['红莲卿', 'J.C', '肾宝'] },
@@ -40,11 +40,39 @@ const HISTORY_TERMS: readonly GuideHistoryTerm[] = [
   },
   {
     title: '第肆届',
-    date: '2016.12.21',
+    date: '2016/12/21',
     rows: [
       { role: '群主', names: ['NT³'] },
       { role: '群众管理员', names: ['Vec', '纞Kd. 御宅', '肾宝'] },
       { role: '群主管理员', names: ['红莲卿', '云芝新'] },
+    ],
+  },
+  {
+    title: '癱瘓時代',
+    date: '2017/??/??',
+    rows: [{ role: '解释', names: ['从此之后不再举行群选'] }],
+  },
+  {
+    title: '疫情時代',
+    date: '2020/03/04',
+    rows: [
+      { role: '临时群主', names: ['哈维'] },
+      { role: '临时管理员', names: ['Vec', 'NT'] },
+      {
+        role: '解释',
+        names: [
+          '这一天同装群被封，NT炸号。后群恢复，借着这次动荡清理了很多潜水群友。群选制早已名存实亡，由哈维担任临时群主。',
+        ],
+      },
+    ],
+  },
+  {
+    title: 'AI時代',
+    date: '2022/06/17',
+    rows: [
+      { role: '临时群主', names: ['哈维'] },
+      { role: '临时管理员', names: ['Vec', 'NT'] },
+      { role: '解释', names: ['又一次炸群。同样，借着这次动荡清理了很多潜水群友。'] },
     ],
   },
 ]
