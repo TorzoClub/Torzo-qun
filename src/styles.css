@@ -295,22 +295,7 @@ button.item-title:focus-visible { outline: 3px solid rgba(255,255,255,.9); outli
 	background: linear-gradient(#7ad98f, #2f9a4a 50%, #258a3c 51%, #3dae56);
 	box-shadow: 0 0 0 1px rgba(0,90,30,.5);
 }
-#showtime > div { position: relative; padding-left: 1em; border-left: 4px solid #8fd8f3; }
-#showtime > div::before {
-	position: absolute;
-	inset: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font: italic 800 96px var(--sans);
-	color: var(--aqua);
-	opacity: .08;
-	pointer-events: none;
-}
-#vec::before { content: "Vec"; }
-#nt::before { content: "NT³"; }
 
-/* 换届记录卡片 */
 .qun-history {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
