@@ -48,12 +48,12 @@ const HISTORY_TERMS: readonly GuideHistoryTerm[] = [
     ],
   },
   {
-    title: '瘫痪时代',
+    title: '癱瘓時代',
     date: '2017/??/??',
     rows: [{ role: '解释', names: ['从此之后不再举行群选'] }],
   },
   {
-    title: '疫情时代',
+    title: '疫情時代',
     date: '2020/03/04',
     rows: [
       { role: '临时群主', names: ['哈维'] },
@@ -67,7 +67,7 @@ const HISTORY_TERMS: readonly GuideHistoryTerm[] = [
     ],
   },
   {
-    title: 'AI时代',
+    title: 'AI時代',
     date: '2022/06/17',
     rows: [
       { role: '临时群主', names: ['哈维'] },

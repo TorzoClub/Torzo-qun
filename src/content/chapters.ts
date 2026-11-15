@@ -62,7 +62,7 @@ export const QUN_GUIDE_CHAPTERS: readonly GuideChapter[] = [
   {
     id: 'manager-history',
     number: '07',
-    title: '内殿团换届记录',
+    title: '群历史',
     summary: '2015 到 2016 年的四届内殿团。',
     component: GuideHistoryChapter,
   },
