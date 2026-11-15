@@ -10,6 +10,7 @@ import { qunCommentCreate, qunCommentsFetchPage } from '../../lib/api'
 import { qunCreateClientID } from '../../lib/client-id'
 import { qunCountCharacters, qunFormatCommentDate } from '../../lib/format'
 import { QunTurnstile } from '../QunTurnstile'
+import { QunSkeuomorphismButton } from './QunSkeuomorphismButton'
 
 type LoadMode = 'replace' | 'append'
 
@@ -172,22 +173,23 @@ export function QunAquaCommentBoard(): ReactElement {
                   setAuthor(event.target.value)
                   setFormError(null)
                 }}
-                placeholder="你的名字？"
+                placeholder="君の名は？"
                 maxLength={QUN_COMMENT_AUTHOR_MAX}
                 aria-label="你的名字"
                 aria-invalid={field_errors.author !== undefined}
               />
             </span>
-            <button
-              id="post"
+            <QunSkeuomorphismButton
               type="button"
+              tone="aqua"
               onClick={() => {
                 void submitComment()
               }}
               disabled={is_submitting}
+              buttonProps={{ id: 'post' }}
             >
               {is_submitting ? '发射中…' : '同装'}
-            </button>
+            </QunSkeuomorphismButton>
           </div>
         </div>
         {field_errors.article === undefined && field_errors.author === undefined ? null : (
@@ -231,15 +233,16 @@ export function QunAquaCommentBoard(): ReactElement {
         ) : status_kind === 'error' ? (
           <>
             <span>⚠ 留言暂时连不上服务器。</span>
-            <button
-              id="retry"
+            <QunSkeuomorphismButton
               type="button"
+              tone="aqua"
+              buttonProps={{ id: 'retry' }}
               onClick={() => {
                 void loadComments(1, 'replace')
               }}
             >
               重新连接
-            </button>
+            </QunSkeuomorphismButton>
           </>
         ) : status_kind === 'empty' ? (
           <span>还没有人留言，快来抢沙发！</span>
@@ -270,17 +273,18 @@ export function QunAquaCommentBoard(): ReactElement {
         })}
       </ul>
 
-      <button
-        id="continue-load"
+      <QunSkeuomorphismButton
         type="button"
-        hidden={comments.length === 0}
+        tone="aqua"
+        inputProps={{ hidden: comments.length === 0 }}
+        buttonProps={{ id: 'continue-load' }}
         disabled={is_loading_more || !has_more}
         onClick={() => {
           void loadComments(page + 1, 'append')
         }}
       >
         {more_label}
-      </button>
+      </QunSkeuomorphismButton>
       <p className="sr-only" aria-live="polite">
         当前共 {total} 条留言
       </p>

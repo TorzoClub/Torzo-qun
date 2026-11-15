@@ -4,6 +4,7 @@ import type { QunComment, QunCommentPage } from '../../shared/schema'
 import { QunAquaFoot } from '../components/aqua/QunAquaFoot'
 import { QunAquaMasthead } from '../components/aqua/QunAquaMasthead'
 import { QunAquaTotop } from '../components/aqua/QunAquaTotop'
+import { QunSkeuomorphismButton } from '../components/aqua/QunSkeuomorphismButton'
 import { QunPageTitle } from '../components/QunPageTitle'
 import { qunAdminCommentDelete, qunAdminCommentsFetchPage } from '../lib/api'
 import { qunFormatCommentDate } from '../lib/format'
@@ -69,15 +70,15 @@ export function QunAdminPage(): ReactElement {
           ) : page_data === null ? (
             <>
               <p className="aqua-error">{error_message ?? '没有读到留言。'}</p>
-              <button
+              <QunSkeuomorphismButton
                 type="button"
-                className="aqua-button"
+                tone="aqua"
                 onClick={() => {
                   void loadPage(page)
                 }}
               >
                 重新连接
-              </button>
+              </QunSkeuomorphismButton>
             </>
           ) : (
             <>
@@ -85,15 +86,15 @@ export function QunAdminPage(): ReactElement {
                 <p>
                   共 <strong>{page_data.total}</strong> 条留言
                 </p>
-                <button
+                <QunSkeuomorphismButton
                   type="button"
-                  className="aqua-button"
+                  tone="aqua"
                   onClick={() => {
                     void loadPage(page)
                   }}
                 >
                   刷新
-                </button>
+                </QunSkeuomorphismButton>
               </div>
               {error_message === null ? null : <p className="aqua-error">{error_message}</p>}
               {page_data.items.length === 0 ? (
@@ -113,16 +114,16 @@ export function QunAdminPage(): ReactElement {
                         </div>
                         <p className="aqua-admin-article">{comment.article}</p>
                         <div className="aqua-admin-actions">
-                          <button
+                          <QunSkeuomorphismButton
                             type="button"
-                            className="aqua-button aqua-button-danger"
+                            tone="danger"
                             onClick={() => {
                               void deleteComment(comment)
                             }}
                             disabled={deleting_id === comment.id}
                           >
                             {deleting_id === comment.id ? '删除中…' : '删除'}
-                          </button>
+                          </QunSkeuomorphismButton>
                         </div>
                       </li>
                     )
@@ -130,27 +131,27 @@ export function QunAdminPage(): ReactElement {
                 </ul>
               )}
               <div className="aqua-admin-pagination">
-                <button
+                <QunSkeuomorphismButton
                   type="button"
-                  className="aqua-button"
+                  tone="aqua"
                   onClick={() => {
                     void loadPage(page - 1)
                   }}
                   disabled={page <= 1}
                 >
                   上一页
-                </button>
+                </QunSkeuomorphismButton>
                 <span>第 {page} 页</span>
-                <button
+                <QunSkeuomorphismButton
                   type="button"
-                  className="aqua-button"
+                  tone="aqua"
                   onClick={() => {
                     void loadPage(page + 1)
                   }}
                   disabled={!page_data.has_more}
                 >
                   下一页
-                </button>
+                </QunSkeuomorphismButton>
               </div>
             </>
           )}
