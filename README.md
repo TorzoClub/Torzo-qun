@@ -87,6 +87,14 @@ pnpm dev
 - Vite：`http://127.0.0.1:5180/`
 - Wrangler（Worker + 本地 D1）：`http://127.0.0.1:8787/`
 
+> `pnpm dev` **不会自动执行 D1 migration**。本地 D1 和远程 D1 完全独立；`wrangler.jsonc` 的 `database_id` 换过之后，本地状态会对应一个新的空库，必须重新执行 `pnpm db:migrate:local`，否则 `/api/comments` 会报 `no such table: comments`。
+>
+> 想在本机看到 67 条旧留言，可以导入现有 SQL：
+>
+> ```bash
+> pnpm exec wrangler d1 execute torzo-qun-db --local --file=./data/import.sql
+> ```
+
 Vite 会把 `/api`、`/comment` 代理到 8787。也可以分开跑：
 
 ```bash
@@ -182,6 +190,8 @@ pnpm build          # tsc + vite build + prerender
 pnpm preview:worker # 用 Wrangler 在 8787 预览完整产物
 pnpm deploy         # build + wrangler deploy
 ```
+
+> `wrangler deploy` 只上传现有的 `dist/`，**不会自动重新构建**。改完代码后只跑 `pnpm exec wrangler deploy` 会继续发布旧页面；请先 `pnpm build`，或直接使用 `pnpm deploy`。
 
 构建产物在 `dist/`：
 

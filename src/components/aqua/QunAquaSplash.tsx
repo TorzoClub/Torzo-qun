@@ -16,7 +16,7 @@ type QunAquaSplashProps = {
 }
 
 const SPLASH_MIN_MS = 4000
-const SPLASH_LEAVE_MS = 2000
+const SPLASH_LEAVE_MS = 2300
 const SPLASH_CHARS = ['同', '装', '导', '册'] as const
 const RIPPLE_INDEXES = [0] as const
 
