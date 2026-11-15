@@ -132,6 +132,7 @@ export function QunAquaCommentBoard(): ReactElement {
 
   const article_count = qunCountCharacters(article)
   const more_label = is_loading_more ? '载入中…' : has_more ? '▼ 载入更多留言' : '—— 没有更多了 ——'
+  const remaining = Math.max(total - comments.length, 0)
 
   return (
     <div className="aqua-comment-board">
@@ -286,9 +287,11 @@ export function QunAquaCommentBoard(): ReactElement {
       >
         {more_label}
       </QunSkeuomorphismButton>
-      <p className="sr-only" aria-live="polite">
-        当前共 {total} 条留言
-      </p>
+      {remaining === 0 ? null : (
+        <p className="comment-remaining" aria-live="polite">
+          还剩下 {remaining} 条留言
+        </p>
+      )}
     </div>
   )
 }

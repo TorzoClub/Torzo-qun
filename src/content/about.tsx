@@ -32,15 +32,6 @@ export function GuideAboutChapter(): ReactElement {
       我想，我建立同装会的初衷也是如此吧：“嘤其鸣矣，求其友声”，希望越来越多志同道合的人能与我们携手同行。
       <br />
       <p className="qun-signature-line">NT³</p>
-      <a
-        href="https://weibo.com/torzo"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="contact-weibo"
-        aria-label="微博"
-      >
-        <span className="sr-only">微博</span>
-      </a>
     </>
   )
 }

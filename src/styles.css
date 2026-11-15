@@ -244,14 +244,6 @@ article td:first-child { min-width: 64px; white-space: normal; }
    React 端口追加：按钮化标题、旧内容类、留言板、后台、404
    ============================================================ */
 
-.sr-only {
-	position: absolute !important;
-	width: 1px; height: 1px;
-	padding: 0; margin: -1px;
-	overflow: hidden; clip: rect(0, 0, 0, 0);
-	white-space: nowrap; border: 0;
-}
-
 .item-heading { margin: 0; }
 button.item-title {
 	width: 100%;
@@ -521,4 +513,12 @@ body.entered .aqua-home { animation: rise .6s ease both; }
 /* 留言板里的操作按钮统一用拟物按钮 */
 .aqua-comment-board > .skeuomorphism-button-container {
 	margin-top: 10px;
+}
+
+/* 剩余留言计数 */
+.comment-remaining {
+	margin: 12px 0 0;
+	text-align: center;
+	font-size: 13px;
+	color: #5b7382;
 }
