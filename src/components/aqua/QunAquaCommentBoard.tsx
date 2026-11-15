@@ -198,24 +198,25 @@ export function QunAquaCommentBoard(): ReactElement {
             {field_errors.author === undefined ? null : <p>{field_errors.author}</p>}
           </div>
         )}
-        <div className="turnstile-wrap">
-          <QunTurnstile
-            key={turnstile_reset_key}
-            site_key={turnstile_site_key}
-            on_token={(token) => {
-              setTurnstileToken(token)
-              if (token !== '') {
-                setTurnstileUnavailable(false)
-              }
-            }}
-            on_unavailable={() => {
-              setTurnstileUnavailable(true)
-            }}
-          />
-          {turnstile_unavailable ? (
-            <p className="turnstile-note">人机验证没有加载出来；提交会使用更严格的频率限制。</p>
-          ) : null}
-        </div>
+        <QunTurnstile
+          key={turnstile_reset_key}
+          site_key={turnstile_site_key}
+          on_token={(token) => {
+            setTurnstileToken(token)
+            if (token !== '') {
+              setTurnstileUnavailable(false)
+            }
+          }}
+          on_unavailable={() => {
+            setTurnstileUnavailable(true)
+          }}
+        />
+
+        {!turnstile_unavailable ? null : (
+          <div className="turnstile-wrap">
+            <p className="turnstile-note">人机验证没有加载出来；提交会使用更严格的频率限制</p>
+          </div>
+        )}
       </div>
 
       <div

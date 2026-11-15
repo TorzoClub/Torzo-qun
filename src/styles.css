@@ -139,8 +139,8 @@ del { color: rgba(0,0,0,.42); } del * { opacity: .8; color: #344; }
 
 /* ---------- 按钮 ---------- */
 /* ---------- 留言板：气泡 + 日历徽章 ---------- */
-#comment-list { margin: 0; padding: 0; list-style: none; }
-.post { display: grid; grid-template-columns: 60px 1fr; grid-template-areas: "time body" "time author"; gap: 4px 18px; margin: 0 0 22px; }
+#comment-list { margin: 0; margin-top: 64px; padding: 0; list-style: none; }
+.post { display: grid; grid-template-columns: 60px 1fr; grid-template-areas: "time body" "time author"; gap: 14px 18px; margin: 0 0 14px; }
 .post .time-area { grid-area: time; }
 .time-area time { display: flex; flex-direction: column; width: 58px; overflow: hidden; font-size: 0; text-align: center; color: #333; background: #fff; border-radius: 10px; box-shadow: 0 0 0 1px rgba(10,100,140,.5), 0 3px 6px rgba(0,60,90,.3); }
 .time-area .month { order: 1; font: 700 12px/20px var(--sans); color: #fff; text-shadow: 0 1px 0 rgba(0,0,0,.4); background: linear-gradient(#ff8a7a, #e0301c 50%, #c21f0e 51%, #e04030); }
@@ -148,7 +148,7 @@ del { color: rgba(0,0,0,.42); } del * { opacity: .8; color: #344; }
 .time-area .day { order: 2; font: 700 26px/34px var(--sans); }
 .time-area .year { order: 3; font: 11px/17px var(--sans); color: #6b7c88; background: #eef5f9; }
 .post article { grid-area: body; position: relative; padding: 12px 18px; min-height: 3em; white-space: pre-wrap; overflow-wrap: anywhere; background: #fff; border-radius: 14px; box-shadow: 0 0 0 1px rgba(10,100,140,.3), 0 3px 8px rgba(0,60,90,.12); }
-.author-frame { margin-top: 12px; grid-area: author; display: flex; justify-content: flex-end; align-items: center; gap: 8px; font-family: var(--sans); }
+.author-frame { grid-area: author; display: flex; justify-content: flex-end; align-items: center; gap: 8px; font-family: var(--sans); }
 .author-frame .from { font: italic 14px Georgia, serif; color: #7c93a3; }
 .author { font-size: 16px; font-weight: 700; color: var(--aqua); }
 .editor textarea { display: block; width: 100%; height: 170px; box-sizing: border-box; padding: 4px 0; resize: vertical; font: 15px/1.8 var(--sans); color: var(--ink); border: 0; background: transparent; outline: none; }
@@ -231,7 +231,7 @@ body { font-size: 14px; line-height: 1.85; }
 .item-hide > article { padding: 14px 14px; border-radius: 14px; }
 article table { display: block; overflow-x: auto; }
 article td:first-child { min-width: 64px; white-space: normal; }
-.post { grid-template-columns: 48px 1fr; gap: 4px 12px; }
+.post { grid-template-columns: 48px 1fr; gap: 14px 12px; }
 .time-area time { width: 46px; } .time-area .day { font-size: 21px; line-height: 28px; }
 .post article { padding: 10px 12px; }
 .author-frame { flex-wrap: wrap; }
@@ -347,14 +347,19 @@ article > p > .qun-term-summary { margin-top: .3em; }
 	gap: 10px;
 	width: fit-content;
 	max-width: 100%;
-	margin: 8px 0 14px auto;
-	padding: 8px 0 8px 12px;
+	margin: 0px 0 0px auto;
+	padding: 4px 12px;
 	border-radius: 12px;
 	background: rgba(214,243,252,.65);
 	box-shadow: inset 0 0 0 1px rgba(10,100,140,.18);
 	text-align: right;
 }
-.turnstile-wrap .qun-turnstile { min-height: 0; }
+.qun-turnstile {
+	min-height: 0;
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+}
 .turnstile-note { margin: 0; color: #5b7382; font-size: 12px; line-height: 1.7; text-align: right; }
 .aqua-editor-errors { margin: 4px 0 0; padding-left: 0; color: #b1271b; font-size: 12px; text-align: right; }
 .editor article { min-height: 3em; }
@@ -468,7 +473,6 @@ h1.site { margin: 26px 0 0; }
 .aqua-404 p { text-align: center; margin-bottom: 18px; }
 @media (max-width: 800px) {
 	h1.site { margin-top: 20px; }
-	.turnstile-wrap { padding: 6px 0 6px 8px; }
 }
 
 /* 折叠标题是 button，且包在 h2 里；补上 open 状态（Aqua 原选择器是 .open > .item-title） */
