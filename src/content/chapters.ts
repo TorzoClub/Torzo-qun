@@ -70,7 +70,7 @@ export const QUN_GUIDE_CHAPTERS: readonly GuideChapter[] = [
     id: 'about-web',
     number: '08',
     title: '关于本站',
-    summary: '关于本站。',
+    summary: '本站的版本、与旧版导册的差异，以及转载与纠错说明。',
     component: GuideAboutWebChapter,
   },
 ]
