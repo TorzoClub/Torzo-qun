@@ -150,7 +150,7 @@ export function QunAquaCommentBoard(): ReactElement {
                 setArticle(event.target.value)
                 setFormError(null)
               }}
-              placeholder="同装，轮到你了。至少二十个字。"
+              placeholder="同装，轮到你了。"
               rows={7}
               maxLength={QUN_COMMENT_ARTICLE_MAX}
               aria-invalid={field_errors.article !== undefined}
