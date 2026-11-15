@@ -704,14 +704,7 @@ pnpm exec wrangler tail --format pretty
 - `gallery.torzo.club` / `gallerystatic.torzo.club` 是另外的 Worker/静态站点，不会因为 `torzo-qun` 的 deploy 而更新。
 - `wrangler deploy` 不会执行 `pnpm build`；只会在现有 `dist/` 上上传。改完源码后先 `pnpm build`，或者用 `pnpm deploy`。
 
-判断构建是否更新：
-
-```bash
-grep -o 'TORZO · 2015100[0-9]' src/pages/QunHomePage.tsx
-grep -o 'TORZO · 2015100[0-9]' dist/index.html
-```
-
-两者应该一致。HTML 可能被边缘缓存；确认部署成功后用无痕窗口或带 Cache-Control: no-cache 的 curl 再试。
+确认部署成功后，HTML 可能仍被边缘缓存；用无痕窗口或带 `Cache-Control: no-cache` 的 curl 再试。
 
 ### D1 绑定错
 
