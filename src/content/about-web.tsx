@@ -21,7 +21,7 @@ export function GuideAboutWebChapter(): ReactElement {
       <div className="qun-prose-block">
         <p>修改的功能/内容：</p>
         <ul>
-          <li>运行在 Cloudflare 边缘计算节点，零服务器开销，免费托管。</li>
+          <li>运行在 Cloudflare 边缘计算节点，响应快，服务器费用零花销免费托管。</li>
           <li>“换届记录”更名为“群历史”，并增加了最近几年的简史。</li>
           <li>提交帖子需要验证，防机器人。</li>
           <li>管理界面。</li>
